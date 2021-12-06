@@ -3,26 +3,38 @@ import { StyleSheet, View, Text } from "react-native";
 
 import { Image, Button } from "react-native-elements";
 
+import {useFonts, PlayfairDisplay_900Black } from '@expo-google-fonts/playfair-display';
+import {Poppins_700Bold, Poppins_300Light} from '@expo-google-fonts/poppins';
+
 function FirstScreen(props) {
+  useFonts({
+    PlayfairDisplay_900Black,
+    Poppins_700Bold,
+    Poppins_300Light
+
+  });
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Bienvenue</Text>
-      <Text style={styles.textPetit}>sur</Text>
+      <Text style={styles.textSur}>sur</Text>
       <Image
         style={styles.bigLogo}
-        source={require("./assets/Logo_Tripbook_No_Earth_Gray.svg")}
+        source={require('../assets/Logo_Blanc_Trip_Book.png')}
       />
-      <Text style={styles.textPetit}>L'appli de voyage collaborative</Text>
+      <Text style={styles.textPetit}>L'appli de voyage</Text>
+      <Text style={styles.textPetit2}>collaborative</Text>
       <Button
         title="J'organise mon premier voyage"
         titleStyle={styles.textbutton}
         buttonStyle={styles.sendbutton}
+        onPress={() => props.navigation.navigate('SlideShowScreen')}
       />
-      <Text>ou</Text>
+      <Text style={{color: 'white', fontFamily: 'Poppins_300Light', fontSize: 14}}>ou</Text>
       <Button
         title="J'ai déjà un compte"
         titleStyle={styles.textbutton}
         buttonStyle={styles.sendbutton}
+        onPress={() => props.navigation.navigate('SignInScreen')}
       />
     </View>
   );
@@ -34,33 +46,50 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     padding: 50,
+    backgroundColor: '#131256'
   },
   bigLogo: {
     width: 257,
     height: 236,
   },
 
-  text: {
-    fontFamily: "Playfair Display",
-    fontWeight: "black",
+   text: {
+    fontFamily: 'PlayfairDisplay_900Black',
     fontSize: 48,
-    marginBottom: 10,
     justifyContent: "center",
+    color: 'white'
+  },
+  textSur: {
+    fontFamily: 'PlayfairDisplay_900Black',
+    fontSize: 24,
+    justifyContent: "center",
+    color: 'white',
+    marginBottom: 50
   },
   textPetit: {
-    fontFamily: "Playfair Display",
-    fontWeight: "black",
+    fontFamily: 'PlayfairDisplay_900Black',
     fontSize: 24,
-    marginBottom: 10,
+    alignItems: 'center',
     justifyContent: "center",
+    color: 'white',
+    marginTop: 30
+  },
+  textPetit2: {
+    fontFamily: 'PlayfairDisplay_900Black',
+    fontSize: 24,
+    alignItems: 'center',
+    justifyContent: "center",
+    color: 'white',
+    marginBottom: 30
   },
   textbutton: {
-    fontWeight: "bold",
-    fontSize: 20,
+    fontFamily: "Poppins_700Bold",
+    fontSize: 18,
     color: "white",
-  },
+  }, 
   sendbutton: {
-    backgroundColor: "#84817a",
+    backgroundColor: "#FFB81F",
+    width: 346
   },
 });
 

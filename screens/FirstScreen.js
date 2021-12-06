@@ -1,24 +1,24 @@
 import React from "react";
 import { StyleSheet, View, Text } from "react-native";
 
-import { Text, Image, Button } from "react-native-elements";
+import { Image, Button } from "react-native-elements";
 
 function FirstScreen(props) {
   return (
     <View style={styles.container}>
-      <text style={styles.text}>Bienvenue</text>
-      <text style={styles.textPetit}>sur</text>
+      <Text style={styles.text}>Bienvenue</Text>
+      <Text style={styles.textPetit}>sur</Text>
       <Image
         style={styles.bigLogo}
         source={require("./assets/Logo_Tripbook_No_Earth_Gray.svg")}
       />
-      <text style={styles.textPetit}>L'appli de voyage collaborative</text>
+      <Text style={styles.textPetit}>L'appli de voyage collaborative</Text>
       <Button
         title="J'organise mon premier voyage"
         titleStyle={styles.textbutton}
         buttonStyle={styles.sendbutton}
       />
-      <text>ou</text>
+      <Text>ou</Text>
       <Button
         title="J'ai déjà un compte"
         titleStyle={styles.textbutton}

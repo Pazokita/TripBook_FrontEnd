@@ -1,33 +1,23 @@
-import React from 'react';
-
-import FirstScreen from './screens/SlideShowScreen';
-import SignInScreen from './screens/SignInScreen';
-
-
+import React from "react";
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-
 const Stack = createStackNavigator();
+
+import FirstScreen from './screens/FirstScreen';
+import SignInScreen from './screens/SignInScreen';
+import SlideShowScreen from "./screens/SlideShowScreen";
 
 export default function App() {
   return (
-    <Provider store={store}>
-      <NavigationContainer>
-        <Stack.Navigator screenOptions={{headerShown: false}}>
-          <Stack.Screen name="FirstScreen " component={FirstScreen} />
-          <Stack.Screen name="SignInScreen" component={SignInScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </Provider>
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{headerShown: false}}>
+        <Stack.Screen name="FirstScreen" component={FirstScreen} options={{ headerShown: false}} />
+        <Stack.Screen name="SignInScreen" component={SignInScreen} options={{ headerShown: false}}/>
+        <Stack.Screen name="SlideShowScreen" component={SlideShowScreen} options={{ headerShown: false}}/>
+      </Stack.Navigator>
+    </NavigationContainer>
   );
-}
+  }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#131256',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+ 

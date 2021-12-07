@@ -1,4 +1,5 @@
 import React from "react";
+
 import { StyleSheet, View, Text } from "react-native";
 
 import {useFonts, PlayfairDisplay_900Black } from '@expo-google-fonts/playfair-display';

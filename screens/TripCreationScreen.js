@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { StyleSheet, View, TextInput, Text } from "react-native";
+import Checkbox from 'expo-checkbox';
 
 import { Image, Button } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -11,7 +12,16 @@ import { Poppins_700Bold, Poppins_300Light } from "@expo-google-fonts/poppins";
 
 
 function TripCreationScreen(props) {
-  const [count, setCount] = useState(0);
+  const [adulte, setAdulte] = useState(0);
+  const [enfant, setEnfant] = useState(0);
+
+  if(adulte < 0){
+    setAdulte(0)
+  }
+
+  if(enfant <0){
+    setEnfant(0)
+  }
 
   useFonts({
     PlayfairDisplay_900Black,
@@ -21,17 +31,15 @@ function TripCreationScreen(props) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.containerLogo}>
-        <Image
-          style={styles.Logo}
-          source={require("../assets/Logo_Bleu_Trip_Book.png")}
-        />
-      </View>
+      <Image
+        style={styles.bigLogo}
+        source={require('../assets/Logo_Bleu_Trip_Book.png')}
+      />
+      <View>
       <Text style={styles.text}>Nom du voyage</Text>
-
       <TextInput style={styles.input} value="TripJapan/10jours" />
-      <Text style={styles.text2}>Dates du départ et de retour</Text>
 
+      <Text style={styles.text}>Dates du départ et de retour</Text>
       <Icon.Button
         name="calendar"
         backgroundColor="rgba(255,184,31,0.09)"
@@ -40,52 +48,56 @@ function TripCreationScreen(props) {
         <Text style={styles.textCalendar}>Selectionner vos dates ici</Text>
       </Icon.Button>
 
-      <TextInput style={styles.input2} value="Pas encore de dates" />
+      <Checkbox style={styles.checkbox}
+          value={isChecked}
+          onValueChange={setChecked}
+          color={isChecked ? '#4630EB' : undefined}
+        /><TextInput style={styles.input2} value="Pas encore de dates"/>
 
-      <Text style={styles.text3}>Nombre de voyageurs</Text>
+      <Text style={styles.text}>Nombre de voyageurs</Text>
       <Icon.Button backgroundColor="rgba(255,184,31,0.09)">
-        <Text style={styles.textVoyageur}>Adulte</Text>
-        <Icon
-          name="plus-circle"
-          backgroundColor="rgba(255,184,31,0.09)"
-          iconStyle={styles.iconplus}
-          size={20}
-          onPress={() => setCount(count + 1)}
-        ></Icon>
-        <Text style={styles.textButtomNumber}>{count}</Text>
+        <Text style={styles.textVoyageur}>Adulte(s)</Text>
         <Icon
           name="minus-circle"
           backgroundColor="rgba(255,184,31,0.09)"
           iconStyle={styles.icon}
-          size={20} 
-          onPress={() => setCount(count - 1)}
-        ></Icon>
-      </Icon.Button>
-
-      <Icon.Button backgroundColor="rgba(255,184,31,0.09)">
-        <Text style={styles.textVoyageur}>Enfant</Text>
+          size={30} 
+          onPress={() => setAdulte(adulte - 1)}
+        />
+        <Text style={styles.textButtomNumber}>{adulte}</Text>
         <Icon
           name="plus-circle"
           backgroundColor="rgba(255,184,31,0.09)"
           iconStyle={styles.iconplus}
-          size={20}
-          onPress={() => setCount(count + 1)}
-        ></Icon>
-        <Text style={styles.textButtomNumber}>{count}</Text>
+          size={30}
+          onPress={() => setAdulte(adulte + 1)}
+        />
+      </Icon.Button>
+
+      <Icon.Button backgroundColor="rgba(255,184,31,0.09)">
+        <Text style={styles.textVoyageur}>Enfant(s)</Text>
         <Icon
           name="minus-circle"
           backgroundColor="rgba(255,184,31,0.09)"
           iconStyle={styles.icon}
-          size={20} 
-          onPress={() => setCount(count - 1)}
+          size={30} 
+          onPress={() => setEnfant(enfant - 1)}
+        ></Icon>
+        <Text style={styles.textButtomNumber}>{enfant}</Text>
+        <Icon
+          name="plus-circle"
+          backgroundColor="rgba(255,184,31,0.09)"
+          iconStyle={styles.iconplus}
+          size={30}
+          onPress={() => setEnfant(enfant + 1)}
         ></Icon>
       </Icon.Button>
-
+      </View>
      
 
       <View style={{ justifyContent: "center", alignItems: "center" }}>
         <Button
-          title="Valider"
+          title="Je passe à l'étape suivante"
           titleStyle={styles.textButtom}
           buttonStyle={styles.sendbutton}
           onPress={() => props.navigation.navigate("ItineraryScreen")}
@@ -98,11 +110,14 @@ function TripCreationScreen(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-  },
-  containerLogo: {
-    justifyContent: "center",
     alignItems: "center",
+    paddingTop: 50,
+  },
+  bigLogo: {
+    width: 100,
+    height: 92,
+    justifyContent: 'flex-start',
+    marginBottom: 30
   },
   Logo: {
     width: 107,
@@ -110,10 +125,11 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    fontFamily: "Poppins_700Bold",
-    fontSize: 18,
+    fontFamily: 'PlayfairDisplay_900Black',
+    fontSize: 24,
     justifyContent: "center",
-    color: "#131256",
+    color: '#131256',
+    textAlign: 'left',
     marginTop: 50,
   },
   text2: {
@@ -151,7 +167,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     justifyContent: "center",
     color: "#131256",
-    marginBottom: 50,
     backgroundColor: "rgba(255,184,31,0.15)",
     padding: 10,
     borderBottomColor: "#FFB81F",

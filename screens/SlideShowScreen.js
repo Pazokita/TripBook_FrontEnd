@@ -6,9 +6,6 @@ import { Image, Button } from "react-native-elements";
 import {useFonts, PlayfairDisplay_900Black } from '@expo-google-fonts/playfair-display';
 import {Poppins_700Bold, Poppins_300Light} from '@expo-google-fonts/poppins';
 
-// import Slideshow from 'react-native-slideshow';
-
-
 
 function SlideShowScreen(props) {
   useFonts({
@@ -25,9 +22,15 @@ function SlideShowScreen(props) {
         source={require('../assets/Logo_Blanc_Trip_Book.png')}
       />
 
+
 <Text style={styles.text}>Comment ça marche ?</Text>
       <Text style={styles.textPetit} >Envie de partir en voyage entre ami.e.s ? TripBook est la solution pour s'organiser !</Text>
-
+      <Button
+        title="J'organise mon premier voyage"
+        titleStyle={styles.textbutton}
+        buttonStyle={styles.sendbutton}
+        onPress={() => props.navigation.navigate('TripCreationScreen')}
+      />
 <View style={{flexDirection: 'row'}}>
      <ScrollView
         horizontal={true}

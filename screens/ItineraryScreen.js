@@ -1,13 +1,13 @@
 import React from "react";
 import { StyleSheet, View, Text } from "react-native";
 
-import { Image } from "react-native-elements";
+import { Image, Button } from "react-native-elements";
 
 import {useFonts, PlayfairDisplay_900Black } from '@expo-google-fonts/playfair-display';
 import {Poppins_700Bold, Poppins_300Light} from '@expo-google-fonts/poppins';
 
 
-function ItineraryScreen() {
+function ItineraryScreen(props) {
   useFonts({
     PlayfairDisplay_900Black,
     Poppins_700Bold,
@@ -22,6 +22,12 @@ function ItineraryScreen() {
         source={require('../assets/Logo_Blanc_Trip_Book.png')}
       />
        
+       <Button
+        title="J'organise mon premier voyage"
+        titleStyle={styles.textbutton}
+        buttonStyle={styles.sendbutton}
+        onPress={() => props.navigation.navigate('SignUpScreen')}
+      />
     </View>
     
   );
@@ -46,29 +52,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     color: 'white'
   },
-  textSur: {
-    fontFamily: 'PlayfairDisplay_900Black',
-    fontSize: 24,
-    justifyContent: "center",
-    color: 'white',
-    marginBottom: 50
-  },
-  textPetit: {
-    fontFamily: 'PlayfairDisplay_900Black',
-    fontSize: 24,
-    alignItems: 'center',
-    justifyContent: "center",
-    color: 'white',
-    marginTop: 30
-  },
-  textPetit2: {
-    fontFamily: 'PlayfairDisplay_900Black',
-    fontSize: 24,
-    alignItems: 'center',
-    justifyContent: "center",
-    color: 'white',
-    marginBottom: 30
-  },
+ 
   textbutton: {
     fontFamily: "Poppins_700Bold",
     fontSize: 18,
@@ -76,7 +60,8 @@ const styles = StyleSheet.create({
   }, 
   sendbutton: {
     backgroundColor: "#FFB81F",
-    width: 346
+    width: 346,
+    marginTop:50
   },
 });
 

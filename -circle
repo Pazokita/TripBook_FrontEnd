@@ -1,0 +1,106 @@
+[33mcommit 9feb4a935fbf43761afb8896a6aaa3bc80b06132[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: Amalia <amalia.maturana@gmail.com>
+Date:   Tue Dec 7 15:10:21 2021 +0100
+
+    pushNavBar
+
+[33mcommit 2ea534494d97026ddb5a9aa91c3fb079a1b72a17[m
+Author: Amalia <amalia.maturana@gmail.com>
+Date:   Tue Dec 7 09:40:38 2021 +0100
+
+    countButton
+
+[33mcommit 8f7d65e2367b3668aed4e190064c635d9417a740[m
+Author: JulietteCoemelck <juliette.coemelck@gmail.com>
+Date:   Tue Dec 7 09:30:51 2021 +0100
+
+    slideshow plus personne ne touche
+
+[33mcommit 31cfb4177582ffdb3eda760f25b3f163ad7432d1[m
+Merge: 34f947e 6afeb19
+Author: JulietteCoemelck <juliette.coemelck@gmail.com>
+Date:   Tue Dec 7 09:25:20 2021 +0100
+
+    Merge branch 'master' of https://github.com/Pazokita/TripBook_FrontEnd
+
+[33mcommit 34f947e5b11d4eb87d6755c0b7295bf79df43a49[m
+Author: JulietteCoemelck <juliette.coemelck@gmail.com>
+Date:   Tue Dec 7 09:25:06 2021 +0100
+
+    petite modif slideshowscreen
+
+[33mcommit 6afeb19b747200f98e58fa9845fd2bb7577b93e7[m
+Merge: 5d1e7cf 6a74be6
+Author: Amalia <amalia.maturana@gmail.com>
+Date:   Tue Dec 7 09:22:27 2021 +0100
+
+    conflitTripCreationOK
+
+[33mcommit 5d1e7cfa1b323c401ac0279f60154369a07ea8cf[m
+Merge: 2cfe5fe e7f281c
+Author: Amalia <amalia.maturana@gmail.com>
+Date:   Tue Dec 7 09:19:41 2021 +0100
+
+    Merge branch 'master' of https://github.com/Pazokita/TripBook_FrontEnd
+
+[33mcommit 6a74be6a21d7fe494de2fb1b8cbbc7535d390a6c[m
+Author: Amalia <amalia.maturana@gmail.com>
+Date:   Tue Dec 7 09:18:55 2021 +0100
+
+    TripBookScreenFront
+
+[33mcommit e7f281cb87a67800973011d3386de41845434184[m
+Merge: dbe536b 1d922d3
+Author: JulietteCoemelck <juliette.coemelck@gmail.com>
+Date:   Tue Dec 7 09:14:49 2021 +0100
+
+    slideshowscreen final 2
+
+[33mcommit dbe536b42722a6204b800f891e6029fec2a43e6e[m
+Author: AnnaOvi <ovianna@hotmail.fr>
+Date:   Tue Dec 7 08:57:19 2021 +0100
+
+    Signin /Signup ok
+
+[33mcommit 1d922d37012829fb508da432ace91a22a4d712fd[m
+Author: JulietteCoemelck <juliette.coemelck@gmail.com>
+Date:   Mon Dec 6 18:18:29 2021 +0100
+
+    slideshowscreen final
+
+[33mcommit 2cfe5fe208951990bcc205d8535cc5225211751d[m
+Merge: e59e4d0 a69f23d
+Author: Amalia <amalia.maturana@gmail.com>
+Date:   Mon Dec 6 14:28:17 2021 +0100
+
+    changebranche
+
+[33mcommit ebf55c3f08490c15a1268efa22da90ba04c47deb[m
+Author: JulietteCoemelck <juliette.coemelck@gmail.com>
+Date:   Mon Dec 6 14:04:22 2021 +0100
+
+    polices
+
+[33mcommit e59e4d06530be17e6573c503f9539f9042654872[m
+Author: Amalia <amalia.maturana@gmail.com>
+Date:   Mon Dec 6 12:14:19 2021 +0100
+
+    nochange
+
+[33mcommit a69f23da12b5836c63a119c29f194ae1c115305c[m
+Author: JulietteCoemelck <juliette.coemelck@gmail.com>
+Date:   Mon Dec 6 12:11:42 2021 +0100
+
+    premiers écrans
+
+[33mcommit 7e774233e2a5a1bc2f38858541521931630e8f12[m
+Author: Amalia <amalia.maturana@gmail.com>
+Date:   Mon Dec 6 10:02:08 2021 +0100
+
+    navigationStack
+
+[33mcommit bfca0e1557e3953e8bce02b7c9dcd2ffb352a88b[m
+Author: Amalia <amalia.maturana@gmail.com>
+Date:   Sun Dec 5 14:47:09 2021 +0100
+
+    Created a new Expo app

@@ -33,7 +33,7 @@ function SignUpScreen(props) {
         title="Je créé mon compte"
         titleStyle={styles.textbutton}
         buttonStyle={styles.sendbutton}
-        onPress={() => props.navigation.navigate('InvitationScreen')}
+        onPress={() => props.navigation.navigate('HomeScreen')}
       />
       <Button
         title="J'ai déjà un compte"

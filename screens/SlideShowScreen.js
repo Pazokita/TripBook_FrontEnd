@@ -93,6 +93,7 @@ const styles = StyleSheet.create({
   sendbutton: {
     backgroundColor: "#FFB81F",
     width: 346,
+    marginTop: 30,
     marginBottom: 50,
   },
   slideshow1: {
@@ -101,15 +102,14 @@ const styles = StyleSheet.create({
       resizeMode: 'cover',
       marginLeft: 50,
       marginRight: 50,
-      marginBottom: 30,
       borderRadius: 30,
+      marginBottom: 10
   },
   slideshow: {
       width: 200,
       height: 400,
       resizeMode: 'cover',
       marginRight: 50,
-      marginBottom: 30,
       borderRadius: 30,
   }
 });

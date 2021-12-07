@@ -1,17 +1,17 @@
 import React from "react";
-import { StyleSheet, View, Text } from "react-native";
 
-import { Image, Button } from "react-native-elements";
+import { StyleSheet, View, Text } from "react-native";
 
 import {useFonts, PlayfairDisplay_900Black } from '@expo-google-fonts/playfair-display';
 import {Poppins_700Bold, Poppins_300Light} from '@expo-google-fonts/poppins';
+
+import { Image, Button } from "react-native-elements";
 
 function FirstScreen(props) {
   useFonts({
     PlayfairDisplay_900Black,
     Poppins_700Bold,
-    Poppins_300Light
-
+    Poppins_300Light,
   });
   return (
     <View style={styles.container}>
@@ -52,7 +52,6 @@ const styles = StyleSheet.create({
     width: 257,
     height: 236,
   },
-
    text: {
     fontFamily: 'PlayfairDisplay_900Black',
     fontSize: 48,

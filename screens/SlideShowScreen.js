@@ -1,13 +1,13 @@
 import React from "react";
 import { StyleSheet, View, Text } from "react-native";
 
-import { Image } from "react-native-elements";
+import { Image, Button } from "react-native-elements";
 
 import {useFonts, PlayfairDisplay_900Black } from '@expo-google-fonts/playfair-display';
 import {Poppins_700Bold, Poppins_300Light} from '@expo-google-fonts/poppins';
 
 
-function SlideShowScreen() {
+function SlideShowScreen(props) {
   useFonts({
     PlayfairDisplay_900Black,
     Poppins_700Bold,
@@ -21,7 +21,14 @@ function SlideShowScreen() {
         style={styles.bigLogo}
         source={require('../assets/Logo_Blanc_Trip_Book.png')}
       />
+        <Button
+        title="J'organise mon premier voyage"
+        titleStyle={styles.textbutton}
+        buttonStyle={styles.sendbutton}
+        onPress={() => props.navigation.navigate('TripCreationScreen')}
+      />
     </View>
+    
   );
 }
 

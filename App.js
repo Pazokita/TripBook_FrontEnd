@@ -7,6 +7,8 @@ const Stack = createStackNavigator();
 import FirstScreen from './screens/FirstScreen';
 import SignInScreen from './screens/SignInScreen';
 import SlideShowScreen from "./screens/SlideShowScreen";
+import TripCreationScreen from "./screens/TripCreationScreen";
+import ItineraryScreen from "./screens/ItineraryScreen";
 
 export default function App() {
   return (
@@ -15,6 +17,8 @@ export default function App() {
         <Stack.Screen name="FirstScreen" component={FirstScreen} options={{ headerShown: false}} />
         <Stack.Screen name="SignInScreen" component={SignInScreen} options={{ headerShown: false}}/>
         <Stack.Screen name="SlideShowScreen" component={SlideShowScreen} options={{ headerShown: false}}/>
+        <Stack.Screen name="TripCreationScreen" component={TripCreationScreen} options={{ headerShown: false}}/>
+        <Stack.Screen name="ItineraryScreen" component={ItineraryScreen} options={{ headerShown: false}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

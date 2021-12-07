@@ -50,7 +50,7 @@ function TripCreationScreen(props) {
           backgroundColor="rgba(255,184,31,0.09)"
           iconStyle={styles.iconplus}
           size={20}
-          onClick={() => setCount(count + 1)}
+          onPress={() => setCount(count + 1)}
         ></Icon>
         <Text style={styles.textButtomNumber}>{count}</Text>
         <Icon
@@ -58,7 +58,7 @@ function TripCreationScreen(props) {
           backgroundColor="rgba(255,184,31,0.09)"
           iconStyle={styles.icon}
           size={20} 
-          onClick={() => setCount(count - 1)}
+          onPress={() => setCount(count - 1)}
         ></Icon>
       </Icon.Button>
 
@@ -69,13 +69,15 @@ function TripCreationScreen(props) {
           backgroundColor="rgba(255,184,31,0.09)"
           iconStyle={styles.iconplus}
           size={20}
+          onPress={() => setCount(count + 1)}
         ></Icon>
-        <Text style={styles.textButtomNumber}>3</Text>
+        <Text style={styles.textButtomNumber}>{count}</Text>
         <Icon
           name="minus-circle"
           backgroundColor="rgba(255,184,31,0.09)"
           iconStyle={styles.icon}
           size={20} 
+          onPress={() => setCount(count - 1)}
         ></Icon>
       </Icon.Button>
 

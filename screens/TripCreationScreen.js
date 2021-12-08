@@ -163,10 +163,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     marginBottom: 30
   },
-  Logo: {
-    width: 107,
-    height: 92,
-  },
 
   text: {
     fontFamily: 'PlayfairDisplay_900Black',

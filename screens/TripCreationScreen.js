@@ -2,8 +2,16 @@ import React, { useState } from "react";
 import { StyleSheet, View, TextInput, Text } from "react-native";
 import Checkbox from 'expo-checkbox';
 
+import DatePicker from 'react-native-neat-date-picker'
+
+
+
+
+
+
 import { Image, Button } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { AntDesign } from '@expo/vector-icons';
 import {
   useFonts,
   PlayfairDisplay_900Black,
@@ -14,7 +22,39 @@ import { Poppins_700Bold, Poppins_300Light } from "@expo-google-fonts/poppins";
 function TripCreationScreen(props) {
   const [adulte, setAdulte] = useState(0);
   const [enfant, setEnfant] = useState(0);
+  const [isSelected, setSelection] = useState(false);
+  useFonts({
+    PlayfairDisplay_900Black,
+    Poppins_700Bold,
+    Poppins_300Light,
+  });
 
+  // DATE TIME PICKER DEPART //
+  const [showDatePicker, setShowDatePicker] = useState(false)
+
+  const openDatePicker = () => {
+    setShowDatePicker(true)
+  }
+
+  const onCancel = () => {
+    // You should close the modal in here
+    setShowDatePicker(false)
+  }
+
+  const onConfirm = ( date ) => {
+    // You should close the modal in here
+    setShowDatePicker(false)
+    
+    // The parameter 'date' is a Date object so that you can use any Date prototype method.
+    console.log(date.getDate())
+  }
+  //////
+
+  // DATE TIME PICKER RETOUR //
+  
+  //////
+
+///// NOMBRE DE VOYAGEURS ////
   if(adulte < 0){
     setAdulte(0)
   }
@@ -22,12 +62,8 @@ function TripCreationScreen(props) {
   if(enfant <0){
     setEnfant(0)
   }
-
-  useFonts({
-    PlayfairDisplay_900Black,
-    Poppins_700Bold,
-    Poppins_300Light,
-  });
+////////////
+  
 
   return (
     <View style={styles.container}>
@@ -36,62 +72,70 @@ function TripCreationScreen(props) {
         source={require('../assets/Logo_Bleu_Trip_Book.png')}
       />
       <View>
-      <Text style={styles.text}>Nom du voyage</Text>
-      <TextInput style={styles.input} value="TripJapan/10jours" />
+        <Text style={styles.text}>Nom du voyage</Text>
+        <TextInput style={styles.input} placeholder="Voyage au Japon" />
 
       <Text style={styles.text}>Dates du départ et de retour</Text>
       <Icon.Button
         name="calendar"
         backgroundColor="rgba(255,184,31,0.09)"
         iconStyle={styles.icon}
+        
       >
-        <Text style={styles.textCalendar}>Selectionner vos dates ici</Text>
+        <TextInput style={styles.textCalendar} placeholder="Date de départ" editable={false} />
+      </Icon.Button>
+      
+      <Icon.Button
+        name="calendar"
+        backgroundColor="rgba(255,184,31,0.09)"
+        iconStyle={styles.icon}
+        >
+        <Text style={styles.textCalendar} >Date de retour</Text>
       </Icon.Button>
 
-      <Checkbox style={styles.checkbox}
-          value={isChecked}
-          onValueChange={setChecked}
-          color={isChecked ? '#4630EB' : undefined}
-        /><TextInput style={styles.input2} value="Pas encore de dates"/>
-
+      <View style={{flexDirection: 'row', backgroundColor: "rgba(255,184,31,0.15)", borderTopColor: '#FFB81F', borderTopWidth: 2}}>
+        <Checkbox value={isSelected} onValueChange={setSelection} style={styles.checkbox} color={isSelected ? '#131256' : undefined}/>
+        <Text style={styles.input2}>Pas encore de dates</Text>
+      </View>
+      
       <Text style={styles.text}>Nombre de voyageurs</Text>
       <Icon.Button backgroundColor="rgba(255,184,31,0.09)">
         <Text style={styles.textVoyageur}>Adulte(s)</Text>
-        <Icon
-          name="minus-circle"
-          backgroundColor="rgba(255,184,31,0.09)"
-          iconStyle={styles.icon}
-          size={30} 
-          onPress={() => setAdulte(adulte - 1)}
-        />
+        <AntDesign 
+                          name="minuscircle" 
+                          size={30} 
+                          color="rgba(255,184,31,1)" 
+                          style={styles.iconPlus}
+                          onPress={() => setAdulte(adulte - 1)}
+                        />
         <Text style={styles.textButtomNumber}>{adulte}</Text>
-        <Icon
-          name="plus-circle"
-          backgroundColor="rgba(255,184,31,0.09)"
-          iconStyle={styles.iconplus}
-          size={30}
-          onPress={() => setAdulte(adulte + 1)}
-        />
+        <AntDesign 
+                          name="pluscircle" 
+                          size={30} 
+                          color="rgba(255,184,31,1)" 
+                          style={styles.iconPlus}
+                          onPress={() => setAdulte(adulte + 1)}
+                        />
       </Icon.Button>
 
       <Icon.Button backgroundColor="rgba(255,184,31,0.09)">
-        <Text style={styles.textVoyageur}>Enfant(s)</Text>
-        <Icon
-          name="minus-circle"
-          backgroundColor="rgba(255,184,31,0.09)"
-          iconStyle={styles.icon}
-          size={30} 
-          onPress={() => setEnfant(enfant - 1)}
-        ></Icon>
-        <Text style={styles.textButtomNumber}>{enfant}</Text>
-        <Icon
-          name="plus-circle"
-          backgroundColor="rgba(255,184,31,0.09)"
-          iconStyle={styles.iconplus}
-          size={30}
-          onPress={() => setEnfant(enfant + 1)}
-        ></Icon>
-      </Icon.Button>
+          <Text style={styles.textVoyageur}>Enfant(s)</Text>
+          <AntDesign 
+                          name="minuscircle" 
+                          size={30} 
+                          color="rgba(255,184,31,1)" 
+                          style={styles.iconPlus}
+                          onPress={() => setEnfant(enfant - 1)}
+                        />
+          <Text style={styles.textButtomNumber}>{enfant}</Text>
+          <AntDesign 
+                          name="pluscircle" 
+                          size={30} 
+                          color="rgba(255,184,31,1)" 
+                          style={styles.iconPlus}
+                          onPress={() => setEnfant(enfant + 1)}
+                        />
+        </Icon.Button>
       </View>
      
 
@@ -177,9 +221,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
     justifyContent: "center",
     color: "#131256",
-    backgroundColor: "rgba(255,184,31,0.15)",
+    
     padding: 10,
-    marginTop: -3,
     borderTopColor: "#FFB81F",
     borderTopWidth: 2,
   },
@@ -203,12 +246,9 @@ const styles = StyleSheet.create({
   icon: {
     color: "#131256",
   },
-  iconplus: {
-    color: "#131256",
-   
-   
+  iconPlus : {
+    marginBottom:10, marginTop:10
   },
-  
   textVoyageur: {
     fontFamily: "Poppins_300Light",
     fontSize: 18,
@@ -221,6 +261,16 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFB81F",
     width: 346,
   },
+  checkbox: {
+    alignSelf: 'center', 
+    marginLeft: 7,
+    borderColor: '#131256',
+    borderRadius: 10,
+  },
+  datePickerStyle: {
+    width: 200,
+    marginTop: 20,
+  }
 });
 
 export default TripCreationScreen;

@@ -73,6 +73,7 @@ if(isSelected){
 
   return (
     <View style={styles.container}>
+      
       <Image
         style={styles.bigLogo}
         source={require('../assets/Logo_Bleu_Trip_Book.png')}

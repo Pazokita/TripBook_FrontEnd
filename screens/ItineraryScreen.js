@@ -145,6 +145,7 @@ function ItineraryScreen(props) {
                       </View>
                   </Card>
               </View>
+
               <View style={styles.viewAjouterEtape}>
                 <AntDesign 
                   name="pluscircle" size={40} color="#131256" style={styles.iconAjouter}
@@ -153,6 +154,7 @@ function ItineraryScreen(props) {
                 <Text style={styles.textAjouterEtape}>au voyage</Text>
               </View> 
             </View>
+
             <View style = {{marginBottom:40}}>
               <Text style={styles.textPetit}>Ville de retour</Text>
               <Card name ="plus" 
@@ -169,7 +171,8 @@ function ItineraryScreen(props) {
             
         <Button title ="Valider"
           buttonStyle={styles.buttonValider}
-          style = {styles.validerStyle}     
+          style = {styles.validerStyle} 
+          onPress={() => props.navigation.navigate("SignUpScreen")}   
         />
         </ScrollView>
     

@@ -16,3 +16,6 @@ npm i react-native-neat-date-picker
 
 
 npm i expo-linking
+
+
+npm i @react-native-community/datetimepicker

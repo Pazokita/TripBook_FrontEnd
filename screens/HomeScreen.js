@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { StyleSheet, View, Text, Modal} from "react-native";
+import { StyleSheet, View, Text, Modal, Pressable} from "react-native";
 
 import { Image, Button } from "react-native-elements";
 
@@ -35,26 +35,29 @@ function HomeScreen(props) {
           onPress={() => setModalUserVisible(true) }
           />
           <Modal
-          transparent={false}
+          transparent={true}
           visible={modalUserVisible}
           >
             <View style={{backgroundColor:"#131256aa", flex:1}}>
               <View style={{backgroundColor:"#FFB81Faa", margin:50, padding:40, borderRadius:10}}>
-                <Button 
-                title="Deconnexion" 
-                style={styles.sendbutton}
+                <Pressable
+                style={styles.pressable}
                 onPress={() => props.navigation.navigate('FirstScreen')}
-                />
-                <Button 
-                title="Paramètres" 
-                style={styles.sendbutton}
+                >
+                <Text style={styles.textbutton}>Deconnexion</Text>
+                </Pressable>
+                <Pressable 
+                style={styles.pressable}
                 // onPress={() => props.navigation.navigate('FirstScreen')}
-                />
-                <Button
-                title="Fermer"
-                style={styles.smallbutton}
+                >
+                <Text style={styles.textbutton}>Paramètres</Text>
+                </Pressable>
+                <Pressable
+                style={styles.smallPressable}
                 onPress={() => setModalUserVisible(false)}
-                />
+                >
+                  <Text style={styles.textbutton}>Fermer</Text>
+                </Pressable>
                 </View>
                 </View>
                 </Modal>
@@ -69,12 +72,13 @@ function HomeScreen(props) {
           >
             <View style={{backgroundColor:"#131256aa", flex:1}}>
               <View style={{backgroundColor:"#FFB81Faa", margin:50, padding:40, borderRadius:10}}>
-                <Text>Blabla</Text>
-                <Button
-                title="Fermer"
-                style={styles.smallbutton}
+                <Text style={styles.textBell}>Blabla</Text>
+                <Pressable
+                style={styles.smallPressable}
                 onPress={() => setModalBellVisible(false)}
-                />
+                >
+                  <Text style={styles.textbutton}>Fermer</Text>
+                </Pressable>
                 </View>
                 </View>
                 </Modal>
@@ -145,9 +149,7 @@ const styles = StyleSheet.create({
   },
 
   icon: {
-  
     color:"#131256",
-    marginRight: 7,
   },
 
   iconView: {
@@ -174,46 +176,17 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins_700Bold",
     fontSize: 18,
     color: "white",
-    textAlign:"center"
+    alignSelf:"center",
+    
   }, 
 
-  text: {
-    fontFamily: "Poppins_300Light",
-    fontSize: 15,
-    color: "#131256",
-    justifyContent: "center",
-    marginLeft: 10, 
-    marginBottom: 10
-  },
-
-   inputView: {
-    // flexDirection: "row",
-    borderWidth: 1,
-    borderColor: "#131256",
-    borderRadius: 20,
-    backgroundColor: "rgba(255,184,31,0.15)",
-    opacity: 50,
-    width: 348,
-    height: 70,
-    marginTop: 20
-  },
-
-  sendbutton: {
+   sendbutton: {
     width: 347,
     height:56,
     backgroundColor: "#FFB81F",
     marginTop: 20,
   },
-
-  smallbutton: {
-    
-    marginLeft: 100,
-    marginTop: 15,
-    width: 70,
-    height:40,
-    backgroundColor: "#FFB81F",
-    
-  },
+ 
   ville: {
     flexDirection: 'row', 
     justifyContent: 'space-between',
@@ -239,6 +212,36 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFB81F",
     
   },
+
+  pressable:{
+    // flexDirection: "row",
+    width: 250,
+    height:56,
+    backgroundColor: "#131256",
+    alignSelf: "center",
+    marginTop: 20,
+    justifyContent: 'center',
+    
+  },
+
+  smallPressable: {
+    // flexDirection: "row",
+    alignSelf: 'center',
+    width: 80,
+    height:40,
+    backgroundColor: "#FFB81F",
+    marginTop: 10,
+    justifyContent: 'center',
+  },
+
+  textBell : {
+    fontFamily: "Poppins_300Light",
+    fontSize: 15,
+    color: "#131256",
+    justifyContent: "flex-start",
+    alignSelf: 'center'
+  },
+
 });
 
 export default HomeScreen;

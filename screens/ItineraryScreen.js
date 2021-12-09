@@ -54,90 +54,175 @@ if (jour < 0) {
 //
 
 // AJOUTER NOUVELLE ETAPE //
-const [etapesList, setEtapesList] = useState([])
+const [etapesList, setEtapesList] = useState([
+  {
+    ville: 'Rouen',
+    jours: 2
+  },
+  {
+    ville: 'Bordeaux',
+    jours: 3
+  }
+
+])
 
 //
 
   return (
-    <View style={styles.container}>
-        
-    <Image
-        style={styles.bigLogo}
-        source={require('../assets/Logo_Bleu_Trip_Book.png')}
-        alignItems= "center"
-    />
-      <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-        <TextInput style={styles.text} value='Voyage au Japon'/>
-        <MaterialCommunityIcons 
-        name="pencil" 
-        size={24} 
-        style={styles.iconCrayon}
-        />
-      </View>
-    <ScrollView>
-  
-                <TextInput 
-                  style={styles.input} 
-                  placeholder="Ville départ"
-                />
-                
-                <View style={styles.viewSwitch}>
-                  <Switch 
-                    value={isEnabled} 
-                    color='#131256'
-                    onValueChange={toggleSwitch}
-                  /> 
-                  <Text style={styles.paragraphe}>Ville de départ différente de la ville de retour</Text>
-                </View>
-
-                {showVilleRetour} 
-
-<Text style={styles.text}>Etapes</Text>
-
-<Icon.Button backgroundColor="rgba(255,184,31,0.09)" style={{justifyContent: 'space-between'}}>
-<TextInput style={styles.paragraphe} placeholder="Ville d'étape"/>
-<View style={{flexDirection: 'row'}}>
-<AntDesign 
-                  name="minuscircle" 
-                  size={30} 
-                  color="rgba(255,184,31,1)" 
-                  style={styles.iconPlus}
-                  onPress={() => setJour(jour - 1)}
-                />
-<Text style={styles.paragraphe}>{jour} jour(s)</Text>
-<AntDesign 
-                  name="pluscircle" 
-                  size={30} 
-                  color="rgba(255,184,31,1)" 
-                  style={styles.iconPlus}
-                  onPress={() => setJour(jour + 1)}
-                />
-</View>
-</Icon.Button>
-
-
-        <View style={styles.viewAjouterEtape}>
-          <AntDesign 
-            name="pluscircle" 
-            size={40} 
-            color="#131256"
-            
+    <View style={{flex : 1, backgroundColor:'white'}}>
+        <View style={styles.header}>
+          <Image
+              style={styles.bigLogo}
+              source={require('../assets/Logo_Bleu_Trip_Book.png')}
+              alignItems= "center"
           />
-          <Text style={styles.textAjouterEtape}>Ajouter une étape au voyage</Text>
-        </View> 
-        
-      
-      <Button
-    title="J'invite mes covoyageurs"
-    titleStyle={styles.textbutton}
-    buttonStyle={styles.sendbutton}
-    onPress={() => props.navigation.navigate("InvitationScreen")}
-  />
+          <Text style={styles.text}>
+            <Text style={{marginRight:10}}>Trip Japon / 8 jours</Text>
+            <MaterialCommunityIcons 
+              name="pencil" 
+              size={24} 
+              color="black" 
+              marginLeft="10"
+            />
+          </Text>
+        </View>
+        <ScrollView style={styles.scrolling}>
+          <View behavior={Platform.OS === "ios" ? "padding" : "height"} style={{flex : 1, backgroundColor:'white'}}>
+            <View>
+              <Text style={styles.textPetit}>Ville de départ</Text>
+              <View style = {{display:"flex"}}>
+                  <Card name ="plus" 
+                    containerStyle={styles.cardDepart} 
+                    wrapperStyle={styles.cardDepartWrapper}
+                  >     
+                      <Input 
+                        containerStyle={styles.inputStyle} 
+                        inputContainerStyle={styles.inputStyleContainer} 
+                        placeholder="Ville départ"
+                      />
+                      <Card.Divider color="rgba(255,184,31,1)" style={styles.cardDividerStyle}/>
+                      <View style={styles.viewSwitch}>
+                        <Switch 
+                          value={true} 
+                          style={styles.switchStyle} 
+                          color='#131256'
+                        /> 
+                        <Text style={styles.textDepartDiffArrivee}>Ville de départ différente de la ville de retour</Text>
+                      </View>
+                  </Card>
+              </View>
+            </View>
+            <View>
+              <Text style={styles.textPetit}>Étapes</Text>
+              <View style = {{display:"flex"}}>
+                  <Card name ="plus" containerStyle={styles.cards} wrapperStyle={{color:"#131256"}}>     
+                      <View style={styles.viewCards}>
+                        <Input 
+                          containerStyle={styles.inputCards} 
+                          inputContainerStyle={styles.inputCardsContainer} 
+                          placeholder="Ville départ"
+                        />
+                        <AntDesign 
+                          name="pluscircle" 
+                          size={30} 
+                          color="rgba(255,184,31,1)" 
+                          style={styles.iconPlus}
+                        />
+                        <View style={styles.viewTimeSpend}>
+                          <Text style={styles.textTime}>3</Text>
+                          <Text style={styles.textTime}>jours</Text>
+                        </View>
+                        <AntDesign 
+                          name="minuscircle" 
+                          size={30} 
+                          color="rgba(255,184,31,1)" 
+                          style={styles.iconMinus}
+                        />
+                      </View>
+                  </Card>
+                  <Card name ="plus" containerStyle={styles.cards} wrapperStyle={{color:"#131256"}}>     
+                      <View style={styles.viewCards}>
+                        <Input 
+                          containerStyle={styles.inputCards} 
+                          inputContainerStyle={styles.inputCardsContainer} 
+                          placeholder="Ville départ"
+                        />
+                        <AntDesign 
+                          name="pluscircle" 
+                          size={30} 
+                          color="rgba(255,184,31,1)" 
+                          style={styles.iconPlus}
+                        />
+                        <View style={styles.viewTimeSpend}>
+                          <Text style={styles.textTime}>3</Text>
+                          <Text style={styles.textTime}>jours</Text>
+                        </View>
+                        <AntDesign 
+                          name="minuscircle" 
+                          size={30} 
+                          color="rgba(255,184,31,1)" 
+                          style={styles.iconMinus}
+                        />
+                      </View>
+                  </Card>
+                  <Card name ="plus" containerStyle={styles.cards} wrapperStyle={{color:"#131256"}}>     
+                      <View style={styles.viewCards}>
+                        <Input 
+                          containerStyle={styles.inputCards} 
+                          inputContainerStyle={styles.inputCardsContainer} 
+                          placeholder="Ville départ"
+                        />
+                        <AntDesign 
+                          name="pluscircle" 
+                          size={30} 
+                          color="rgba(255,184,31,1)" 
+                          style={styles.iconPlus}
+                        />
+                        <View style={styles.viewTimeSpend}>
+                          <Text style={styles.textTime}>3</Text>
+                          <Text style={styles.textTime}>jours</Text>
+                        </View>
+                        <AntDesign 
+                          name="minuscircle" 
+                          size={30} 
+                          color="rgba(255,184,31,1)" 
+                          style={styles.iconMinus}
+                        />
+                      </View>
+                  </Card>
+              </View>
 
-</ScrollView>
+              <View style={styles.viewAjouterEtape}>
+                <AntDesign 
+                  name="pluscircle" size={40} color="#131256" style={styles.iconAjouter}
+                />
+                <Text style={styles.textAjouterEtape}>Ajouter une étape</Text>
+                <Text style={styles.textAjouterEtape}>au voyage</Text>
+              </View> 
+            </View>
 
- 
-</View>
+            <View style = {{marginBottom:40}}>
+              <Text style={styles.textPetit}>Ville de retour</Text>
+              <Card name ="plus" 
+                containerStyle={styles.cards} 
+                wrapperStyle={{color:"#131256"}}
+              >     
+                <Input 
+                  style={styles.inputRetour} 
+                  inputContainerStyle={styles.inputRetourContainer} 
+                  placeholder="Ville de retour"/>
+              </Card>
+            </View>
+          </View>
+            
+        <Button title ="Valider"
+          buttonStyle={styles.buttonValider}
+          style = {styles.validerStyle} 
+          onPress={() => props.navigation.navigate("SignUpScreen")}   
+        />
+        </ScrollView>
+    
+    </View>
   );
 }
 

@@ -1,5 +1,5 @@
-import React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import React, {useState, useEffect} from "react";
+import { StyleSheet, View, Text, ScrollView } from "react-native";
 
 import { Image, Button, Input } from "react-native-elements";
 
@@ -7,43 +7,95 @@ import {useFonts, PlayfairDisplay_900Black } from '@expo-google-fonts/playfair-d
 import {Poppins_700Bold, Poppins_300Light} from '@expo-google-fonts/poppins';
 import { color } from "react-native-elements/dist/helpers";
 
+import { connect } from "react-redux";
+import {Redirect} from 'react-router-dom';
+
+
 function SignUpScreen(props) {
-    useFonts({
-        PlayfairDisplay_900Black,
-        Poppins_700Bold,
-        Poppins_300Light
-    
-      });
+  useFonts({
+      PlayfairDisplay_900Black,
+      Poppins_700Bold,
+      Poppins_300Light
+  });
+
+
+  const [signUpUsername, setSignUpUsername] = useState('');
+  const [signUpEmail, setSignUpEmail] = useState('');
+  const [signUpPassword, setSignUpPassword] = useState('');
+
+  const [userExists, setUserExists]= useState(false);
+
+  const [listErrorsSignin, setErrorsSignin] = useState([])
+  const [listErrorsSignup, setErrorsSignup] = useState([])
+
+
+  var handleSubmitSignUp = async () => {
+    const response = await fetch('http://192.168.1.30:3000/sign-up', {
+    method: 'POST',
+    headers: {'Content-Type':'application/x-www-form-urlencoded'},
+    body: `usernameFromFront=${signUpUsername}&emailFromFront=${signUpEmail}&passwordFromFront=${signUpPassword}`
+   })
+  
+    const body = await response.json();
+    console.log(body)
+
+    if(body.result === true){
+      setUserExists(true)
+      props.addToken(body.token)
+    } else {
+      setErrorsSignup(body.error)
+    }
+
+  }
+
+  if (userExists) {
+    props.navigation.navigate('HomeScreen')
+  } else {
+    props.navigation.navigate('SignUpScreen')
+  }
+  
+  
+  var tabErrorsSignup = listErrorsSignup.map((error,i) => {
+    return(<Text style={styles.textWarning} key={i}>{error}</Text>)
+  })
+
+
   return (
     <View style={styles.container}>
       <Image 
       style={styles.mediumLogo}
       source={require('../assets/Logo_Bleu_Trip_Book.png')}/>
-      <Text style={styles.subTitle}>Inscription</Text>
-      <Text style={styles.text}>Je m’inscris pour inviter mes co-voyageurs</Text>
-      <View style={styles.inputView}>
-      <Text style= {styles.text}>email</Text>
-      <Input/>
-      <Text style= {styles.text}>nom d'utilisateur</Text>
-      <Input/>
-      <Text style= {styles. text}>mot de passe</Text>
-      <Input/>
-      </View>
-      <Button
-        title="Je créé mon compte"
-        titleStyle={styles.textbutton}
-        buttonStyle={styles.sendbutton}
-        onPress={() => props.navigation.navigate('HomeScreen')}
-      />
-      <Button
-        title="J'ai déjà un compte"
-        titleStyle={styles.textbutton}
-        buttonStyle={styles.sendbutton}
-        onPress={() => props.navigation.navigate('SignInScreen')}
-      />
+      <ScrollView style={styles.scrolling}>
+        <Text style={styles.subTitle}>Inscription</Text>
+        <Text style={styles.text}>Je m’inscris pour inviter mes co-voyageurs</Text>
+        <View style={styles.inputView}>
+          <Text style= {styles.text}> Nom d'utilisateur</Text>
+            <Input onChangeText ={(val)=> setSignUpUsername(val)}/>
+          <Text style= {styles.text}>Email</Text>
+            <Input onChangeText ={(val)=> setSignUpEmail(val)}/>
+          <Text style= {styles. text}>Mot de passe</Text>
+            <Input onChangeText ={(val)=> setSignUpPassword (val)}/>
+        </View>
+        {tabErrorsSignup}
+        <Button
+          title="Je créé mon compte"
+          titleStyle={styles.textbutton}
+          buttonStyle={styles.sendbutton}
+          onPress={() => 
+            handleSubmitSignUp()
+          }
+        />
+        <Button
+          title="J'ai déjà un compte"
+          titleStyle={styles.textbutton}
+          buttonStyle={styles.sendbutton}
+          onPress={() => props.navigation.navigate('SignInScreen')}
+        />
+      </ScrollView>
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -61,7 +113,8 @@ const styles = StyleSheet.create({
   mediumLogo: {
     width:107,
     height:92,
-    marginBottom: 30
+    marginBottom: 30,
+    marginTop:0
   },
 
   subTitle: {
@@ -86,6 +139,14 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     justifyContent: "center",
     color: 'white'
+  },
+  textWarning : {
+    fontFamily: "PlayfairDisplay_900Black",
+    fontSize: 20,
+    marginBottom: 10,
+    justifyContent: "center",
+    color: 'red',
+    marginTop : 15
   },
 
   textbutton: {
@@ -123,7 +184,28 @@ const styles = StyleSheet.create({
     height:56,
     backgroundColor: "#FFB81F",
     marginTop: 20,
+    marginBottom : 30
+  },
+
+  scrolling: {
+    flex:1, 
+    marginTop: 0, 
+    marginLeft:0, 
+    marginRight:0,
+    marginBottom : 0,
+    width : 350,
   },
 });
 
-export default SignUpScreen;
+function mapDispatchToProps(dispatch){
+  return {
+    addToken: function(token){
+      dispatch({type: 'addToken', token: token})
+    }
+  }
+}
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(SignUpScreen)

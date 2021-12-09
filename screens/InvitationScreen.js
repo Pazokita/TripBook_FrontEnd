@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, ScrollView } from "react-native";
 import { Image, Button } from "react-native-elements";
 
 import {useFonts, PlayfairDisplay_900Black } from '@expo-google-fonts/playfair-display';
@@ -13,7 +13,7 @@ import * as Linking from 'expo-linking';
 
 
 
-export default function InvitationScreen() {
+export default function InvitationScreen(props) {
     useFonts({
         PlayfairDisplay_900Black,
         Poppins_700Bold,
@@ -43,6 +43,7 @@ export default function InvitationScreen() {
     
   return (
     <View style={styles.container} >
+      <ScrollView>
       <Image
         style={styles.bigLogo}
         source={require('../assets/Logo_Blanc_Trip_Book.png')}
@@ -73,6 +74,7 @@ export default function InvitationScreen() {
         buttonStyle={styles.sendbutton}
         onPress={() => props.navigation.navigate('HomeScreen')}
       />
+      </ScrollView>
     </View>
   );
 }

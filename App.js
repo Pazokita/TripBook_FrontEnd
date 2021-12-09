@@ -2,7 +2,7 @@ import React from "react";
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import TabNav from "./component/tabNav";
+import TabNav from "./components/tabNav";
 
 import FirstScreen from './screens/FirstScreen';
 import SignInScreen from './screens/SignInScreen';

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, View, TextInput, Text } from "react-native";
+import { StyleSheet, View, TextInput, Text, ScrollView } from "react-native";
 import Checkbox from 'expo-checkbox';
 
 
@@ -73,6 +73,7 @@ if(isSelected){
 
   return (
     <View style={styles.container}>
+      <ScrollView>
       <Image
         style={styles.bigLogo}
         source={require('../assets/Logo_Bleu_Trip_Book.png')}
@@ -153,6 +154,7 @@ if(isSelected){
           onPress={() => props.navigation.navigate("ItineraryScreen")}
         />
       </View>
+      </ScrollView>
     </View>
   );
 }

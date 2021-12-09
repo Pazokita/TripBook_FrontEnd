@@ -79,42 +79,52 @@ function HomeScreen(props) {
                 </View>
                 </Modal>
         </View>
+
       <Image 
       style={styles.mediumLogo}
       source={require('../assets/Logo_Bleu_Trip_Book.png')}/>
+
       <Text style={styles.subTitle}>Bienvenue [User]</Text>
+
       <Button
         title="Nouveau Voyage"
         titleStyle={styles.textbutton}
         buttonStyle={styles.sendbutton}
         onPress={() => props.navigation.navigate('TripCreationScreen')}
       />
-      <View style={styles.inputView}>
-      <Text style= {styles.text}>Paris<Button
+
+
+      <View style={styles.ville}>
+      <Text style= {styles.text2}>Paris</Text>
+      <Button
         title="Voir"
         titleStyle={styles.textbutton}
-        buttonStyle={styles.smallbutton}
+        buttonStyle={styles.smallbutton2}
         onPress={() => props.navigation.navigate('InvitationScreen')}
-      /></Text>
-      
-      </View>
-      <View style={styles.inputView}>
-      <Text style= {styles.text}>Tokyo<Button
-        title="Voir"
-        titleStyle={styles.textbutton}
-        buttonStyle={styles.smallbutton}
-        onPress={() => props.navigation.navigate('InvitationScreen')}
-      /></Text>
+      />
       </View>
 
-      <View style={styles.inputView}>
-      <Text style= {styles.text}>Seoul<Button
+      <View style={styles.ville}>
+      <Text style= {styles.text2}>Seoul</Text>
+      <Button
         title="Voir"
         titleStyle={styles.textbutton}
-        buttonStyle={styles.smallbutton}
+        buttonStyle={styles.smallbutton2}
         onPress={() => props.navigation.navigate('InvitationScreen')}
-      /></Text>
+      />
       </View>
+
+      <View style={styles.ville}>
+      <Text style= {styles.text2}>Tokyo</Text>
+      <Button
+        title="Voir"
+        titleStyle={styles.textbutton}
+        buttonStyle={styles.smallbutton2}
+        onPress={() => props.navigation.navigate('InvitationScreen')}
+      />
+      </View>
+
+      
       <Button
         title="J'organise mon premier voyage"
         titleStyle={styles.textbutton}
@@ -199,6 +209,31 @@ const styles = StyleSheet.create({
     
     marginLeft: 100,
     marginTop: 15,
+    width: 70,
+    height:40,
+    backgroundColor: "#FFB81F",
+    
+  },
+  ville: {
+    flexDirection: 'row', 
+    justifyContent: 'space-between',
+    backgroundColor: 'rgba(255,184,31,0.15)',
+    width: 348,
+    marginTop: 15,
+    marginBottom: 15,
+    padding: 10,
+    borderRadius: 20,
+  },
+  text2 : {
+    fontFamily: "Poppins_300Light",
+    fontSize: 15,
+    color: "#131256",
+    justifyContent: "flex-start",
+   marginLeft: 10, 
+    alignSelf: 'center'
+  },
+  smallbutton2: {
+    alignSelf: 'flex-end',
     width: 70,
     height:40,
     backgroundColor: "#FFB81F",

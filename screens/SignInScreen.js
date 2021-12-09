@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, TextInput} from "react-native";
 
-import { Image, Button, Input } from "react-native-elements";
+import { Image, Button } from "react-native-elements";
 
 import {useFonts, PlayfairDisplay_900Black } from '@expo-google-fonts/playfair-display';
 import {Poppins_700Bold, Poppins_300Light} from '@expo-google-fonts/poppins';
-import { color } from "react-native-elements/dist/helpers";
+
 
 import { connect } from "react-redux";
 
@@ -29,7 +29,7 @@ function SignInScreen(props) {
 
 
   var handleSubmitSignIn = async () => {
-    const response = await fetch('http://192.168.1.30:3000/sign-in', {
+    const response = await fetch('https://tripbook-lacapsule.herokuapp.com/sign-in', {
       method: 'POST',
       headers: {'Content-Type':'application/x-www-form-urlencoded'},
       body: `emailFromFront=${signInEmail}&passwordFromFront=${signInPassword}`
@@ -64,12 +64,14 @@ function SignInScreen(props) {
       style={styles.mediumLogo}
       source={require('../assets/Logo_Bleu_Trip_Book.png')}/>
       <Text style={styles.subTitle}>Se connecter</Text>
+      
       <View style={styles.inputView}>
-        <Text style= {styles. text}>Email</Text>
-          <Input onChangeText={(val)=> setSignInEmail(val)}/>
-        <Text style= {styles. text}>Mot de passe</Text>
-          <Input onChangeText={(val)=> setSignInPassword(val)}/>
+       
+          <TextInput onChangeText={(val)=> setSignInEmail(val)} placeholder="Email" style={styles.text} autoCapitalize="none"/>
+        
+          <TextInput onChangeText={(val)=> setSignInPassword(val)} placeholder="Mot de passe"style={styles.text} secureTextEntry={true} autoCapitalize="none"/>
       </View>
+      
       {tabErrorsSignIn}
       <Button
         title="Valider"
@@ -138,8 +140,9 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins_300Light",
     fontSize: 18,
     marginTop: 20,
+    marginBottom: 20,
     marginLeft: 20,
-    color: "#131256"
+    color: "#131256",
   },
 
   smallText: {
@@ -154,7 +157,7 @@ const styles = StyleSheet.create({
    backgroundColor: "rgba(255,184,31,0.15)",
    opacity: 50,
    width: 348,
-   height: 240,
+   justifyContent: 'center'
   },
 
   sendbutton: {

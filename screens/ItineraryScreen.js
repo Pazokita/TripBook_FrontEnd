@@ -109,7 +109,7 @@ const [etapesList, setEtapesList] = useState([
 <Text style={styles.text}>Etapes</Text>
 
 {etapesList.map((etape, i) => (
-  <Icon.Button backgroundColor="rgba(255,184,31,0.09)" style={{justifyContent: 'space-between', marginBottom:10}}>
+  <Icon.Button backgroundColor="rgba(255,184,31,0.09)" style={{justifyContent: 'space-between', marginBottom:10}} key={i}>
   <TextInput style={styles.paragraphe} placeholder="Ville d'étape" value={etape.ville}/>
   <View style={{flexDirection: 'row'}}>
   <AntDesign 

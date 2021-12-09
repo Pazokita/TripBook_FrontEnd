@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import { StyleSheet, View, Text, ScrollView } from "react-native";
+import { StyleSheet, View, Text, ScrollView, TextInput } from "react-native";
 
 import { Image, Button, Input } from "react-native-elements";
 
@@ -30,7 +30,7 @@ function SignUpScreen(props) {
 
 
   var handleSubmitSignUp = async () => {
-    const response = await fetch('http://192.168.1.30:3000/sign-up', {
+    const response = await fetch('https://tripbook-lacapsule.herokuapp.com/sign-up', {
     method: 'POST',
     headers: {'Content-Type':'application/x-www-form-urlencoded'},
     body: `usernameFromFront=${signUpUsername}&emailFromFront=${signUpEmail}&passwordFromFront=${signUpPassword}`
@@ -69,12 +69,9 @@ function SignUpScreen(props) {
         <Text style={styles.subTitle}>Inscription</Text>
         <Text style={styles.text}>Je m’inscris pour inviter mes co-voyageurs</Text>
         <View style={styles.inputView}>
-          <Text style= {styles.text}> Nom d'utilisateur</Text>
-            <Input onChangeText ={(val)=> setSignUpUsername(val)}/>
-          <Text style= {styles.text}>Email</Text>
-            <Input onChangeText ={(val)=> setSignUpEmail(val)}/>
-          <Text style= {styles. text}>Mot de passe</Text>
-            <Input onChangeText ={(val)=> setSignUpPassword (val)}/>
+            <TextInput onChangeText={(val)=> setSignUpUsername(val)} placeholder="Nom d'utilisateur" style= {styles.text}/>
+            <TextInput onChangeText={(val)=> setSignUpEmail(val)} placeholder="Email" style= {styles.text} autoCapitalize="none"/>
+            <TextInput onChangeText={(val)=> setSignUpPassword (val)} placeholder="Mot de passe" style= {styles.text} secureTextEntry={true} autoCapitalize="none"/>
         </View>
         {tabErrorsSignup}
         <Button
@@ -121,7 +118,8 @@ const styles = StyleSheet.create({
     fontFamily: "PlayfairDisplay_900Black",
     fontSize: 24,
     justifyContent: "center",
-    color: '#131256'
+    color: '#131256',
+    textAlign: 'center'
   },
 
   desc: {
@@ -159,6 +157,7 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins_300Light",
     fontSize: 15,
     marginTop: 20,
+    marginBottom: 20,
     marginLeft: 20,
     color: "#131256"
   },
@@ -175,7 +174,6 @@ const styles = StyleSheet.create({
    backgroundColor: "rgba(255,184,31,0.15)",
    opacity: 50,
    width: 348,
-   height: 340,
    marginTop: 20
   },
 

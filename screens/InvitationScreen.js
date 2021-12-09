@@ -72,7 +72,7 @@ export default function InvitationScreen(props) {
         title="J'organise mon voyage"
         titleStyle={styles.textbutton}
         buttonStyle={styles.sendbutton}
-        onPress={() => props.navigation.navigate('HomeScreen')}
+        onPress={() => props.navigation.navigate('SignUpScreen')}
       />
       </ScrollView>
     </View>
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
   textPetit3: {
     fontFamily: 'Poppins_300Light',
     fontSize: 18,
-    textAlign: 'left',
+    textAlign: 'center',
     color: 'white',
     marginTop: 10,
     marginBottom: 20,

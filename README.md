@@ -19,3 +19,6 @@ npm i expo-linking
 
 
 npm i @react-native-community/datetimepicker
+
+
+npm i react-redux

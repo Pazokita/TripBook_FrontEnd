@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { StyleSheet, View, Text } from "react-native";
 
 import { Image, Button, Input } from "react-native-elements";
@@ -7,6 +7,9 @@ import {useFonts, PlayfairDisplay_900Black } from '@expo-google-fonts/playfair-d
 import {Poppins_700Bold, Poppins_300Light} from '@expo-google-fonts/poppins';
 import { color } from "react-native-elements/dist/helpers";
 
+import { connect } from "react-redux";
+
+
 function SignInScreen(props) {
     useFonts({
         PlayfairDisplay_900Black,
@@ -14,6 +17,47 @@ function SignInScreen(props) {
         Poppins_300Light
     
       });
+
+  const [signInEmail, setSignInEmail] = useState(''); 
+  const [signInPassword, setSignInPassword] = useState(''); 
+
+  const [userExists, setUserExists]= useState(false);
+
+  const [listErrorsSignin, setErrorsSignin] = useState([])
+
+  
+
+
+  var handleSubmitSignIn = async () => {
+    const response = await fetch('http://192.168.1.30:3000/sign-in', {
+      method: 'POST',
+      headers: {'Content-Type':'application/x-www-form-urlencoded'},
+      body: `emailFromFront=${signInEmail}&passwordFromFront=${signInPassword}`
+    });
+    
+    const rawresponse = await response.json()
+    console.log(rawresponse)
+    
+    if(rawresponse.result === true){
+      setUserExists(true)
+      props.addToken(rawresponse.token)
+    }  else {
+      setErrorsSignin(rawresponse.error)
+    }
+  }
+
+
+  if (userExists) {
+    props.navigation.navigate('HomeScreen')
+  } else {
+    props.navigation.navigate('SignInScreen')
+  }
+
+  var tabErrorsSignIn = listErrorsSignin.map((error,i) => {
+    return(<Text style={styles.textWarning} key={i}>{error}</Text>)
+  })
+
+
   return (
     <View style={styles.container}>
       <Image 
@@ -21,18 +65,21 @@ function SignInScreen(props) {
       source={require('../assets/Logo_Bleu_Trip_Book.png')}/>
       <Text style={styles.subTitle}>Se connecter</Text>
       <View style={styles.inputView}>
-      <Text style= {styles. text}>email</Text>
-      <Input/>
-      <Text style= {styles. text}>mot de passe</Text>
-      <Input/>
+        <Text style= {styles. text}>Email</Text>
+          <Input onChangeText={(val)=> setSignInEmail(val)}/>
+        <Text style= {styles. text}>Mot de passe</Text>
+          <Input onChangeText={(val)=> setSignInPassword(val)}/>
       </View>
+      {tabErrorsSignIn}
       <Button
         title="Valider"
         titleStyle={styles.textbutton}
         buttonStyle={styles.sendbutton}
-        onPress={() => props.navigation.navigate('HomeScreen')}
+        onPress={() =>
+        handleSubmitSignIn()
+        }
       />
-      <Text style= {styles. smallText}>mot de passe oublié?</Text>
+      <Text style= {styles. smallText}>mot de passe oublié ?</Text>
     </View>
   );
 }
@@ -72,6 +119,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     color: 'white'
   },
+  textWarning : {
+    fontFamily: "PlayfairDisplay_900Black",
+    fontSize: 20,
+    marginBottom: 10,
+    justifyContent: "center",
+    color: 'red',
+    marginTop : 15
+  },
 
   textbutton: {
     fontFamily: "Poppins_700Bold",
@@ -110,4 +165,15 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SignInScreen;
+function mapDispatchToProps(dispatch){
+  return {
+    addToken: function(token){
+      dispatch({type: 'addToken', token: token})
+    }
+  }
+}
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(SignInScreen)

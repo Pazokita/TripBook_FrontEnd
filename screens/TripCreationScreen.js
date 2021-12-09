@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { StyleSheet, View, TextInput, Text } from "react-native";
 import Checkbox from 'expo-checkbox';
 
-import DatePicker from 'react-native-neat-date-picker'
-
 
 
 
@@ -63,6 +61,14 @@ function TripCreationScreen(props) {
     setEnfant(0)
   }
 ////////////
+
+// CHECKBOX //
+var enableInput = true;
+
+if(isSelected){
+  enableInput = false;
+}
+//
   
 
   return (
@@ -82,7 +88,7 @@ function TripCreationScreen(props) {
         iconStyle={styles.icon}
         
       >
-        <TextInput style={styles.textCalendar} placeholder="Date de départ" editable={false} />
+        <TextInput style={styles.textCalendar} placeholder="Date de départ" editable={enableInput} />
       </Icon.Button>
       
       <Icon.Button
@@ -90,7 +96,7 @@ function TripCreationScreen(props) {
         backgroundColor="rgba(255,184,31,0.09)"
         iconStyle={styles.icon}
         >
-        <Text style={styles.textCalendar} >Date de retour</Text>
+        <TextInput style={styles.textCalendar} placeholder="Date de retour" editable={enableInput}/>
       </Icon.Button>
 
       <View style={{flexDirection: 'row', backgroundColor: "rgba(255,184,31,0.15)", borderTopColor: '#FFB81F', borderTopWidth: 2}}>
@@ -219,8 +225,6 @@ const styles = StyleSheet.create({
     color: "#131256",
     
     padding: 10,
-    borderTopColor: "#FFB81F",
-    borderTopWidth: 2,
   },
   input3: {
     fontFamily: "Poppins_300Light",

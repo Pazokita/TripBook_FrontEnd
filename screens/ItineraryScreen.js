@@ -19,7 +19,7 @@ import {Poppins_700Bold, Poppins_300Light} from '@expo-google-fonts/poppins';
 function ItineraryScreen(props) {
   // SWITCH //
   const [isEnabled, setIsEnabled] = useState(false);
-  const [showVilleRetour, setShowVilleRetour] = useState('');
+  const [showVilleRetour, setShowVilleRetour] = useState();
 
   var inputVilleRetour = (
     <TextInput 
@@ -33,9 +33,10 @@ function ItineraryScreen(props) {
     if(isEnabled === false){
       setShowVilleRetour(inputVilleRetour)
     } else {
-      setShowVilleRetour('')
+      setShowVilleRetour()
     }
-  }
+    }
+  
   ///
 
   useFonts({
@@ -55,119 +56,88 @@ if (jour < 0) {
 // AJOUTER NOUVELLE ETAPE //
 const [etapesList, setEtapesList] = useState([])
 
-var etapeCode = (
-  <Icon.Button backgroundColor="rgba(255,184,31,0.09)">
-        <TextInput style={styles.paragraphe} placeholder="Ville d'étape"/>
-        <AntDesign 
-                          name="minuscircle" 
-                          size={30} 
-                          color="rgba(255,184,31,1)" 
-                          style={styles.iconPlus}
-                          onPress={() => setJour(jour - 1)}
-                        />
-        <Text style={styles.paragraphe}>{jour} jour(s)</Text>
-        <AntDesign 
-                          name="pluscircle" 
-                          size={30} 
-                          color="rgba(255,184,31,1)" 
-                          style={styles.iconPlus}
-                          onPress={() => setJour(jour + 1)}
-                        />
-      </Icon.Button>
-)
-
-
-const nouvelleEtape = (etape) => {
-  var etape = etapeCode
-  setEtapesList(...etapesList + etape)
-}
-
 //
 
   return (
     <View style={styles.container}>
         
-          <Image
-              style={styles.bigLogo}
-              source={require('../assets/Logo_Bleu_Trip_Book.png')}
-              alignItems= "center"
-          />
-          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-            <TextInput style={styles.text} value='Voyage au Japon'/>
-            <MaterialCommunityIcons 
-              name="pencil" 
-              size={24} 
-              style={styles.iconCrayon}
-            />
-          </View>
-        
-        <ScrollView style={styles.scrolling}>
-          <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{flex : 1, backgroundColor:'white'}}>
-                      <TextInput 
-                        style={styles.input} 
-                        placeholder="Ville départ"
-                      />
-                      
-                      <View style={styles.viewSwitch}>
-                        <Switch 
-                          value={isEnabled} 
-                          color='#131256'
-                          onValueChange={toggleSwitch}
-                        /> 
-                        <Text style={styles.paragraphe}>Ville de départ différente de la ville de retour</Text>
-                      </View>
-
-                      {showVilleRetour}
-
-      <Text style={styles.text}>Etapes</Text>
-      {etapesList.map((etape, i) => (
-        <Icon.Button backgroundColor="rgba(255,184,31,0.09)" key={i}>
-        <TextInput style={styles.paragraphe} placeholder="Ville d'étape"/>
-        <AntDesign 
-                          name="minuscircle" 
-                          size={30} 
-                          color="rgba(255,184,31,1)" 
-                          style={styles.iconPlus}
-                          onPress={() => setJour(jour - 1)}
-                        />
-        <Text style={styles.paragraphe}>{jour} jour(s)</Text>
-        <AntDesign 
-                          name="pluscircle" 
-                          size={30} 
-                          color="rgba(255,184,31,1)" 
-                          style={styles.iconPlus}
-                          onPress={() => setJour(jour + 1)}
-                        />
-      </Icon.Button>
-      ))}
-      
-    
-      
-             
-
-            
-              <View style={styles.viewAjouterEtape}>
-                <AntDesign 
-                  name="pluscircle" 
-                  size={40} 
-                  color="#131256"
-                  onPress={() => nouvelleEtape()}
-                />
-                <Text style={styles.textAjouterEtape}>Ajouter une étape au voyage</Text>
-              </View> 
-              
-            
-            <Button
-          title="J'invite mes covoyageurs"
-          titleStyle={styles.textbutton}
-          buttonStyle={styles.sendbutton}
-          onPress={() => props.navigation.navigate("InvitationScreen")}
+    <Image
+        style={styles.bigLogo}
+        source={require('../assets/Logo_Bleu_Trip_Book.png')}
+        alignItems= "center"
+    />
+      <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+        <TextInput style={styles.text} value='Voyage au Japon'/>
+        <MaterialCommunityIcons 
+        name="pencil" 
+        size={24} 
+        style={styles.iconCrayon}
         />
-        </KeyboardAvoidingView>
-        </ScrollView>
-       
-    </View>
+      </View>
+    <ScrollView>
+  
+                <TextInput 
+                  style={styles.input} 
+                  placeholder="Ville départ"
+                />
+                
+                <View style={styles.viewSwitch}>
+                  <Switch 
+                    value={isEnabled} 
+                    color='#131256'
+                    onValueChange={toggleSwitch}
+                  /> 
+                  <Text style={styles.paragraphe}>Ville de départ différente de la ville de retour</Text>
+                </View>
 
+                {showVilleRetour} 
+
+<Text style={styles.text}>Etapes</Text>
+
+<Icon.Button backgroundColor="rgba(255,184,31,0.09)" style={{justifyContent: 'space-between'}}>
+<TextInput style={styles.paragraphe} placeholder="Ville d'étape"/>
+<View style={{flexDirection: 'row'}}>
+<AntDesign 
+                  name="minuscircle" 
+                  size={30} 
+                  color="rgba(255,184,31,1)" 
+                  style={styles.iconPlus}
+                  onPress={() => setJour(jour - 1)}
+                />
+<Text style={styles.paragraphe}>{jour} jour(s)</Text>
+<AntDesign 
+                  name="pluscircle" 
+                  size={30} 
+                  color="rgba(255,184,31,1)" 
+                  style={styles.iconPlus}
+                  onPress={() => setJour(jour + 1)}
+                />
+</View>
+</Icon.Button>
+
+
+        <View style={styles.viewAjouterEtape}>
+          <AntDesign 
+            name="pluscircle" 
+            size={40} 
+            color="#131256"
+            
+          />
+          <Text style={styles.textAjouterEtape}>Ajouter une étape au voyage</Text>
+        </View> 
+        
+      
+      <Button
+    title="J'invite mes covoyageurs"
+    titleStyle={styles.textbutton}
+    buttonStyle={styles.sendbutton}
+    onPress={() => props.navigation.navigate("InvitationScreen")}
+  />
+
+</ScrollView>
+
+ 
+</View>
   );
 }
 
@@ -175,9 +145,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
-    padding: 50,
-    backgroundColor: 'white'
+    paddingTop: 50,
+    backgroundColor: 'white', 
   },
   header : {
     marginTop: 0, 
@@ -221,12 +190,10 @@ const styles = StyleSheet.create({
   },
 
   viewSwitch : {
-    display:'flex', 
     flexDirection:'row', 
     marginBottom:15, 
-    marginLeft:10, 
     marginTop:5,
-    justifyContent: 'space-around'
+    justifyContent: 'center'
   },
   
   textDepartDiffArrivee : {
@@ -357,12 +324,11 @@ iconCrayon: {
 },
 paragraphe: {
   fontFamily: "Poppins_300Light",
-  fontSize: 18,
-  justifyContent: "center",
+  fontSize: 15,
   color: "#131256",
+  alignSelf: 'center'
 },
 
 });
 
 export default ItineraryScreen;
-

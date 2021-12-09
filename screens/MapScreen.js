@@ -1,66 +1,12 @@
-<<<<<<< HEAD
-import React from "react";
-import { StyleSheet, View, Text } from "react-native";
-
-import { Image } from "react-native-elements";
-=======
 import React, {useState} from "react";
 import { StyleSheet, View, Text, Modal, Pressable} from "react-native";
 
 import { Image, Button, Input} from "react-native-elements";
->>>>>>> HomeMap
 
 import {useFonts, PlayfairDisplay_900Black } from '@expo-google-fonts/playfair-display';
 import {Poppins_700Bold, Poppins_300Light} from '@expo-google-fonts/poppins';
 
 
-<<<<<<< HEAD
-function MapScreen() {
-  useFonts({
-    PlayfairDisplay_900Black,
-    Poppins_700Bold,
-    Poppins_300Light
-
-  });
-  return (
-    <View style={styles.container}>
-    <Text style={styles.textTitle}>MapScreen</Text>
-    <Image
-      style={styles.bigLogo}
-      source={require('../assets/Logo_Bleu_Trip_Book.png')}
-    />
-     
-  </View>
-    
-  );
-}
-
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      alignItems: "center",
-      justifyContent: "center",
-      padding: 50,
-      backgroundColor: 'white',
-      
-      
-    },
-    bigLogo: {
-      width: 257,
-      height: 236,
-    },
-    textTitle: {
-      fontFamily: "PlayfairDisplay_900Black",
-      fontSize: 30,
-      justifyContent: "center",
-      color: "#FFB81F",
-      marginTop: 20,
-      alignItems: "center",
-      marginBottom: 40 
-    }
-  });
-
-=======
 import MapView from 'react-native-maps';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
@@ -234,5 +180,4 @@ const styles = StyleSheet.create({
     
   }, 
 })
->>>>>>> HomeMap
 export default MapScreen;

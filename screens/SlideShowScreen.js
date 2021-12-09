@@ -25,12 +25,6 @@ function SlideShowScreen(props) {
 
 <Text style={styles.text}>Comment ça marche ?</Text>
       <Text style={styles.textPetit} >Envie de partir en voyage entre ami.e.s ? TripBook est la solution pour s'organiser !</Text>
-      <Button
-        title="J'organise mon premier voyage"
-        titleStyle={styles.textbutton}
-        buttonStyle={styles.sendbutton}
-        onPress={() => props.navigation.navigate('TripCreationScreen')}
-      />
 <View style={{flexDirection: 'row'}}>
      <ScrollView
         horizontal={true}

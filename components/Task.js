@@ -10,44 +10,48 @@ import Icon from "react-native-vector-icons/FontAwesome";
 
 function Task({ task, DeleteTask }) {
 
-    const handleDelete = id => {
+    const handleDelete = titre => {
         // console.log('eliminando....', id);
-        DeleteTask(id)
+        DeleteTask(titre)
     }
+    console.log (task)
   return (
     <View>
+      {task.map((item, i) =>(
+        
+     
       <View style={styles.task}>
         <Text style={styles.textTitre}>Titre :</Text>
         <Text multiline={true} style={styles.textTask}>
-          {task.titre}
+          {item.titre}
         </Text>
         <Text style={styles.textTitre}>Description :</Text>
         <Text multiline={true} style={styles.textTask}>
-          {task.description}
+          {item.description}
         </Text>
         <Text style={styles.textTitre}>Personne en charge :</Text>
         <Text multiline={true} style={styles.textTask}>
-          {task.personneEnCharge}
+          {item.assignation}
         </Text>
         <Text style={styles.textTitre}>Deadline :</Text>
         <Text multiline={true} style={styles.textTask}>
-          {task.deadLine}
+          {item.deadLine}
         </Text>
         <Text style={styles.textTitre}>Etat :</Text>
         <Text multiline={true} style={styles.textTask}>
-          {task.état}
+          {item.etat}
         </Text>
         
         <TouchableHighlight
           style={styles.btn}
-          onPress={() => handleDelete(task.id)}
+          onPress={() => handleDelete(item.titre)}
         >
-            <Text style={styles.textbtn}>Eliminer la tache</Text>
+            <Text style={styles.textbtn}>Eliminer la tâche</Text>
           
         </TouchableHighlight>
      
       </View>
-      
+       ))}
     </View>
   );
 }

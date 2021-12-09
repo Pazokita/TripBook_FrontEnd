@@ -18,7 +18,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 
 function Addtask({ task, setTask, setShowFormTask }) {
   const [titre, setTitre] = useState("");
-  const [descrition, setDescription] = useState("");
+  const [description, setDescription] = useState("");
 
   const [assignation, setassignation] = useState("");
   const [deadline, setDeadline] = useState("");
@@ -76,13 +76,13 @@ function Addtask({ task, setTask, setShowFormTask }) {
     //    }
 
     //creer une tâche
-    const tasks = { titre, descrition, assignation, etat };
+    const tasks = { titre, description, assignation, etat };
     console.log(tasks)
     //ajouter le state
     const newTask = [...task, tasks];
     setTask(newTask);
     //oculter le formulaire
-  //setShowFormTask(false);
+    setShowFormTask(false);
    //reset form
   };
   

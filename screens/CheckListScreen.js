@@ -4,7 +4,6 @@ import {
   View,
   Text, 
   Keyboard,
-  FlatList,
   ScrollView,
   TouchableHighlight,
   TouchableWithoutFeedback,
@@ -26,37 +25,37 @@ import { Poppins_700Bold, Poppins_300Light } from "@expo-google-fonts/poppins";
 function CheckListScreen() {
   const [showFormTask, setShowFormTask] = useState(false);
   const [task, setTask] = useState([
-    {
-      id: "1",
-      titre: "visa",
-      description: "recherche visa",
-      personneEnCharge: "Anna",
-      deadLine: "3 juin 2022",
-      état: "fait",
-    },
-    {
-      id: "2",
-      titre: "visite",
-      description: "recherche visite",
-      personneEnCharge: "Juliette",
-      deadLine: "3 juin 2022",
-      état: "en cours",
-    },
-    {
-      id: "3",
-      titre: "diner",
-      description: "recherche diner",
-      personneEnCharge: "Gabriel",
-      deadLine: "3 juin 2022",
-      état: "à faire",
-    },
+    // {
+    //   id: "1",
+    //   titre: "visa",
+    //   description: "recherche visa",
+    //   personneEnCharge: "Anna",
+    //   deadLine: "3 juin 2022",
+    //   état: "fait",
+    // },
+    // {
+    //   id: "2",
+    //   titre: "visite",
+    //   description: "recherche visite",
+    //   personneEnCharge: "Juliette",
+    //   deadLine: "3 juin 2022",
+    //   état: "en cours",
+    // },
+    // {
+    //   id: "3",
+    //   titre: "diner",
+    //   description: "recherche diner",
+    //   personneEnCharge: "Gabriel",
+    //   deadLine: "3 juin 2022",
+    //   état: "à faire",
+    // },
   ]);
 
 
 //eliminer les tâches
-  const DeleteTask = (id) => {
+  const DeleteTask = (titre) => {
     setTask((taskactuelles) => {
-      return taskactuelles.filter((task) => task.id !== id);
+      return taskactuelles.filter((task) => task.titre !== titre);
     });
   };
 
@@ -70,12 +69,15 @@ function CheckListScreen() {
     Poppins_700Bold,
     Poppins_300Light,
   });
+
   //fermer clavier
   const fermerClavier = () => {
     Keyboard.dismiss();
   };
   return (
     <TouchableWithoutFeedback onPress={() => fermerClavier()}>
+      
+      {/* en-tête */}
       <View style={styles.container}>
         <Image
           style={styles.Logo}
@@ -94,6 +96,8 @@ function CheckListScreen() {
           <Text style={styles.textChecklist}>CheckList</Text>
         </View>
 
+
+        <ScrollView>
         <View style={styles.containerTask}>
           <TouchableHighlight style={styles.btnAdd} onPress={() => ShowForm()}>
             <Text style={styles.textbtn}>Ajoute une tâche</Text>
@@ -104,21 +108,24 @@ function CheckListScreen() {
               setTask={setTask}
               setShowFormTask={setShowFormTask}
             />
-          ) : (
+           ) : ( 
             <>
               {/* Liste de taches */}
               <Text style={styles.notask}>
                 {task.length > 0 ? "" : "Pas de tâches en cours"}
               </Text>
-              <FlatList
+              {/* <FlatList
                 data={task}
                 renderItem={({ item }) => (
                   <Task task={item} DeleteTask={DeleteTask} />
                 )}
-              />
+              /> */}
+              <Task task={task} DeleteTask={DeleteTask} />
             </>
-          )}
+           )} 
+         
         </View>
+        </ScrollView>
       </View>
       </TouchableWithoutFeedback>
   );
@@ -154,30 +161,20 @@ const styles = StyleSheet.create({
     color: "#FFB81F",
     marginTop: 30,
     alignItems: "center",
-    marginBottom: 10,
   },
   textChecklist: {
     fontFamily: "PlayfairDisplay_900Black",
-    fontSize: 48,
+    fontSize: 30,
     justifyContent: "center",
     color: "#131256",
-    marginRight: 20,
+    marginRight: 70,
   },
   icon: {
     color: "#131256",
   },
 
-  text: {
-    fontFamily: "PlayfairDisplay_900Black",
-    fontSize: 30,
-    justifyContent: "center",
-    color: "#FFB81F",
-    marginTop: 30,
-    alignItems: "center",
-    marginBottom: 40,
-  },
   containerTask: {
-    padding: 20,
+    padding: 10,
     backgroundColor: "rgba(255,184,31,0.09) ",
   },
   containerAdd: {

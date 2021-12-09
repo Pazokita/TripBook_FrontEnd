@@ -23,7 +23,14 @@
     "@react-navigation/native": "^6.0.6",
     "@react-navigation/stack": "^6.0.11",
     "expo": "~43.0.2",
+<<<<<<< HEAD
     "expo-font": "~10.0.3",
+=======
+    "expo-checkbox": "~2.0.0",
+    "expo-font": "~10.0.3",
+    "expo-location": "~13.0.4",
+    "expo-permissions": "~13.0.3",
+>>>>>>> HomeMap
     "expo-status-bar": "~1.1.0",
     "react": "17.0.1",
     "react-dom": "17.0.1",
@@ -32,6 +39,10 @@
     "react-native-gesture-handler": "~1.10.2",
     "react-native-image-slider": "^2.0.3",
     "react-native-image-slider-box": "^1.1.11",
+<<<<<<< HEAD
+=======
+    "react-native-maps": "0.28.1",
+>>>>>>> HomeMap
     "react-native-reanimated": "~2.2.0",
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.8.0",
@@ -39,7 +50,13 @@
     "react-native-snap-carousel": "^3.9.1",
     "react-native-svg": "^12.1.1",
     "react-native-vector-icons": "^9.0.0",
+<<<<<<< HEAD
     "react-native-web": "0.17.1"
+=======
+    "react-native-web": "0.17.1",
+    "expo-clipboard": "~2.0.3",
+    "expo-linking": "~2.4.2"
+>>>>>>> HomeMap
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

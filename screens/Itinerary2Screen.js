@@ -1,180 +1,307 @@
-import React, { useState } from "react";
-import { StyleSheet, View, Text, TextInput } from "react-native";
+import React, {useState} from "react";
 
-import { Image, Button } from "react-native-elements";
+import { StyleSheet, View, Text, TextInput, KeyboardAvoidingView, ScrollView , Platform} from "react-native";
+import { Input, Button, CheckBox, Card, Switch, Divider, Badge } from 'react-native-elements'
+
+
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
+
+
+import { Image } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
 
-import {
-  useFonts,
-  PlayfairDisplay_900Black,
-} from "@expo-google-fonts/playfair-display";
-import { Poppins_700Bold, Poppins_300Light } from "@expo-google-fonts/poppins";
+import {useFonts, PlayfairDisplay_900Black } from '@expo-google-fonts/playfair-display';
+import {Poppins_700Bold, Poppins_300Light} from '@expo-google-fonts/poppins';
 
 
 
 function Itinerary2Screen(props) {
-    const [count, setCount] = useState(0);
+  // SWITCH //
+  const [isEnabled, setIsEnabled] = useState(false);
+  const [showVilleRetour, setShowVilleRetour] = useState();
 
-    useFonts({
+  var inputVilleRetour = (
+    <TextInput 
+      style={styles.input} 
+      placeholder="Ville de retour"
+      onChangeText={(value) => setVilleRetour(value)}
+      value={villeRetour}
+      />
+  )
+
+  const toggleSwitch = () => {
+    setIsEnabled(previousState => !previousState);
+    if(isEnabled === false){
+      setShowVilleRetour(inputVilleRetour)
+    } else {
+      setShowVilleRetour()
+    }
+    }
+  
+  ///
+
+  useFonts({
     PlayfairDisplay_900Black,
     Poppins_700Bold,
-    Poppins_300Light,
+    Poppins_300Light
   });
+
+  // NOMBRE JOURS //
+const [jour, setJour] = useState(0)
+
+if (jour < 0) {
+  setJour(0)
+}
+//
+
+// AJOUTER NOUVELLE ETAPE //
+const [etapeVille, setEtapeVille] = useState('');
+const [villeDepart, setVilleDepart] = useState('');
+const [villeRetour, setVilleRetour] = useState('');
+
+var etapesList = [
+  {
+    ville: 'Rouen',
+    jours: 3,
+  },
+  {
+    ville: 'Bordeaux',
+    jours: 2,
+  },
+  {
+    ville: 'Paris',
+    jours: 1,
+  },
+];
+
+const addEtape = () => {
+  
+}
+  
+
+//
+
   return (
     <View style={styles.container}>
-      <Image
-        style={styles.Logo}
-        source={require("../assets/Logo_Bleu_Trip_Book_No_Planet.png")}
-        onPress={() => props.navigation.navigate('HomeScreen')}
-      />
-      <View style={styles.containerTitle}>
-        <Text style={styles.textTitle}>Japon/10 jours</Text>
+        
+    <Image
+        style={styles.bigLogo}
+        source={require('../assets/Logo_Bleu_Trip_Book.png')}
+        alignItems= "center"
+    />
+      <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+        <TextInput style={styles.text} value='Voyage au Japon'/>
+        <MaterialCommunityIcons 
+        name="pencil" 
+        size={24} 
+        style={styles.iconCrayon}
+        />
       </View>
-      <Text style={styles.textEtapes}>Ville de départ</Text>
+    <ScrollView>
+  
+                <TextInput 
+                  style={styles.input} 
+                  placeholder="Ville départ"
+                  onChangeText={(value) => setVilleDepart(value)}
+                  value={villeDepart}
+                />
+                
+                <View style={styles.viewSwitch}>
+                  <Switch 
+                    value={isEnabled} 
+                    color='#131256'
+                    onValueChange={toggleSwitch}
+                  /> 
+                  <Text style={styles.paragraphe}>Ville de départ différente de la ville de retour</Text>
+                </View>
 
-      <TextInput style={styles.input} value="Paris" />
+                {showVilleRetour} 
+
+<Text style={styles.text}>Etapes</Text>
+
+{etapesList.map((etape, i) => (
+  <Icon.Button backgroundColor="rgba(255,184,31,0.09)" style={{justifyContent: 'space-between', marginBottom:10}} key={i}>
+  <TextInput style={styles.paragraphe} placeholder="Ville d'étape" value={etapeVille} onChangeText={(value) => setEtapeVille(value)}/>
+  <View style={{flexDirection: 'row'}}>
+  <AntDesign 
+                    name="minuscircle" 
+                    size={30} 
+                    color="rgba(255,184,31,1)" 
+                    style={styles.iconPlus}
+                    onPress={() =>  {etape.jours -1}}
+                  />
+  <Text style={styles.paragraphe}>{etape.jours} jour(s)</Text>
+  <AntDesign 
+                    name="pluscircle" 
+                    size={30} 
+                    color="rgba(255,184,31,1)" 
+                    style={styles.iconPlus}
+                    onPress={() => + 1}
+                  />
+  </View>
+  </Icon.Button>
+))}
 
 
-      <Text style={styles.textEtapes}>Etapes</Text>
-      <Icon.Button backgroundColor="rgba(255,184,31,0.09) ">
-        <Text style={styles.textVoyageur}>Tokyo</Text>
-        <Icon
-          name="plus-circle"
-          backgroundColor="rgba(255,184,31,0.09)"
-          iconStyle={styles.icon}
-          size={20}
-          onPress={() => setCount(count + 1)}
-        ></Icon>
-        <Text style={styles.textButtomNumber}>{count} jrs</Text>
-        <Icon
-          name="minus-circle"
-          backgroundColor="rgba(255,184,31,0.09)"
-          iconStyle={styles.icon}
-          size={20} 
-          onPress={() => setCount(count - 1)}
-        ></Icon>
-      </Icon.Button>
-      <Icon.Button backgroundColor="rgba(255,184,31,0.09) ">
-        <Text style={styles.textVoyageur}>Tokyo</Text>
-        <Icon
-          name="plus-circle"
-          backgroundColor="rgba(255,184,31,0.09)"
-          iconStyle={styles.icon}
-          size={20}
-          onPress={() => setCount(count + 1)}
-        ></Icon>
-        <Text style={styles.textButtomNumber}>{count} jrs</Text>
-        <Icon
-          name="minus-circle"
-          backgroundColor="rgba(255,184,31,0.09)"
-          iconStyle={styles.icon}
-          size={20} 
-          onPress={() => setCount(count - 1)}
-        ></Icon>
-      </Icon.Button>
-      <Icon.Button backgroundColor="rgba(255,184,31,0.09) ">
-        <Text style={styles.textVoyageur}>Tokyo</Text>
-        <Icon
-          name="plus-circle"
-          backgroundColor="rgba(255,184,31,0.09)"
-          iconStyle={styles.icon}
-          size={20}
-          onPress={() => setCount(count + 1)}
-        ></Icon>
-        <Text style={styles.textButtomNumber}>{count} jrs</Text>
-        <Icon
-          name="minus-circle"
-          backgroundColor="rgba(255,184,31,0.09)"
-          iconStyle={styles.icon}
-          size={20} 
-          onPress={() => setCount(count - 1)}
-        ></Icon>
-      </Icon.Button>
-    </View>
+
+        <View style={styles.viewAjouterEtape}>
+          <AntDesign 
+            name="pluscircle" 
+            size={40} 
+            color="#131256"
+            onPress={() => addEtape()}
+          />
+          <Text style={styles.textAjouterEtape}>Ajouter une étape au voyage</Text>
+        </View> 
+        
+      
+      <Button
+    title="J'invite mes covoyageurs"
+    titleStyle={styles.textbutton}
+    buttonStyle={styles.sendbutton}
+    onPress={() => props.navigation.navigate("InvitationScreen")}
+  />
+
+</ScrollView>
+
+ 
+</View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
-    backgroundColor: "white",
+    alignItems: "center",
+    paddingTop: 50,
+    backgroundColor: 'white', 
+  },
+  header : {
+    marginTop: 0, 
+    justifyContent:'center', 
+    alignItems:"center"
+  },
+  bigLogo: {
+    width: 100,
+    height: 92,
+    justifyContent: 'flex-start',
+    marginBottom: 30
+  },
+  scrolling: {
+    flex:1, 
+    marginTop: 0, 
+    marginLeft:10, 
+    marginRight:10
+  },
+  inputStyle : {
+    borderBottomColor:'orange', 
+    marginTop:5, 
+    marginBottom:0, 
+    marginLeft:10, 
+    paddingLeft:10
+    },
+  inputStyleContainer : {
+    borderBottomWidth:0
+  },
+  viewSwitch : {
+    flexDirection:'row', 
+    marginBottom:15, 
+    marginTop:5,
+    justifyContent: 'center'
+  },
+ 
+  iconPlus : {
+    margin:10, 
   },
 
-  Logo: {
-    marginLeft: 20,
-    marginTop: 20,
-    width: 79,
-    height: 50,
+ 
+
+  viewAjouterEtape : {
+    backgroundColor:'white', 
+    alignItems:'center', 
+    marginTop:20,
+    marginBottom: 20,
   },
-  containerTitle: {
-    justifyContent: "center",
-    alignItems: "center",
+  textAjouterEtape : {
+    color:'#131256', 
+    fontSize:20, 
+    fontFamily: 'Poppins_300Light',
+    marginTop: 10,
   },
-  textTitle: {
-    fontFamily: "PlayfairDisplay_900Black",
+
+  buttonValider : {
+    backgroundColor: '#FFB81F',height:50, borderRadius:10
+  },
+  validerStyle : {
+    marginBottom:40, marginLeft:15, marginRight:15
+  },
+   text: {
+    fontFamily: 'PlayfairDisplay_900Black',
     fontSize: 30,
     justifyContent: "center",
-    color: "#FFB81F",
-    marginTop: 20,
-    alignItems: "center",
+    color: '#131256',
+    marginTop : 15,
+    marginBottom : 10,
+    textAlign: 'center',
   },
-  textEtapes: {
-    fontFamily: "PlayfairDisplay_900Black",
+  textSur: {
+    fontFamily: 'PlayfairDisplay_900Black',
     fontSize: 24,
-    color: "#131256",
-    marginVertical: 10
+    justifyContent: "center",
+    color: 'white',
+    marginBottom: 0
+  },
+  textPetit: {
+    fontFamily: 'Poppins_300Light',
+    fontSize: 24,
+    alignItems: 'center',
+    justifyContent: "center",
+    color: 'white',
+    marginTop: 30
+  },
+  textPetit2: {
+    fontFamily: 'Poppins_300Light',
+    fontSize: 24,
+    alignItems: 'center',
+    justifyContent: "center",
+    color: 'white',
+    marginBottom: 30
+  },
+  textbutton: {
+    fontFamily: "Poppins_700Bold",
+    fontSize: 18,
+    color: "white",
+  }, 
+  sendbutton: {
+    backgroundColor: "#FFB81F",
+    width: 346,
+    alignSelf: 'center'
   },
   input: {
     fontFamily: "Poppins_300Light",
     fontSize: 18,
     justifyContent: "center",
     color: "#131256",
-   
     backgroundColor: "rgba(255,184,31,0.15)",
     padding: 10,
     borderBottomColor: "#FFB81F",
     borderBottomWidth: 2,
+    marginBottom: 10,
   },
-  icon: {
-    color: "#FFB81F",
-  },
- 
-  textbutton: {
-    fontFamily: "Poppins_700Bold",
-    fontSize: 18,
-    color: "white",
-  }, 
-  textPetit2: {
-    fontFamily: "PlayfairDisplay_900Black",
-    fontSize: 24,
-    alignItems: "center",
-    justifyContent: "center",
-    color: "white",
-    marginBottom: 30,
-  },
-  textVoyageur: {
-    fontFamily: "Poppins_300Light",
-    fontSize: 18,
-    color: "#131256",
-    paddingRight:150
+iconCrayon: {
+  alignSelf: 'center',
+  color: "#131256",
+  marginLeft: 10
 
-  },
-  textButtomNumber:{
-    fontFamily: "Poppins_300Light",
-    fontSize: 18,
-    color: "#131256",
-    paddingHorizontal: 10
-  },
-  textbutton: {
-    fontFamily: "Poppins_700Bold",
-    fontSize: 18,
-    color: "white",
-  },
-  sendbutton: {
-    backgroundColor: "#FFB81F",
-    width: 346,
-  },
+},
+paragraphe: {
+  fontFamily: "Poppins_300Light",
+  fontSize: 15,
+  color: "#131256",
+  alignSelf: 'center',
+},
+
 });
 
 export default Itinerary2Screen;

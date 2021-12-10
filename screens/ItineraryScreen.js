@@ -25,6 +25,8 @@ function ItineraryScreen(props) {
     <TextInput 
       style={styles.input} 
       placeholder="Ville de retour"
+      onChangeText={(value) => setVilleRetour(value)}
+      value={villeRetour}
       />
   )
 
@@ -54,8 +56,11 @@ if (jour < 0) {
 //
 
 // AJOUTER NOUVELLE ETAPE //
+const [etapeVille, setEtapeVille] = useState('');
+const [villeDepart, setVilleDepart] = useState('');
+const [villeRetour, setVilleRetour] = useState('');
 
-const [etapesList, setEtapesList] = useState([
+var etapesList = [
   {
     ville: 'Rouen',
     jours: 3,
@@ -68,7 +73,12 @@ const [etapesList, setEtapesList] = useState([
     ville: 'Paris',
     jours: 1,
   },
-]);
+];
+
+const addEtape = () => {
+  
+}
+  
 
 //
 
@@ -93,6 +103,8 @@ const [etapesList, setEtapesList] = useState([
                 <TextInput 
                   style={styles.input} 
                   placeholder="Ville départ"
+                  onChangeText={(value) => setVilleDepart(value)}
+                  value={villeDepart}
                 />
                 
                 <View style={styles.viewSwitch}>
@@ -110,7 +122,7 @@ const [etapesList, setEtapesList] = useState([
 
 {etapesList.map((etape, i) => (
   <Icon.Button backgroundColor="rgba(255,184,31,0.09)" style={{justifyContent: 'space-between', marginBottom:10}} key={i}>
-  <TextInput style={styles.paragraphe} placeholder="Ville d'étape" value={etape.ville}/>
+  <TextInput style={styles.paragraphe} placeholder="Ville d'étape" value={etapeVille} onChangeText={(value) => setEtapeVille(value)}/>
   <View style={{flexDirection: 'row'}}>
   <AntDesign 
                     name="minuscircle" 
@@ -138,7 +150,7 @@ const [etapesList, setEtapesList] = useState([
             name="pluscircle" 
             size={40} 
             color="#131256"
-            
+            onPress={() => addEtape()}
           />
           <Text style={styles.textAjouterEtape}>Ajouter une étape au voyage</Text>
         </View> 

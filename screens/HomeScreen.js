@@ -1,4 +1,5 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
+import {connect} from 'react-redux';
 import { StyleSheet, View, Text, Modal, Pressable} from "react-native";
 
 import { Image, Button } from "react-native-elements";
@@ -22,6 +23,26 @@ function HomeScreen(props) {
 
       const [modalUserVisible, setModalUserVisible] = useState(false);
       const [modalBellVisible, setModalBellVisible] = useState(false);
+
+      // FETCH HOMESCREEN //
+      const [userName, setUserName] = useState('');
+      const [tripList, setTripList] = useState([]);
+
+
+      useEffect(() => {
+        async function loadData() {
+          var rawresponse = await fetch('https://tripbook-lacapsule.herokuapp.com/homescreen', {
+            method: 'POST',
+            headers: {'Content-Type':'application/x-www-form-urlencoded'},
+            body: `token=${props.token}`
+          });
+          var response = await rawresponse.json();
+          console.log(response);
+          setUserName(response.username);
+          
+        }
+        loadData();
+      }, [])
 
      
 
@@ -88,7 +109,7 @@ function HomeScreen(props) {
       style={styles.mediumLogo}
       source={require('../assets/Logo_Bleu_Trip_Book.png')}/>
 
-      <Text style={styles.subTitle}>Bienvenue [User]</Text>
+      <Text style={styles.subTitle}>Bienvenue {userName}</Text>
 
       <Button
         title="Nouveau Voyage"
@@ -244,4 +265,12 @@ const styles = StyleSheet.create({
 
 });
 
-export default HomeScreen;
+function mapStateToProps(state){
+  return {
+    token : state.token
+  }
+}
+
+export default connect (
+  mapStateToProps, null
+)(HomeScreen);

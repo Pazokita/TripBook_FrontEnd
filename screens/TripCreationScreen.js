@@ -3,11 +3,7 @@ import { StyleSheet, View, TextInput, Text, ScrollView } from "react-native";
 import Checkbox from 'expo-checkbox';
 
 
-
-
-
-
-import { Image, Button } from "react-native-elements";
+import { Image, Button, Overlay } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { AntDesign } from '@expo/vector-icons';
 import {
@@ -15,40 +11,37 @@ import {
   PlayfairDisplay_900Black,
 } from "@expo-google-fonts/playfair-display";
 import { Poppins_700Bold, Poppins_300Light } from "@expo-google-fonts/poppins";
+import Calendar from "react-native-calendar-range-picker";
 
 
 function TripCreationScreen(props) {
-  const [adulte, setAdulte] = useState(0);
-  const [enfant, setEnfant] = useState(0);
-  const [isSelected, setSelection] = useState(false);
+
   useFonts({
     PlayfairDisplay_900Black,
     Poppins_700Bold,
     Poppins_300Light,
   });
 
-  // DATE TIME PICKER DEPART //
-  const [showDatePicker, setShowDatePicker] = useState(false)
+  const [adulte, setAdulte] = useState(0);
+  const [enfant, setEnfant] = useState(0);
+  const [isSelected, setSelection] = useState(false);
 
-  const openDatePicker = () => {
-    setShowDatePicker(true)
+  const [visible, setVisible] = useState(false);
+
+  const [startingDate, setStartingDate] = useState();
+  const [endingDate, setEndingDate] = useState();
+  
+  // AFFICHER OVERLAY
+  const toggleOverlay = () => {
+      setVisible(!visible);
+  };
+
+  const savingDate = ({startDate, endDate}) => {
+    console.log({ startDate, endDate })
+    setStartingDate(startDate)
+    setEndingDate(endDate)
   }
 
-  const onCancel = () => {
-    // You should close the modal in here
-    setShowDatePicker(false)
-  }
-
-  const onConfirm = ( date ) => {
-    // You should close the modal in here
-    setShowDatePicker(false)
-    
-    // The parameter 'date' is a Date object so that you can use any Date prototype method.
-    console.log(date.getDate())
-  }
-  //////
-
-  // DATE TIME PICKER RETOUR //
   
   //////
 
@@ -63,11 +56,23 @@ function TripCreationScreen(props) {
 ////////////
 
 // CHECKBOX //
-var enableInput = true;
+const [enable, setEnable]  = useState(false);
 
-if(isSelected){
-  enableInput = false;
+const deleteDates = () => {
+  setSelection(!isSelected)
+  console.log(isSelected)
+  if(isSelected === false){
+    setStartingDate()
+    setEndingDate()
+    setEnable(true)
+  } else {
+    setStartingDate(startingDate)
+    setEndingDate(endingDate)
+    setEnable(false)
+  }
 }
+
+
 //
   
 
@@ -88,21 +93,51 @@ if(isSelected){
         name="calendar"
         backgroundColor="rgba(255,184,31,0.09)"
         iconStyle={styles.icon}
-        
+        onPress={toggleOverlay}
+        disabled={enable}
       >
-        <TextInput style={styles.textCalendar} placeholder="Date de départ" editable={enableInput} />
+      <Text style={styles.textCalendar}>Date de départ : {startingDate}</Text>
+
       </Icon.Button>
+        <Overlay isVisible={visible} onBackdropPress={toggleOverlay} overlayStyle = {{width : "90%", height : "70%"}}>
+            <Calendar
+                startDate="2021-12-08"
+                endDate="2021-12-08"
+                onChange={({startDate, endDate}) => savingDate({startDate, endDate})}
+                style={{ 
+                    container: {backgroundColor:'rgba(255,184,31,1)'},
+                    monthContainer: {},
+                    weekContainer:{},
+                    monthNameText: {},
+                    dayNameText: {},
+                    dayText: {},
+                    dayTextColor: '#131256',
+                    holidayColor: 'rgba(100,100,254,0.30)',
+                    todayColor: 'rgba(255,184,31,1)',
+                    disabledTextColor: 'black',
+                    selectedDayTextColor: 'rgba(255,184,31,1)',
+                    selectedDayBackgroundColor: '#131256',
+                    selectedBetweenDayTextColor: 'rgba(255,184,31,1)',
+                    selectedBetweenDayBackgroundTextColor: '#131256',
+                }}
+            />
+            <Button title ="Valider"
+                buttonStyle={{backgroundColor: '#FFB81F',height:"40%", width: "100%", borderRadius:10, marginTop:"10%"}}
+                onPress={toggleOverlay}   
+            />
+        </Overlay>
+      
       
       <Icon.Button
         name="calendar"
         backgroundColor="rgba(255,184,31,0.09)"
         iconStyle={styles.icon}
         >
-        <TextInput style={styles.textCalendar} placeholder="Date de retour" editable={enableInput}/>
+        <Text style={styles.textCalendar}>Date de retour : {endingDate}</Text>
       </Icon.Button>
 
       <View style={{flexDirection: 'row', backgroundColor: "rgba(255,184,31,0.15)", borderTopColor: '#FFB81F', borderTopWidth: 2}}>
-        <Checkbox value={isSelected} onValueChange={setSelection} style={styles.checkbox} color={isSelected ? '#131256' : undefined}/>
+        <Checkbox value={isSelected} onValueChange={()=> deleteDates()} style={styles.checkbox} color={isSelected ? '#131256' : undefined}/>
         <Text style={styles.input2}>Pas encore de dates</Text>
       </View>
       

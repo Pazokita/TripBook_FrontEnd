@@ -5,51 +5,54 @@ import {
   Text,
   TextInput,
   TouchableHighlight,
-  Button,
   ScrollView,
   
 } from "react-native";
+import { Image, Button, Overlay } from "react-native-elements";
+import Icon from "react-native-vector-icons/FontAwesome";
+
 import {
   useFonts,
   PlayfairDisplay_900Black,
 } from "@expo-google-fonts/playfair-display";
 import { Poppins_700Bold, Poppins_300Light } from "@expo-google-fonts/poppins";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import Calendar from "react-native-calendar-range-picker";
+
 
 function Addtask({ task, setTask, setShowFormTask }) {
   const [titre, setTitre] = useState("");
   const [description, setDescription] = useState("");
 
   const [assignation, setassignation] = useState("");
-  const [deadline, setDeadline] = useState("");
+  //const [deadline, setDeadline] = useState("");
   const [etat, setEtat] = useState("");
 
-  const [date, setDate] = useState(new Date(1598051730000));
-  const [mode, setMode] = useState("date");
-  const [show, setShow] = useState(false);
+  //const [mode, setMode] = useState("date");
+  //const [show, setShow] = useState(false);
 
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setShow(Platform.OS === "ios");
-    setDate(currentDate);
-  };
+  //const onChange = (event, selectedDate) => {
+  //  const currentDate = selectedDate || date;
+  //  setShow(Platform.OS === "ios");
+  //  setDate(currentDate);
+  //};
 
-  const showMode = (currentMode) => {
-    setShow(true);
-    setMode(currentMode);
-  };
+  //const showMode = (currentMode) => {
+  //  setShow(true);
+  //  setMode(currentMode);
+  //};
 
-  const showDatepicker = () => {
-    showMode("date");
-  };
-  const hideDatePicker = () => {
-    setShow(false);
-  };
-  const confirmerDate = (date) => {
-    const opcions = { year: "numeric", month: "long", day: "2-digit" };
-    setDeadline(date.toLocaleDateString("es-ES", opcions));
-    hideDatePicker();
-  };
+  //const showDatepicker = () => {
+  //  showMode("date");
+  //};
+  //const hideDatePicker = () => {
+  //  setShow(false);
+  //};
+  //const confirmerDate = (date) => {
+  //   const opcions = { year: "numeric", month: "long", day: "2-digit" };
+  //  setDeadline(date.toLocaleDateString("es-ES", opcions));
+  //  hideDatePicker();
+  //};
   //Ajouter une tâche
   const addNewTask = () => {
     //validation ds champs
@@ -87,6 +90,36 @@ function Addtask({ task, setTask, setShowFormTask }) {
   };
   
 
+  //SAVE DATE
+
+  //Ajd
+  var today = new Date();
+  var jour = today.getDate()
+  var mois = 0
+  if (today.getMonth() === 11) {
+    mois = 12
+  } else {
+    mois = today.getMonth() + 1;
+  }
+  var annee = today.getFullYear();
+  var fullDay = `${annee}-${mois}-${jour}`
+
+  //Save Date Limite
+  const [date, setDate] = useState(fullDay);
+
+  const [limitDate, setLimitDate] = useState();
+  const [visible, setVisible] = useState(false);
+
+  const savingDate = (date) => {
+    console.log(date)
+    setLimitDate(date)
+  }
+
+  const toggleOverlay = () => {
+    setVisible(!visible);
+};
+  
+
  
 
 
@@ -112,27 +145,43 @@ function Addtask({ task, setTask, setShowFormTask }) {
             onChangeText={(texte) => setassignation(texte)}
           ></TextInput>
 
-          <View>
-            <Text style={styles.textTitre}>Deadline :</Text>
-            <View>
-              <Button onPress={showDatepicker} title="Show date picker!" />
-            </View>
+      <Icon.Button
+        name="calendar"
+        backgroundColor="rgba(255,184,31,0.09)"
+        iconStyle={styles.icon}
+        onPress={toggleOverlay}
+      >
+      <Text style={styles.textCalendar}>Date de limite : {limitDate}</Text>
 
-            {show && (
-              <DateTimePicker
-                testID="dateTimePicker"
-                value={date}
-                mode={mode}
-                is24Hour={true}
-                display="default"
-                onChange={onChange}
-                onConfirm={confirmerDate}
-                onCancel={hideDatePicker}
-              />
-            )}
-
-            <Text>{deadline}</Text>
-          </View>
+      </Icon.Button>
+        <Overlay isVisible={visible} onBackdropPress={toggleOverlay} overlayStyle = {{width : "90%", height : "70%"}}>
+            <Calendar
+                disabledBeforeToday	= "true"
+                startDate={date}
+                singleSelectMode
+                onChange={(date) => savingDate(date)}                
+                style={{ 
+                    container: {backgroundColor:'rgba(255,184,31,1)'},
+                    monthContainer: {},
+                    weekContainer:{},
+                    monthNameText: {},
+                    dayNameText: {},
+                    dayText: {},
+                    dayTextColor: '#131256',
+                    holidayColor: 'rgba(100,100,254,0.30)',
+                    todayColor: 'rgba(255,184,31,1)',
+                    disabledTextColor: 'black',
+                    selectedDayTextColor: 'rgba(255,184,31,1)',
+                    selectedDayBackgroundColor: '#131256',
+                    selectedBetweenDayTextColor: 'rgba(255,184,31,1)',
+                    selectedBetweenDayBackgroundTextColor: '#131256',
+                }}
+            />
+            <Button title ="Valider"
+                buttonStyle={{backgroundColor: '#FFB81F',height:"40%", width: "100%", borderRadius:10, marginTop:"10%"}}
+                onPress={toggleOverlay}   
+            />
+        </Overlay>
 
           <Text style={styles.textTitre}>Etat :</Text>
           <TextInput
@@ -185,6 +234,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFB81F",
     borderRadius: 2,
     marginTop: 20,
+  },
+  icon: {
+    color: "#131256",
+  },
+  textCalendar: {
+    fontFamily: "Poppins_300Light",
+    fontSize: 18,
+    color: "#131256",
   },
 });
 export default Addtask;

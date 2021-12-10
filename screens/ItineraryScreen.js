@@ -300,6 +300,7 @@ paragraphe: {
   fontSize: 15,
   color: "#131256",
   alignSelf: 'center',
+  
 },
 
 });

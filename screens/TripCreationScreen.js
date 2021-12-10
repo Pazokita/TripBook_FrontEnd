@@ -28,8 +28,8 @@ function TripCreationScreen(props) {
 
   const [visible, setVisible] = useState(false);
 
-  const [startingDate, setStartingDate] = useState();
-  const [endingDate, setEndingDate] = useState();
+  const [startingDate, setStartingDate] = useState(fullDay);
+  const [endingDate, setEndingDate] = useState(fullDay);
   
   // AFFICHER OVERLAY
   const toggleOverlay = () => {
@@ -41,6 +41,18 @@ function TripCreationScreen(props) {
     setStartingDate(startDate)
     setEndingDate(endDate)
   }
+  
+  //Ajd
+  var today = new Date();
+  var jour = today.getDate()
+  var mois = 0
+  if (today.getMonth() === 11) {
+    mois = 12
+  } else {
+    mois = today.getMonth() +1;
+  }
+  var annee = today.getFullYear();
+  var fullDay = `${annee}-${mois}-${jour}`
 
   
   //////
@@ -101,8 +113,9 @@ const deleteDates = () => {
       </Icon.Button>
         <Overlay isVisible={visible} onBackdropPress={toggleOverlay} overlayStyle = {{width : "90%", height : "70%"}}>
             <Calendar
-                startDate="2021-12-08"
-                endDate="2021-12-08"
+                disabledBeforeToday	= "true"
+                startDate={startingDate}
+                endDate={endingDate}
                 onChange={({startDate, endDate}) => savingDate({startDate, endDate})}
                 style={{ 
                     container: {backgroundColor:'rgba(255,184,31,1)'},

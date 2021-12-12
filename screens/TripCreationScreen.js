@@ -100,7 +100,7 @@ var handleNewTrip = async () => {
 
   const body = await response.json();
   console.log(body)
-  props.navigation.navigate("ItineraryScreen")
+  props.navigation.navigate("Itinerary2Screen")
 
 }
   

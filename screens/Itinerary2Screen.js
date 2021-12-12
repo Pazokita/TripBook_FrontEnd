@@ -1,11 +1,14 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 
-import { StyleSheet, View, Text, TextInput, KeyboardAvoidingView, ScrollView , Platform} from "react-native";
+import { StyleSheet, View, Text, TextInput, KeyboardAvoidingView, ScrollView , Modal, Pressable} from "react-native";
 import { Input, Button, CheckBox, Card, Switch, Divider, Badge } from 'react-native-elements'
 
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
+
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import {faTimesCircle, faUser, faBell} from "@fortawesome/free-solid-svg-icons"
 
 
 import { Image } from "react-native-elements";
@@ -13,11 +16,38 @@ import Icon from "react-native-vector-icons/FontAwesome";
 
 import {useFonts, PlayfairDisplay_900Black } from '@expo-google-fonts/playfair-display';
 import {Poppins_700Bold, Poppins_300Light} from '@expo-google-fonts/poppins';
+import { connect } from "react-redux";
 
 
 
 function Itinerary2Screen(props) {
-  // SWITCH //
+
+const [villeDepart, setVilleDepart] = useState('');
+const [villeRetour, setVilleRetour] = useState('');
+const [tripName, setTripName] = useState('');
+const [etapesList, setEtapesList] = useState([]);
+const [modalUserVisible, setModalUserVisible] = useState(false);
+const [modalBellVisible, setModalBellVisible] = useState(false);
+
+
+// AFFICHAGE INFOS VOYAGE //
+
+  useEffect(() => {
+    async function voyageDataFromBack() {
+      var rawresponse = await fetch('https://tripbook-lacapsule.herokuapp.com/itinerary', {
+       method: 'POST',
+       headers: {'Content-Type':'application/x-www-form-urlencoded'},
+       body: `voyageId=${props.voyageID}&villeDepartFromFront=${villeDepart}&villeRetourFromFront=${villeRetour}`
+      })
+      var response = await rawresponse.json();
+      setTripName(response.trip.tripName)
+      setEtapesList(response.trip.etapes)
+      }
+      voyageDataFromBack();
+  }, [villeDepart, villeRetour, etapesList])
+  
+
+// SWITCH //
   const [isEnabled, setIsEnabled] = useState(false);
   const [showVilleRetour, setShowVilleRetour] = useState();
 
@@ -39,7 +69,7 @@ function Itinerary2Screen(props) {
     }
     }
   
-  ///
+///
 
   useFonts({
     PlayfairDisplay_900Black,
@@ -47,7 +77,7 @@ function Itinerary2Screen(props) {
     Poppins_300Light
   });
 
-  // NOMBRE JOURS //
+// NOMBRE JOURS //
 const [jour, setJour] = useState(0)
 
 if (jour < 0) {
@@ -57,41 +87,101 @@ if (jour < 0) {
 
 // AJOUTER NOUVELLE ETAPE //
 const [etapeVille, setEtapeVille] = useState('');
-const [villeDepart, setVilleDepart] = useState('');
-const [villeRetour, setVilleRetour] = useState('');
 
-var etapesList = [
-  {
-    ville: 'Rouen',
-    jours: 3,
-  },
-  {
-    ville: 'Bordeaux',
-    jours: 2,
-  },
-  {
-    ville: 'Paris',
-    jours: 1,
-  },
-];
-
-const addEtape = () => {
+const addEtape = async() => {
+  console.log('click detecté')
+  var rawresponse = await fetch('https://tripbook-lacapsule.herokuapp.com/addetape', {
+    method: 'POST',
+    headers: {'Content-Type':'application/x-www-form-urlencoded'},
+    body: `voyageId=${props.voyageID}&villeEtapeFromFront=${etapeVille}&dureeFromFront=${jour}`
+   })
+   var response = await rawresponse.json();
+   setEtapesList(response.tripEtapes)
+   setEtapeVille('')
+   setJour(0)
+   }
   
+// SUPPRIMER ETAPE //
+const handleDeleteEtape = async(etapeID) => {
+  console.log('click détecté')
+  var rawresponse = await fetch('https://tripbook-lacapsule.herokuapp.com/deleteetape', {
+    method: 'POST',
+    headers: {'Content-Type':'application/x-www-form-urlencoded'},
+    body: `etapeIDFromFront=${etapeID}&voyageID=${props.voyageID}`
+  })
+  setEtapesList(etapesList)
 }
-  
-
-//
 
   return (
     <View style={styles.container}>
-        
-    <Image
+       
+      <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '95%'}}>
+        <Image
         style={styles.bigLogo}
-        source={require('../assets/Logo_Bleu_Trip_Book.png')}
-        alignItems= "center"
+        source={require("../assets/Logo_Bleu_Trip_Book_No_Planet.png")}
+        onPress={() => props.navigation.navigate('HomeScreen')}
     />
+    <View style={{flexDirection: 'row'}}>
+          <Button 
+          icon={<FontAwesomeIcon icon={faUser} style={styles.icon} size={25} />}
+          type={"clear"}
+          onPress={() => setModalUserVisible(true) }
+          />
+          
+            <Button
+            icon={<FontAwesomeIcon icon={faBell} style={styles.icon} size={25} />}
+            type={"clear"}
+            onPress={() => setModalBellVisible(true)}
+          />
+        </View>
+          
+        </View>
+       <Modal
+          transparent={true}
+          visible={modalBellVisible}
+          >
+            <View style={{backgroundColor:"#131256aa", flex:1}}>
+              <View style={{backgroundColor:"#FFB81Faa", margin:50, padding:40, borderRadius:10}}>
+                <Text style={styles.textBell}>Blabla</Text>
+                <Pressable
+                style={styles.smallPressable}
+                onPress={() => setModalBellVisible(false)}
+                >
+                  <Text style={styles.textbutton}>Fermer</Text>
+                </Pressable>
+                </View>
+                </View>
+                </Modal>       
+       <Modal
+          transparent={true}
+          visible={modalUserVisible}
+          >
+            <View style={{backgroundColor:"#131256aa", flex:1}}>
+              <View style={{backgroundColor:"#FFB81Faa", margin:50, padding:40, borderRadius:10}}>
+                <Pressable
+                style={styles.pressable}
+                onPress={() => props.navigation.navigate('FirstScreen')}
+                >
+                <Text style={styles.textbutton}>Deconnexion</Text>
+                </Pressable>
+                <Pressable 
+                style={styles.pressable}
+                onPress={() => props.navigation.navigate('FirstScreen')}
+                >
+                <Text style={styles.textbutton}>Paramètres</Text>
+                </Pressable>
+                <Pressable
+                style={styles.smallPressable}
+                onPress={() => setModalUserVisible(false)}
+                >
+                  <Text style={styles.textbutton}>Fermer</Text>
+                </Pressable>
+                </View>
+                </View>
+                </Modal> 
+    
       <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-        <TextInput style={styles.text} value='Voyage au Japon'/>
+        <TextInput style={styles.text} value={tripName}/>
         <MaterialCommunityIcons 
         name="pencil" 
         size={24} 
@@ -119,9 +209,30 @@ const addEtape = () => {
                 {showVilleRetour} 
 
 <Text style={styles.text}>Etapes</Text>
-
 {etapesList.map((etape, i) => (
-  <Icon.Button backgroundColor="rgba(255,184,31,0.09)" style={{justifyContent: 'space-between', marginBottom:10}} key={i}>
+  <View backgroundColor="rgba(255,184,31,0.09)" style={styles.ville} key={i}>
+    <FontAwesomeIcon icon={faTimesCircle} style={styles.icon} size={25} onPress={() => handleDeleteEtape(etape._id)}/>
+  <TextInput style={styles.paragraphe} placeholder="Ville d'étape" value={etape.ville} onChangeText={(value) => setEtapeVille(value)}/>
+  <View style={{flexDirection: 'row'}}>
+  <AntDesign 
+                    name="minuscircle" 
+                    size={30} 
+                    color="rgba(255,184,31,1)" 
+                    style={styles.iconPlus}
+                    onPress={() =>  {etape.duree -1}}
+                  />
+  <Text style={styles.paragraphe}>{etape.duree} jour(s)</Text>
+  <AntDesign 
+                    name="pluscircle" 
+                    size={30} 
+                    color="rgba(255,184,31,1)" 
+                    style={styles.iconPlus}
+                    onPress={() => {etape.duree +1}}
+                  />
+  </View>
+  </View>
+))}
+<View backgroundColor="rgba(255,184,31,0.09)" style={styles.ville} >
   <TextInput style={styles.paragraphe} placeholder="Ville d'étape" value={etapeVille} onChangeText={(value) => setEtapeVille(value)}/>
   <View style={{flexDirection: 'row'}}>
   <AntDesign 
@@ -129,19 +240,20 @@ const addEtape = () => {
                     size={30} 
                     color="rgba(255,184,31,1)" 
                     style={styles.iconPlus}
-                    onPress={() =>  {etape.jours -1}}
+                    onPress={() =>  setJour(jour -1)}
                   />
-  <Text style={styles.paragraphe}>{etape.jours} jour(s)</Text>
+  <Text style={styles.paragraphe}>{jour} jour(s)</Text>
   <AntDesign 
                     name="pluscircle" 
                     size={30} 
                     color="rgba(255,184,31,1)" 
                     style={styles.iconPlus}
-                    onPress={() => + 1}
+                    onPress={() => setJour(jour +1)}
                   />
   </View>
-  </Icon.Button>
-))}
+  </View>
+
+
 
 
 
@@ -177,20 +289,14 @@ const styles = StyleSheet.create({
     paddingTop: 50,
     backgroundColor: 'white', 
   },
-  header : {
-    marginTop: 0, 
-    justifyContent:'center', 
-    alignItems:"center"
-  },
   bigLogo: {
-    width: 100,
-    height: 92,
-    justifyContent: 'flex-start',
-    marginBottom: 30
+    marginLeft: 20,
+    width: 79,
+    height: 50,
+    resizeMode: 'cover'
   },
   scrolling: {
     flex:1, 
-    marginTop: 0, 
     marginLeft:10, 
     marginRight:10
   },
@@ -214,7 +320,10 @@ const styles = StyleSheet.create({
   iconPlus : {
     margin:10, 
   },
-
+  icon: {
+    color:"#131256",
+    alignSelf: 'center',
+  },
  
 
   viewAjouterEtape : {
@@ -244,13 +353,6 @@ const styles = StyleSheet.create({
     marginTop : 15,
     marginBottom : 10,
     textAlign: 'center',
-  },
-  textSur: {
-    fontFamily: 'PlayfairDisplay_900Black',
-    fontSize: 24,
-    justifyContent: "center",
-    color: 'white',
-    marginBottom: 0
   },
   textPetit: {
     fontFamily: 'Poppins_300Light',
@@ -301,7 +403,58 @@ paragraphe: {
   color: "#131256",
   alignSelf: 'center',
 },
+ville: {
+  flexDirection: 'row', 
+  justifyContent: 'space-between',
+  backgroundColor: 'rgba(255,184,31,0.15)',
+  marginTop: 15,
+  marginBottom: 3,
+  padding: 10,
+  borderRadius: 20,
+},
+iconView: {
+  flexDirection: "row",
+  marginTop:20,
+  justifyContent: 'space-between'
+},
+pressable:{
+  width: 250,
+  height:56,
+  backgroundColor: "#131256",
+  alignSelf: "center",
+  marginTop: 20,
+  justifyContent: 'center',
+  
+},
+
+smallPressable: {
+  alignSelf: 'center',
+  width: 80,
+  height:40,
+  backgroundColor: "#FFB81F",
+  marginTop: 10,
+  justifyContent: 'center',
+},
+textBell : {
+  fontFamily: "Poppins_300Light",
+  fontSize: 15,
+  color: "#131256",
+  justifyContent: "flex-start",
+  alignSelf: 'center'
+},
+
+textbutton: {
+  fontFamily: "Poppins_700Bold",
+  fontSize: 18,
+  color: "white",
+  alignSelf:"center",
+  
+}, 
 
 });
 
-export default Itinerary2Screen;
+function mapStateToProps(state){
+  return { voyageID: state.voyageID}
+}
+
+export default connect(mapStateToProps, null)(Itinerary2Screen);

@@ -8,8 +8,8 @@ import {useFonts, PlayfairDisplay_900Black } from '@expo-google-fonts/playfair-d
 import {Poppins_700Bold, Poppins_300Light} from '@expo-google-fonts/poppins';
 
 
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faUser, faBell} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faUser, faBell, faTimesCircle} from "@fortawesome/free-solid-svg-icons";
 
 
 
@@ -20,14 +20,13 @@ function HomeScreen(props) {
         Poppins_300Light
     
       });
-
+// BOUTONS PROFIL ET NOTIF //
       const [modalUserVisible, setModalUserVisible] = useState(false);
       const [modalBellVisible, setModalBellVisible] = useState(false);
 
-      // FETCH HOMESCREEN //
+// CHARGEMENT DES VOYAGES ET DU USERNAME //
       const [userName, setUserName] = useState('');
       const [tripList, setTripList] = useState([]);
-
 
       useEffect(() => {
         async function loadData() {
@@ -37,15 +36,27 @@ function HomeScreen(props) {
             body: `token=${props.token}`
           });
           var response = await rawresponse.json();
-          console.log('response voyages', response.voyages);
           setUserName(response.username); 
           setTripList(response.voyages);
-          console.log('triplist',tripList)
-        }  
-        loadData() 
-      }, [])
+        } 
+        loadData();
+      }, [tripList])
 
-     
+// SUPPRESSION D'UN VOYAGE //
+  const handleDeleteTrip = async(voyageID) => {
+    var rawresponse = await fetch('https://tripbook-lacapsule.herokuapp.com/deletetrip', {
+      method: 'POST',
+      headers: {'Content-Type':'application/x-www-form-urlencoded'},
+      body: `idTripFromFront=${voyageID}`
+    })
+    setTripList(tripList)
+  }
+
+// REDUCER DE L'ID DU VOYAGE //
+const handleTripDetails = (voyageID) => {
+  props.voyageIdReducer(voyageID);
+  props.navigation.navigate('Nav')
+}
 
   return (
     
@@ -119,14 +130,16 @@ function HomeScreen(props) {
         onPress={() => props.navigation.navigate('TripCreationScreen')}
       />
 
+
       {tripList.map((voyage,i) => (
         <View style={styles.ville} key={i}>
+          <FontAwesomeIcon icon={faTimesCircle} style={styles.icon} size={25} onPress={() => handleDeleteTrip(voyage._id)}/>
         <Text style= {styles.text2}>{voyage.tripName}</Text>
         <Button
           title="Voir"
           titleStyle={styles.textbutton}
           buttonStyle={styles.smallbutton2}
-          onPress={() => props.navigation.navigate('Nav')}
+          onPress={() => handleTripDetails(voyage._id)}
         />
         </View>
       ))}
@@ -145,6 +158,7 @@ const styles = StyleSheet.create({
 
   icon: {
     color:"#131256",
+    alignSelf: 'center'
   },
 
   iconView: {
@@ -245,6 +259,14 @@ function mapStateToProps(state){
   }
 }
 
+function mapDispatchToProps(dispatch){
+  return {
+    voyageIdReducer: function(voyageID) {
+      dispatch({type: 'voyageID', voyageID: voyageID})
+    }
+  }
+}
+
 export default connect (
-  mapStateToProps, null
+  mapStateToProps, mapDispatchToProps
 )(HomeScreen);

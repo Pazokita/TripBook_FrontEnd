@@ -31,17 +31,18 @@ function HomeScreen(props) {
 
       useEffect(() => {
         async function loadData() {
-          var rawresponse = await fetch('https://tripbook-lacapsule.herokuapp.com/homescreen', {
+          var rawresponse = await fetch('https://tripbook-lacapsule.herokuapp.com/home', {
             method: 'POST',
             headers: {'Content-Type':'application/x-www-form-urlencoded'},
             body: `token=${props.token}`
           });
           var response = await rawresponse.json();
-          console.log(response);
-          setUserName(response.username);
-          
-        }
-        loadData();
+          console.log('response voyages', response.voyages);
+          setUserName(response.username); 
+          setTripList(response.voyages);
+          console.log('triplist',tripList)
+        }  
+        loadData() 
       }, [])
 
      
@@ -118,44 +119,17 @@ function HomeScreen(props) {
         onPress={() => props.navigation.navigate('TripCreationScreen')}
       />
 
-
-      <View style={styles.ville}>
-      <Text style= {styles.text2}>Paris</Text>
-      <Button
-        title="Voir"
-        titleStyle={styles.textbutton}
-        buttonStyle={styles.smallbutton2}
-        onPress={() => props.navigation.navigate('InvitationScreen')}
-      />
-      </View>
-
-      <View style={styles.ville}>
-      <Text style= {styles.text2}>Seoul</Text>
-      <Button
-        title="Voir"
-        titleStyle={styles.textbutton}
-        buttonStyle={styles.smallbutton2}
-        onPress={() => props.navigation.navigate('InvitationScreen')}
-      />
-      </View>
-
-      <View style={styles.ville}>
-      <Text style= {styles.text2}>Tokyo</Text>
-      <Button
-        title="Voir"
-        titleStyle={styles.textbutton}
-        buttonStyle={styles.smallbutton2}
-        onPress={() => props.navigation.navigate('InvitationScreen')}
-      />
-      </View>
-
-      
-      <Button
-        title="J'organise mon premier voyage"
-        titleStyle={styles.textbutton}
-        buttonStyle={styles.sendbutton}
-        onPress={() => props.navigation.navigate('Nav')}
-      />
+      {tripList.map((voyage,i) => (
+        <View style={styles.ville} key={i}>
+        <Text style= {styles.text2}>{voyage.tripName}</Text>
+        <Button
+          title="Voir"
+          titleStyle={styles.textbutton}
+          buttonStyle={styles.smallbutton2}
+          onPress={() => props.navigation.navigate('Nav')}
+        />
+        </View>
+      ))}
     </View>
 )
 }

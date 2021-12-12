@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import {connect} from 'react-redux';
 import { StyleSheet, View, TextInput, Text, ScrollView } from "react-native";
 import Checkbox from 'expo-checkbox';
 
@@ -86,6 +87,22 @@ const deleteDates = () => {
 
 
 //
+
+// ADD NEW TRIP BACKEND //
+const [tripName, setTripName] = useState('')
+
+var handleNewTrip = async () => {
+  const response = await fetch('https://tripbook-lacapsule.herokuapp.com/newtrip', {
+  method: 'POST',
+  headers: {'Content-Type':'application/x-www-form-urlencoded'},
+  body: `tripNamefromFront=${tripName}&dateDepartFromFront=${startingDate}&dateRetourFromFront=${endingDate}&token=${props.token}&adultesFromFront=${adulte}&enfantsFromFront=${enfant}`
+ })
+
+  const body = await response.json();
+  console.log(body)
+  props.navigation.navigate("ItineraryScreen")
+
+}
   
 
   return (
@@ -98,7 +115,7 @@ const deleteDates = () => {
       <ScrollView style = {{flex : 1}}>
       <View>
         <Text style={styles.text}>Nom du voyage</Text>
-        <TextInput style={styles.input} placeholder="Voyage au Japon" />
+        <TextInput style={styles.input} placeholder="Voyage au Japon" onChangeText={(val)=> setTripName(val)}/>
 
       <Text style={styles.text}>Dates du départ et de retour</Text>
       <Icon.Button
@@ -200,7 +217,7 @@ const deleteDates = () => {
           title="Je passe à l'étape suivante"
           titleStyle={styles.textButtom}
           buttonStyle={styles.sendbutton}
-          onPress={() => props.navigation.navigate("ItineraryScreen")}
+          onPress={() => handleNewTrip()}
         />
       </View>
       </ScrollView>
@@ -324,4 +341,12 @@ const styles = StyleSheet.create({
   }
 });
 
-export default TripCreationScreen;
+function mapStateToProps(state){
+  return {
+    token : state.token
+  }
+}
+
+export default connect (
+  mapStateToProps, null
+)(TripCreationScreen);

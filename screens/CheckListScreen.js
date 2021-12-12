@@ -114,12 +114,7 @@ function CheckListScreen() {
               <Text style={styles.notask}>
                 {task.length > 0 ? "" : "Pas de tâches en cours"}
               </Text>
-              {/* <FlatList
-                data={task}
-                renderItem={({ item }) => (
-                  <Task task={item} DeleteTask={DeleteTask} />
-                )}
-              /> */}
+          
               <Task task={task} DeleteTask={DeleteTask} />
             </>
            )} 

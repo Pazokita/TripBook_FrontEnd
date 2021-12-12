@@ -17,31 +17,10 @@ import {Poppins_700Bold, Poppins_300Light} from '@expo-google-fonts/poppins';
 
 
 function Itinerary2Screen(props) {
-  // SWITCH //
-  const [isEnabled, setIsEnabled] = useState(false);
-  const [showVilleRetour, setShowVilleRetour] = useState();
-
-  var inputVilleRetour = (
-    <TextInput 
-      style={styles.input} 
-      placeholder="Ville de retour"
-      onChangeText={(value) => setVilleRetour(value)}
-      value={villeRetour}
-      />
-  )
-
-  const toggleSwitch = () => {
-    setIsEnabled(previousState => !previousState);
-    if(isEnabled === false){
-      setShowVilleRetour(inputVilleRetour)
-    } else {
-      setShowVilleRetour()
-    }
-    }
+    const [count, setCount] = useState(0);
   
-  ///
-
-  useFonts({
+  
+    useFonts({
     PlayfairDisplay_900Black,
     Poppins_700Bold,
     Poppins_300Light
@@ -249,8 +228,11 @@ const styles = StyleSheet.create({
     fontFamily: 'PlayfairDisplay_900Black',
     fontSize: 24,
     justifyContent: "center",
-    color: 'white',
-    marginBottom: 0
+    color: "#131256",
+    backgroundColor: "rgba(255,184,31,0.15)",
+    padding: 10,
+    borderBottomColor: "#FFB81F",
+    borderBottomWidth: 2,
   },
   textPetit: {
     fontFamily: 'Poppins_300Light',

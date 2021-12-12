@@ -14,7 +14,8 @@ import { Poppins_700Bold, Poppins_300Light } from "@expo-google-fonts/poppins";
 
 function Itinerary2Screen(props) {
     const [count, setCount] = useState(0);
-
+  
+  
     useFonts({
     PlayfairDisplay_900Black,
     Poppins_700Bold,
@@ -130,7 +131,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     justifyContent: "center",
     color: "#131256",
-   
     backgroundColor: "rgba(255,184,31,0.15)",
     padding: 10,
     borderBottomColor: "#FFB81F",

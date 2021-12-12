@@ -38,7 +38,7 @@ function HomeScreen(props) {
           var response = await rawresponse.json();
           setUserName(response.username); 
           setTripList(response.voyages);
-        } 
+        }
         loadData();
       }, [tripList])
 

@@ -25,3 +25,6 @@ npm i react-redux
 
 
 npm i react-native-calendar-range-picker
+
+
+npm i react-native-email-link

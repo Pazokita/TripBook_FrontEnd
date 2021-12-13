@@ -32,6 +32,12 @@ function SlideShowScreen(props) {
         buttonStyle={styles.sendbutton}
         onPress={() => props.navigation.navigate('TripCreationScreen')}
       />
+      <Button
+        title="chat"
+        titleStyle={styles.textbutton}
+        buttonStyle={styles.sendbutton}
+        onPress={() => props.navigation.navigate('ChatScreen')}
+      />
       <ScrollView horizontal={true}
         indicatorStyle={"white"}
         style={{flexDirection: 'row'}}

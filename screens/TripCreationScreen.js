@@ -73,7 +73,6 @@ const [enable, setEnable]  = useState(false);
 
 const deleteDates = () => {
   setSelection(!isSelected)
-  console.log(isSelected)
   if(isSelected === false){
     setStartingDate()
     setEndingDate()
@@ -100,7 +99,9 @@ var handleNewTrip = async () => {
 
   const body = await response.json();
   console.log(body)
-  props.navigation.navigate("ItineraryScreen")
+  // REDUCER DE L'ID DU VOYAGE //
+  props.voyageIdReducer(body.tripID);
+  props.navigation.navigate("Itinerary2Screen")
 
 }
   
@@ -111,6 +112,7 @@ var handleNewTrip = async () => {
       <Image
         style={styles.bigLogo}
         source={require('../assets/Logo_Bleu_Trip_Book.png')}
+        onPress={() => props.navigation.navigate('HomeScreen')}
       />
       <ScrollView style = {{flex : 1}}>
       <View>
@@ -347,6 +349,14 @@ function mapStateToProps(state){
   }
 }
 
+function mapDispatchToProps(dispatch){
+  return {
+    voyageIdReducer: function(voyageID) {
+      dispatch({type: 'voyageID', voyageID: voyageID})
+    }
+  }
+}
+
 export default connect (
-  mapStateToProps, null
+  mapStateToProps, mapDispatchToProps
 )(TripCreationScreen);

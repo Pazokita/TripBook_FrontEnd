@@ -69,10 +69,10 @@ export default function InvitationScreen(props) {
         </TouchableOpacity>
     </View>
     <Button
-        title="J'organise mon voyage"
+        title="Je retourne à mes voyages"
         titleStyle={styles.textbutton}
         buttonStyle={styles.sendbutton}
-        onPress={() => props.navigation.navigate('SignUpScreen')}
+        onPress={() => props.navigation.navigate('HomeScreen')}
       />
       </ScrollView>
     </View>

@@ -30,7 +30,7 @@ function SlideShowScreen(props) {
         title="J'organise mon premier voyage"
         titleStyle={styles.textbutton}
         buttonStyle={styles.sendbutton}
-        onPress={() => props.navigation.navigate('TripCreationScreen')}
+        onPress={() => props.navigation.navigate('SignUpScreen')}
       />
       <ScrollView horizontal={true}
         indicatorStyle={"white"}

@@ -229,7 +229,7 @@ const handleDeleteEtape = async(etapeID) => {
                   onChangeText={(value) => setVilleDepart(value)}
                   defaultValue={villeDepart}
                   onFocus={() => setCheck(true)}
-                ><Button title='valider'/></TextInput>
+                ></TextInput>
                 {check === true ? <Button title={'Valider'} buttonStyle={{backgroundColor: '#131256'}} titleStyle={{fontFamily: 'Poppins_300Light'}} onPress={() => addVilleDepart()}/> : null}
             </View>
                 <View style={styles.viewSwitch}>
@@ -241,7 +241,7 @@ const handleDeleteEtape = async(etapeID) => {
                   <Text style={styles.paragraphe}>Ville de départ différente de la ville de retour</Text>
                 </View>
 
-                {isEnabled === true ? inputVilleRetour : null} 
+                {isEnabled === true ? inputVilleRetour : null}
 
 <Text style={styles.text}>Etapes</Text>
 {etapesList.map((etape, i) => (

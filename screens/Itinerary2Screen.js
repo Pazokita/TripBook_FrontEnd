@@ -64,6 +64,7 @@ const addVilleDepart = async() => {
   })
   var response = await rawresponse.json();
   console.log('reponse route add ville depart : ', response)
+  props.villeDepartReducer(response.villeDepart)
   
 }
 
@@ -226,8 +227,7 @@ const handleDeleteEtape = async(etapeID) => {
                   style={styles.paragraphe}
                   placeholder="Ville de départ"
                   onChangeText={(value) => setVilleDepart(value)}
-                  value={villeDepart}
-                  defaultValue={props.villeDepart}
+                  defaultValue={villeDepart}
                   onFocus={() => setCheck(true)}
                 ><Button title='valider'/></TextInput>
                 {check === true ? <Button title={'Valider'} buttonStyle={{backgroundColor: '#131256'}} titleStyle={{fontFamily: 'Poppins_300Light'}} onPress={() => addVilleDepart()}/> : null}

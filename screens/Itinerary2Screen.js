@@ -8,7 +8,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import {faTimesCircle, faUser, faBell} from "@fortawesome/free-solid-svg-icons"
+import {faTimesCircle, faUser, faBell, faCheckCircle} from "@fortawesome/free-solid-svg-icons"
 
 
 import { Image } from "react-native-elements";
@@ -17,17 +17,21 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import {useFonts, PlayfairDisplay_900Black } from '@expo-google-fonts/playfair-display';
 import {Poppins_700Bold, Poppins_300Light} from '@expo-google-fonts/poppins';
 import { connect } from "react-redux";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 
 
 function Itinerary2Screen(props) {
 
-const [villeDepart, setVilleDepart] = useState('');
+const [villeDepart, setVilleDepart] = useState(props.villeDepart);
 const [villeRetour, setVilleRetour] = useState('');
-const [tripName, setTripName] = useState('');
+const [tripName, setTripName] = useState(props.voyagesList.tripName);
 const [etapesList, setEtapesList] = useState([]);
 const [modalUserVisible, setModalUserVisible] = useState(false);
 const [modalBellVisible, setModalBellVisible] = useState(false);
+const [check, setCheck] = useState(false)
+const [check2, setCheck2] = useState(false)
+
 
 
 // AFFICHAGE INFOS VOYAGE //
@@ -37,36 +41,64 @@ const [modalBellVisible, setModalBellVisible] = useState(false);
       var rawresponse = await fetch('https://tripbook-lacapsule.herokuapp.com/itinerary', {
        method: 'POST',
        headers: {'Content-Type':'application/x-www-form-urlencoded'},
-       body: `voyageId=${props.voyageID}&villeDepartFromFront=${villeDepart}&villeRetourFromFront=${villeRetour}`
+       body: `voyageId=${props.voyageID}`
       })
       var response = await rawresponse.json();
+      console.log('reponse back itinerary :', response)
       setTripName(response.trip.tripName)
       setEtapesList(response.trip.etapes)
+      props.villeDepartReducer(response.trip.villeDepart)
+      setVilleDepart(props.villeDepart)
       }
       voyageDataFromBack();
-  }, [villeDepart, villeRetour, etapesList])
+  }, [])
   
+// ADD VILLE DEPART //
+
+const addVilleDepart = async() => {
+  setCheck(false)
+  var rawresponse = await fetch('https://tripbook-lacapsule.herokuapp.com/addvilledepart', {
+    method: 'POST',
+    headers: {'Content-Type':'application/x-www-form-urlencoded'},
+    body: `voyageId=${props.voyageID}&villeDepartFromFront=${villeDepart}`
+  })
+  var response = await rawresponse.json();
+  console.log('reponse route add ville depart : ', response)
+  
+}
+
+// ADD VILLE RETOUR //
+const addVilleRetour = async() => {
+  setCheck2(false)
+  var rawresponse = await fetch('https://tripbook-lacapsule.herokuapp.com/addvilleretour', {
+  method: 'POST',
+  headers: {'Content-Type':'application/x-www-form-urlencoded'},
+  body: `voyageId=${props.voyageID}&villeRetourFromFront=${villeRetour}`
+  })
+  var response = await rawresponse.json();
+  console.log('reponse route add ville retour :', response)
+  
+}
+
 
 // SWITCH //
   const [isEnabled, setIsEnabled] = useState(false);
-  const [showVilleRetour, setShowVilleRetour] = useState();
 
   var inputVilleRetour = (
+    <View style={styles.input} >
     <TextInput 
-      style={styles.input} 
+      style={styles.paragraphe} 
       placeholder="Ville de retour"
       onChangeText={(value) => setVilleRetour(value)}
       value={villeRetour}
+      onFocus={() => setCheck2(true)}
       />
+      {check2 === true ? <Button title={'Valider'} buttonStyle={{backgroundColor: '#131256'}} titleStyle={{fontFamily: 'Poppins_300Light'}} onPress={() => addVilleRetour()}/> : null}
+      </View>
   )
 
   const toggleSwitch = () => {
     setIsEnabled(previousState => !previousState);
-    if(isEnabled === false){
-      setShowVilleRetour(inputVilleRetour)
-    } else {
-      setShowVilleRetour()
-    }
     }
   
 ///
@@ -189,14 +221,17 @@ const handleDeleteEtape = async(etapeID) => {
         />
       </View>
     <ScrollView>
-  
+            <View style={styles.input}>
                 <TextInput 
-                  style={styles.input} 
-                  placeholder="Ville départ"
+                  style={styles.paragraphe}
+                  placeholder="Ville de départ"
                   onChangeText={(value) => setVilleDepart(value)}
                   value={villeDepart}
-                />
-                
+                  defaultValue={props.villeDepart}
+                  onFocus={() => setCheck(true)}
+                ><Button title='valider'/></TextInput>
+                {check === true ? <Button title={'Valider'} buttonStyle={{backgroundColor: '#131256'}} titleStyle={{fontFamily: 'Poppins_300Light'}} onPress={() => addVilleDepart()}/> : null}
+            </View>
                 <View style={styles.viewSwitch}>
                   <Switch 
                     value={isEnabled} 
@@ -206,13 +241,13 @@ const handleDeleteEtape = async(etapeID) => {
                   <Text style={styles.paragraphe}>Ville de départ différente de la ville de retour</Text>
                 </View>
 
-                {showVilleRetour} 
+                {isEnabled === true ? inputVilleRetour : null} 
 
 <Text style={styles.text}>Etapes</Text>
 {etapesList.map((etape, i) => (
   <View backgroundColor="rgba(255,184,31,0.09)" style={styles.ville} key={i}>
     <FontAwesomeIcon icon={faTimesCircle} style={styles.icon} size={25} onPress={() => handleDeleteEtape(etape._id)}/>
-  <TextInput style={styles.paragraphe} placeholder="Ville d'étape" value={etape.ville} onChangeText={(value) => setEtapeVille(value)}/>
+  <TextInput style={styles.paragraphe} placeholder="Ville d'étape" defaultValue={etape.ville} onChangeText={(value) => setEtapeVille(value)}/>
   <View style={{flexDirection: 'row'}}>
   <AntDesign 
                     name="minuscircle" 
@@ -381,15 +416,16 @@ const styles = StyleSheet.create({
     alignSelf: 'center'
   },
   input: {
-    fontFamily: "Poppins_300Light",
-    fontSize: 18,
-    justifyContent: "center",
-    color: "#131256",
+    justifyContent: "space-between",
     backgroundColor: "rgba(255,184,31,0.15)",
-    padding: 10,
+    height: 60,
+    paddingLeft: 10,
+    paddingRight: 10,
     borderBottomColor: "#FFB81F",
     borderBottomWidth: 2,
     marginBottom: 10,
+    flexDirection: 'row',
+    alignItems: 'center'
   },
 iconCrayon: {
   alignSelf: 'center',
@@ -454,7 +490,18 @@ textbutton: {
 });
 
 function mapStateToProps(state){
-  return { voyageID: state.voyageID}
+  return { voyageID: state.voyageID,
+    voyagesList : state.voyagesList,
+    villeDepart : state.villeDepart
+  }
 }
 
-export default connect(mapStateToProps, null)(Itinerary2Screen);
+function mapDispatchToProps(dispatch){
+  return {
+    villeDepartReducer : function(villeDepart){
+      dispatch({type: 'villeDepart', villeDepart: villeDepart})
+    }
+}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Itinerary2Screen);

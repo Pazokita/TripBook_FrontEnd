@@ -8,6 +8,8 @@ import {Provider} from 'react-redux';
 import {createStore, combineReducers}  from 'redux';
 import token from './reducers/token';
 import voyageID from "./reducers/voyageID";
+import voyagesList from "./reducers/voyagesList";
+import villeDepart from "./reducers/villeDepart";
 
 
 import FirstScreen from './screens/FirstScreen';
@@ -23,7 +25,7 @@ import Itinerary2Screen from "./screens/Itinerary2Screen";
 
 
 const Stack = createStackNavigator();
-const store = createStore(combineReducers({token, voyageID}));
+const store = createStore(combineReducers({token, voyageID, voyagesList, villeDepart}));
 
 
 

@@ -9,7 +9,7 @@ import {Poppins_700Bold, Poppins_300Light} from '@expo-google-fonts/poppins';
 
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faUser, faBell, faTimesCircle} from "@fortawesome/free-solid-svg-icons";
+import { faUser, faBell, faTimesCircle, faSync} from "@fortawesome/free-solid-svg-icons";
 
 
 
@@ -28,28 +28,33 @@ function HomeScreen(props) {
       const [userName, setUserName] = useState('');
       const [tripList, setTripList] = useState([]);
 
-      useEffect(() => {
-        async function loadData() {
-          var rawresponse = await fetch('https://tripbook-lacapsule.herokuapp.com/home', {
-            method: 'POST',
-            headers: {'Content-Type':'application/x-www-form-urlencoded'},
-            body: `token=${props.token}`
-          });
-          var response = await rawresponse.json();
-          setUserName(response.username); 
-          setTripList(response.voyages);
-        }
-        loadData();
-      }, [tripList])
+      const voyageData = async() => {
+        const voyageDataRawResponse = await fetch(`https://tripbook-lacapsule.herokuapp.com/home?token=${props.token}`)
+        const voyageDataResponse = await voyageDataRawResponse.json();
+        console.log('fetch homescreen fait')
+        setUserName(voyageDataResponse.username);
+        props.voyagesListReducer(voyageDataResponse.voyages)
+        //setTripList(voyageDataResponse.voyages)
+      }
+
+       useEffect(() => {
+        
+         voyageData();
+         return () => { console.log("App is destroyed")} ;
+      }, [])
 
 // SUPPRESSION D'UN VOYAGE //
   const handleDeleteTrip = async(voyageID) => {
     var rawresponse = await fetch('https://tripbook-lacapsule.herokuapp.com/deletetrip', {
       method: 'POST',
       headers: {'Content-Type':'application/x-www-form-urlencoded'},
-      body: `idTripFromFront=${voyageID}`
+      body: `idTripFromFront=${voyageID}&token=${props.token}`
     })
-    setTripList(tripList)
+    var response = await rawresponse.json();
+    console.log('route delete fait')
+    //setTripList(response.voyages)
+    props.voyagesListReducer(response.voyages)
+
   }
 
 // REDUCER DE L'ID DU VOYAGE //
@@ -59,9 +64,14 @@ const handleTripDetails = (voyageID) => {
 }
 
   return (
-    
     <View style={styles.container}>
         <View style={styles.iconView}>
+          <Button
+          icon={<FontAwesomeIcon icon={faSync} style={styles.icon} size={25}  />}
+          type={"clear"}
+          onPress={() => voyageData()}
+          />
+        
           <Button 
           icon={<FontAwesomeIcon icon={faUser} style={styles.icon} size={25} />}
           type={"clear"}
@@ -120,9 +130,9 @@ const handleTripDetails = (voyageID) => {
       <Image 
       style={styles.mediumLogo}
       source={require('../assets/Logo_Bleu_Trip_Book.png')}/>
-
+    {userName != '' ? 
       <Text style={styles.subTitle}>Bienvenue {userName}</Text>
-
+      : null}
       <Button
         title="Nouveau Voyage"
         titleStyle={styles.textbutton}
@@ -131,7 +141,7 @@ const handleTripDetails = (voyageID) => {
       />
 
 
-      {tripList.map((voyage,i) => (
+      {props.voyagesList.map((voyage,i) => (
         <View style={styles.ville} key={i}>
           <FontAwesomeIcon icon={faTimesCircle} style={styles.icon} size={25} onPress={() => handleDeleteTrip(voyage._id)}/>
         <Text style= {styles.text2}>{voyage.tripName}</Text>
@@ -255,7 +265,8 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state){
   return {
-    token : state.token
+    token : state.token,
+    voyagesList : state.voyagesList
   }
 }
 
@@ -263,6 +274,9 @@ function mapDispatchToProps(dispatch){
   return {
     voyageIdReducer: function(voyageID) {
       dispatch({type: 'voyageID', voyageID: voyageID})
+    },
+    voyagesListReducer: function(voyagesList) {
+      dispatch({type: 'voyagesList', voyagesList: voyagesList})
     }
   }
 }

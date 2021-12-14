@@ -91,6 +91,7 @@ const deleteDates = () => {
 const [tripName, setTripName] = useState('')
 
 var handleNewTrip = async () => {
+  console.log('click détecté', props.token)
   const response = await fetch('https://tripbook-lacapsule.herokuapp.com/newtrip', {
   method: 'POST',
   headers: {'Content-Type':'application/x-www-form-urlencoded'},

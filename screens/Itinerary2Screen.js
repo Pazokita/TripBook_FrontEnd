@@ -17,58 +17,62 @@ import {Poppins_700Bold, Poppins_300Light} from '@expo-google-fonts/poppins';
 
 
 function Itinerary2Screen(props) {
-    const [count, setCount] = useState(0);
   
+  const [count, setCount] = useState(0);
   
-    useFonts({
+  useFonts({
     PlayfairDisplay_900Black,
     Poppins_700Bold,
     Poppins_300Light
   });
 
   // NOMBRE JOURS //
-const [jour, setJour] = useState(0)
+  const [jour, setJour] = useState(0)
 
-if (jour < 0) {
-  setJour(0)
-}
-//
+  if (jour < 0) {
+    setJour(0)
+  }
+  //
 
-// AJOUTER NOUVELLE ETAPE //
-const [etapeVille, setEtapeVille] = useState('');
-const [villeDepart, setVilleDepart] = useState('');
-const [villeRetour, setVilleRetour] = useState('');
+  // AJOUTER NOUVELLE ETAPE //
+  const [etapeVille, setEtapeVille] = useState('');
+  const [villeDepart, setVilleDepart] = useState('');
+  const [villeRetour, setVilleRetour] = useState('');
+  const [isEnabled, setIsEnabled] = useState('false');
 
-var etapesList = [
-  {
-    ville: 'Rouen',
-    jours: 3,
-  },
-  {
-    ville: 'Bordeaux',
-    jours: 2,
-  },
-  {
-    ville: 'Paris',
-    jours: 1,
-  },
-];
+  var etapesList = [
+    {
+      ville: 'Rouen',
+      jours: 3,
+    },
+    {
+      ville: 'Bordeaux',
+      jours: 2,
+    },
+    {
+      ville: 'Paris',
+      jours: 1,
+    },
+  ];
 
-const addEtape = () => {
+  const addEtape = () => {
+    
+  }
+  const toggleSwitch = () => {
+    setIsEnabled(!isEnabled);
+  };
   
-}
-  
 
-//
+
 
   return (
     <View style={styles.container}>
         
-    <Image
-        style={styles.bigLogo}
-        source={require('../assets/Logo_Bleu_Trip_Book.png')}
-        alignItems= "center"
-    />
+      <Image
+          style={styles.bigLogo}
+          source={require('../assets/Logo_Bleu_Trip_Book.png')}
+          alignItems= "center"
+      />
       <View style={{flexDirection: 'row', justifyContent: 'center'}}>
         <TextInput style={styles.text} value='Voyage au Japon'/>
         <MaterialCommunityIcons 
@@ -77,52 +81,52 @@ const addEtape = () => {
         style={styles.iconCrayon}
         />
       </View>
-    <ScrollView>
-  
-                <TextInput 
-                  style={styles.input} 
-                  placeholder="Ville départ"
-                  onChangeText={(value) => setVilleDepart(value)}
-                  value={villeDepart}
-                />
-                
-                <View style={styles.viewSwitch}>
-                  <Switch 
-                    value={isEnabled} 
-                    color='#131256'
-                    onValueChange={toggleSwitch}
-                  /> 
-                  <Text style={styles.paragraphe}>Ville de départ différente de la ville de retour</Text>
-                </View>
+      <ScrollView>
+        <TextInput 
+          style={styles.input} 
+          placeholder="Ville départ"
+          onChangeText={(value) => setVilleDepart(value)}
+          value={villeDepart}
+        />
+        
+        <View style={styles.viewSwitch}>
+          <Switch 
+            value={isEnabled} 
+            color='#131256'
+            onValueChange={toggleSwitch}
+          /> 
+          <Text style={styles.paragraphe}>Ville de départ différente de la ville de retour</Text>
+        </View>
 
-                {showVilleRetour} 
+        <Text style={styles.text}>Etapes</Text>
 
-<Text style={styles.text}>Etapes</Text>
-
-{etapesList.map((etape, i) => (
-  <Icon.Button backgroundColor="rgba(255,184,31,0.09)" style={{justifyContent: 'space-between', marginBottom:10}} key={i}>
-  <TextInput style={styles.paragraphe} placeholder="Ville d'étape" value={etapeVille} onChangeText={(value) => setEtapeVille(value)}/>
-  <View style={{flexDirection: 'row'}}>
-  <AntDesign 
-                    name="minuscircle" 
-                    size={30} 
-                    color="rgba(255,184,31,1)" 
-                    style={styles.iconPlus}
-                    onPress={() =>  {etape.jours -1}}
-                  />
-  <Text style={styles.paragraphe}>{etape.jours} jour(s)</Text>
-  <AntDesign 
-                    name="pluscircle" 
-                    size={30} 
-                    color="rgba(255,184,31,1)" 
-                    style={styles.iconPlus}
-                    onPress={() => + 1}
-                  />
-  </View>
-  </Icon.Button>
-))}
-
-
+        {etapesList.map((etape, i) => (
+          <Icon.Button backgroundColor="rgba(255,184,31,0.09)" style={{justifyContent: 'space-between', marginBottom:10}} key={i}>
+            <TextInput 
+              style={styles.paragraphe} 
+              placeholder="Ville d'étape" 
+              value={etapeVille} 
+              onChangeText={(value) => setEtapeVille(value)}/>
+            <View style={{flexDirection: 'row'}}>
+              <AntDesign 
+                name="minuscircle" 
+                size={30} 
+                color="rgba(255,184,31,1)" 
+                style={styles.iconPlus}
+                onPress={() =>  {etape.jours -1}}
+              />
+              <Text style={styles.paragraphe}>{etape.jours} jour(s)</Text>
+              <AntDesign 
+                name="pluscircle" 
+                size={30} 
+                color="rgba(255,184,31,1)" 
+                style={styles.iconPlus}
+                onPress={() => + 1}
+              />
+            </View>
+          </Icon.Button>
+        ))
+        }
 
         <View style={styles.viewAjouterEtape}>
           <AntDesign 
@@ -133,19 +137,15 @@ const addEtape = () => {
           />
           <Text style={styles.textAjouterEtape}>Ajouter une étape au voyage</Text>
         </View> 
-        
-      
-      <Button
-    title="J'invite mes covoyageurs"
-    titleStyle={styles.textbutton}
-    buttonStyle={styles.sendbutton}
-    onPress={() => props.navigation.navigate("InvitationScreen")}
-  />
-
-</ScrollView>
-
- 
-</View>
+            
+        <Button
+          title="Confirmer les étapes"
+          titleStyle={styles.textbutton}
+          buttonStyle={styles.sendbutton}
+          onPress={() => handleSubmitVilles()}
+        />
+      </ScrollView>
+    </View>
   );
 }
 

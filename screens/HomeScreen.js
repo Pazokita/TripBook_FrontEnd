@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import {connect} from 'react-redux';
-import { StyleSheet, View, Text, Modal, Pressable} from "react-native";
+import { StyleSheet, View, Text, Modal, Pressable, ScrollView,} from "react-native";
 
 import { Image, Button } from "react-native-elements";
 
@@ -10,9 +10,9 @@ import {Poppins_700Bold, Poppins_300Light} from '@expo-google-fonts/poppins';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faUser, faBell} from "@fortawesome/free-solid-svg-icons";
-
-
-
+ 
+  
+ 
 function HomeScreen(props) {
     useFonts({
         PlayfairDisplay_900Black,
@@ -109,16 +109,17 @@ function HomeScreen(props) {
       <Image 
       style={styles.mediumLogo}
       source={require('../assets/Logo_Bleu_Trip_Book.png')}/>
+      
+    <ScrollView>
 
       <Text style={styles.subTitle}>Bienvenue {userName}</Text>
-
+  
       <Button
         title="Nouveau Voyage"
         titleStyle={styles.textbutton}
         buttonStyle={styles.sendbutton}
         onPress={() => props.navigation.navigate('TripCreationScreen')}
       />
-
       {tripList.map((voyage,i) => (
         <View style={styles.ville} key={i}>
         <Text style= {styles.text2}>{voyage.tripName}</Text>
@@ -130,6 +131,7 @@ function HomeScreen(props) {
         />
         </View>
       ))}
+      </ScrollView> 
     </View>
 )
 }

@@ -34,7 +34,7 @@ function FirstScreen(props) {
         title="J'ai déjà un compte"
         titleStyle={styles.textbutton}
         buttonStyle={styles.sendbutton}
-        onPress={() => props.navigation.navigate('SignInScreen')}
+        onPress={() => props.navigation.navigate('Nav')}
       />
     </View>
   );

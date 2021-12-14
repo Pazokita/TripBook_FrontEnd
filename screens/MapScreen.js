@@ -8,12 +8,13 @@ import {Poppins_700Bold, Poppins_300Light} from '@expo-google-fonts/poppins';
 
 
 import MapView from 'react-native-maps';
+import { Marker } from 'react-native-maps';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faUser, faBell} from "@fortawesome/free-solid-svg-icons";
 
 
-
+ 
 function MapScreen(props) {
 
   const [modalUserVisible, setModalUserVisible] = useState(false);
@@ -22,15 +23,28 @@ function MapScreen(props) {
     return(
 
       <View style={styles.container}>
-          <MapView style={{flex:1} }
+          <MapView 
+             style={{flex:1} }
              initialRegion={{
-             latitude: 37.78825,
-             longitude: -122.4324,
-             latitudeDelta: 0.0922,
-             longitudeDelta: 0.0421,
+             latitude: 	48.856614,
+             longitude: 2.3522219,
+             latitudeDelta: 20,
+             longitudeDelta: 20,
             }}
-          />
-          
+          >
+            <Marker
+              coordinate={{ latitude : 48.856614 , longitude : 2.3522219 }}
+              title = "Départ"
+              description = "2022-03-12"
+              pinColor="red"
+            />
+            <Marker
+              coordinate={{ latitude : 35.689487 , longitude : 139.691706 }}
+              title = "1ère Étape : "
+              description = "X jours"
+              pinColor="blue"
+            />
+          </MapView>
 
             <View style={styles.top}>
                   <Image

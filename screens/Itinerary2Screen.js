@@ -129,6 +129,7 @@ const addEtape = async() => {
     body: `voyageId=${props.voyageID}&villeEtapeFromFront=${etapeVille}&dureeFromFront=${jour}`
    })
    var response = await rawresponse.json();
+   console.log(response)
    setEtapesList(response.tripEtapes)
    setEtapeVille('')
    setJour(0)

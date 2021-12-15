@@ -26,7 +26,7 @@ function HomeScreen(props) {
 
 // CHARGEMENT DES VOYAGES ET DU USERNAME //
       const [userName, setUserName] = useState('');
-
+console.log(props.token)
       const voyageData = async() => {
         const voyageDataRawResponse = await fetch(`https://tripbook-lacapsule.herokuapp.com/home?token=${props.token}`)
         const voyageDataResponse = await voyageDataRawResponse.json();

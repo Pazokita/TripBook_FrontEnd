@@ -91,6 +91,7 @@ const deleteDates = () => {
 const [tripName, setTripName] = useState('')
 
 var handleNewTrip = async () => {
+  console.log('click détecté', props.token)
   const response = await fetch('https://tripbook-lacapsule.herokuapp.com/newtrip', {
   method: 'POST',
   headers: {'Content-Type':'application/x-www-form-urlencoded'},
@@ -98,8 +99,8 @@ var handleNewTrip = async () => {
  })
 
   const body = await response.json();
-  console.log(body)
-  // REDUCER DE L'ID DU VOYAGE //
+  console.log('///body new trip', body)
+  // REDUCER DE L'ID DU VOYAGE + UPDATE DE LA LISTE DES VOYAGES //
   props.voyageIdReducer(body.tripID);
   props.navigation.navigate("Itinerary2Screen")
 
@@ -117,7 +118,7 @@ var handleNewTrip = async () => {
       <ScrollView style = {{flex : 1}}>
       <View>
         <Text style={styles.text}>Nom du voyage</Text>
-        <TextInput style={styles.input} placeholder="Voyage au Japon" onChangeText={(val)=> setTripName(val)}/>
+        <TextInput style={styles.input} placeholder="Voyage au Japon" maxLength={30} onChangeText={(val)=> setTripName(val)}/>
 
       <Text style={styles.text}>Dates du départ et de retour</Text>
       <Icon.Button
@@ -246,22 +247,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     color: '#131256',
     textAlign: 'left',
-    marginTop: 50,
+    marginTop: 40,
+    marginBottom: 5
   },
-  text2: {
-    fontFamily: "Poppins_700Bold",
-    fontSize: 18,
-    justifyContent: "center",
-    color: "#131256",
-    marginTop: -30,
-  },
-  text3: {
-    fontFamily: "Poppins_700Bold",
-    fontSize: 18,
-    justifyContent: "center",
-    color: "#131256",
-    marginTop: 20,
-  },
+
   textCalendar: {
     fontFamily: "Poppins_300Light",
     fontSize: 18,
@@ -296,23 +285,7 @@ const styles = StyleSheet.create({
     
     padding: 10,
   },
-  input3: {
-    fontFamily: "Poppins_300Light",
-    fontSize: 18,
-    justifyContent: "center",
-    color: "#131256",
-    backgroundColor: "rgba(255,184,31,0.15)",
-    padding: 10,
-    marginTop: 10,
-  },
-  input4: {
-    fontFamily: "Poppins_300Light",
-    fontSize: 18,
-    justifyContent: "center",
-    color: "#131256",
-    backgroundColor: "rgba(255,184,31,0.15)",
-    padding: 10,
-  },
+ 
   icon: {
     color: "#131256",
   },
@@ -327,9 +300,9 @@ const styles = StyleSheet.create({
 
   },
   sendbutton: {
-    marginTop: 60,
+    marginTop: 50,
     backgroundColor: "#FFB81F",
-    width: 346,
+    width: 347,
   },
   checkbox: {
     alignSelf: 'center', 

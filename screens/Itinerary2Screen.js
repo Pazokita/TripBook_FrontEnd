@@ -29,8 +29,9 @@ const [tripName, setTripName] = useState(props.voyagesList.tripName);
 const [etapesList, setEtapesList] = useState([]);
 const [modalUserVisible, setModalUserVisible] = useState(false);
 const [modalBellVisible, setModalBellVisible] = useState(false);
-const [check, setCheck] = useState(false)
-const [check2, setCheck2] = useState(false)
+
+const [showForm, setShowForm] = useState(true);
+
 
 
 
@@ -64,6 +65,7 @@ const addVilleDepart = async() => {
   })
   var response = await rawresponse.json();
   console.log('reponse route add ville depart : ', response)
+  props.villeDepartReducer(response.villeDepart)
   
 }
 
@@ -91,9 +93,9 @@ const addVilleRetour = async() => {
       placeholder="Ville de retour"
       onChangeText={(value) => setVilleRetour(value)}
       value={villeRetour}
-      onFocus={() => setCheck2(true)}
+
       />
-      {check2 === true ? <Button title={'Valider'} buttonStyle={{backgroundColor: '#131256'}} titleStyle={{fontFamily: 'Poppins_300Light'}} onPress={() => addVilleRetour()}/> : null}
+     
       </View>
   )
 
@@ -112,10 +114,10 @@ const addVilleRetour = async() => {
 // NOMBRE JOURS //
 const [jour, setJour] = useState(0)
 
-if (jour < 0) {
-  setJour(0)
-}
-//
+  if (jour < 0) {
+    setJour(0)
+  }
+  //
 
 // AJOUTER NOUVELLE ETAPE //
 const [etapeVille, setEtapeVille] = useState('');
@@ -144,6 +146,13 @@ const handleDeleteEtape = async(etapeID) => {
   setEtapesList(etapesList)
 }
 
+
+const handlVilledepartRetour = () => {
+  addVilleRetour();
+  addVilleDepart();
+  setShowForm();
+
+};
   return (
     <View style={styles.container}>
        
@@ -220,17 +229,19 @@ const handleDeleteEtape = async(etapeID) => {
         style={styles.iconCrayon}
         />
       </View>
-    <ScrollView>
+
+    {/* formulaire */}
+      <ScrollView>
+        {showForm ? (
+          <>
             <View style={styles.input}>
                 <TextInput 
                   style={styles.paragraphe}
                   placeholder="Ville de départ"
                   onChangeText={(value) => setVilleDepart(value)}
-                  value={villeDepart}
-                  defaultValue={props.villeDepart}
-                  onFocus={() => setCheck(true)}
-                ><Button title='valider'/></TextInput>
-                {check === true ? <Button title={'Valider'} buttonStyle={{backgroundColor: '#131256'}} titleStyle={{fontFamily: 'Poppins_300Light'}} onPress={() => addVilleDepart()}/> : null}
+                  defaultValue={villeDepart}
+                ></TextInput>
+             
             </View>
                 <View style={styles.viewSwitch}>
                   <Switch 
@@ -241,8 +252,31 @@ const handleDeleteEtape = async(etapeID) => {
                   <Text style={styles.paragraphe}>Ville de départ différente de la ville de retour</Text>
                 </View>
 
-                {isEnabled === true ? inputVilleRetour : null} 
+                {isEnabled === true ? inputVilleRetour : null}
 
+                <Button title={'Valider'} buttonStyle={{backgroundColor: '#131256'}} titleStyle={{fontFamily: 'Poppins_300Light'}} onPress={() => handlVilledepartRetour()}/> 
+    
+                </>
+        ) : (
+          <>
+            {villeRetour != "" ? (
+              <>
+              <Text style={styles.textDR}>Ville de départ</Text>
+              <Text style={styles.texteDR2}>{villeDepart} </Text>
+
+              <Text style={styles.textDR}>Ville de retour</Text>
+              <Text style={styles.texteDR2}>{villeRetour}</Text>
+            </>
+              
+            ) : (
+              <>
+                <Text style={styles.textDR}>Ville de départ et de retour</Text>
+                <Text style={styles.texteDR2}>{villeDepart} </Text>
+              </>
+            )}
+          </>
+        )}     
+         
 <Text style={styles.text}>Etapes</Text>
 {etapesList.map((etape, i) => (
   <View backgroundColor="rgba(255,184,31,0.09)" style={styles.ville} key={i}>
@@ -290,7 +324,50 @@ const handleDeleteEtape = async(etapeID) => {
 
 
 
-
+  <Text style={styles.text}>Etapes</Text>
+{etapesList.map((etape, i) => (
+  <View backgroundColor="rgba(255,184,31,0.09)" style={styles.ville} key={i}>
+    <FontAwesomeIcon icon={faTimesCircle} style={styles.icon} size={25} onPress={() => handleDeleteEtape(etape._id)}/>
+  <TextInput style={styles.paragraphe} placeholder="Ville d'étape" defaultValue={etape.ville} onChangeText={(value) => setEtapeVille(value)}/>
+  <View style={{flexDirection: 'row'}}>
+  <AntDesign 
+                    name="minuscircle" 
+                    size={30} 
+                    color="rgba(255,184,31,1)" 
+                    style={styles.iconPlus}
+                    onPress={() =>  {etape.duree -1}}
+                  />
+  <Text style={styles.paragraphe}>{etape.duree} jour(s)</Text>
+  <AntDesign 
+                    name="pluscircle" 
+                    size={30} 
+                    color="rgba(255,184,31,1)" 
+                    style={styles.iconPlus}
+                    onPress={() => {etape.duree +1}}
+                  />
+  </View>
+  </View>
+))}
+<View backgroundColor="rgba(255,184,31,0.09)" style={styles.ville} >
+  <TextInput style={styles.paragraphe} placeholder="Ville d'étape" value={etapeVille} onChangeText={(value) => setEtapeVille(value)}/>
+  <View style={{flexDirection: 'row'}}>
+  <AntDesign 
+                    name="minuscircle" 
+                    size={30} 
+                    color="rgba(255,184,31,1)" 
+                    style={styles.iconPlus}
+                    onPress={() =>  setJour(jour -1)}
+                  />
+  <Text style={styles.paragraphe}>{jour} jour(s)</Text>
+  <AntDesign 
+                    name="pluscircle" 
+                    size={30} 
+                    color="rgba(255,184,31,1)" 
+                    style={styles.iconPlus}
+                    onPress={() => setJour(jour +1)}
+                  />
+  </View>
+  </View>
 
         <View style={styles.viewAjouterEtape}>
           <AntDesign 
@@ -301,21 +378,18 @@ const handleDeleteEtape = async(etapeID) => {
           />
           <Text style={styles.textAjouterEtape}>Ajouter une étape au voyage</Text>
         </View> 
-        
-      
-      <Button
-    title="J'invite mes covoyageurs"
-    titleStyle={styles.textbutton}
-    buttonStyle={styles.sendbutton}
-    onPress={() => props.navigation.navigate("InvitationScreen")}
-  />
-
-</ScrollView>
-
- 
-</View>
+            
+        <Button
+          title="Confirmer les étapes"
+          titleStyle={styles.textbutton}
+          buttonStyle={styles.sendbutton}
+          onPress={() => handleSubmitVilles()}
+        />
+      </ScrollView>
+    </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -486,6 +560,25 @@ textbutton: {
   alignSelf:"center",
   
 }, 
+textDR: {
+  color: "#131256",
+  fontSize: 20,
+  fontFamily: "PlayfairDisplay_900Black",
+  marginTop: 10,
+  marginVertical: 10,
+},
+texteDR2: {
+  backgroundColor: "rgba(255,184,31,0.09)",
+  padding: 10,
+  borderRadius: 10,
+  fontFamily: "Poppins_300Light",
+  fontSize: 20,
+  borderColor: "white",
+  marginHorizontal: 10,
+},
+iconCheck: {
+  marginLeft:-45
+}
 
 });
 

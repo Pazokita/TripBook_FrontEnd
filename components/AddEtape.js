@@ -50,7 +50,7 @@ function AddEtape({etapes, setEtapes, setshowFormEtape}) {
 
     <Icon.Button
       backgroundColor="rgba(255,184,31,0.09)"
-      style={{ justifyContent: "space-between", marginTop: 20 }}
+      style={{ justifyContent: "space-between", marginTop: 0 }}
     >
       <TextInput
         style={styles.paragraphe}

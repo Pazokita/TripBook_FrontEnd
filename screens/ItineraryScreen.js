@@ -14,7 +14,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 
 import { Image } from "react-native-elements";
-import Icon from "react-native-vector-icons/FontAwesome";
+
 
 import {
   useFonts,
@@ -308,7 +308,7 @@ const styles = StyleSheet.create({
     padding: 5,
     backgroundColor: "#FFB81F",
     borderRadius: 10,
-    marginTop: 20,
+    marginVertical: 20,
     marginHorizontal: 10,
     justifyContent: "center",
     alignItems: "center",

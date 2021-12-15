@@ -289,38 +289,6 @@ const handleDeleteEtape = async(etapeID) => {
   </View>
   </View>
 
-
-
-        <Text style={styles.text}>Etapes</Text>
-
-        {etapesList.map((etape, i) => (
-          <Icon.Button backgroundColor="rgba(255,184,31,0.09)" style={{justifyContent: 'space-between', marginBottom:10}} key={i}>
-            <TextInput 
-              style={styles.paragraphe} 
-              placeholder="Ville d'étape" 
-              value={etapeVille} 
-              onChangeText={(value) => setEtapeVille(value)}/>
-            <View style={{flexDirection: 'row'}}>
-              <AntDesign 
-                name="minuscircle" 
-                size={30} 
-                color="rgba(255,184,31,1)" 
-                style={styles.iconPlus}
-                onPress={() =>  {etape.jours -1}}
-              />
-              <Text style={styles.paragraphe}>{etape.jours} jour(s)</Text>
-              <AntDesign 
-                name="pluscircle" 
-                size={30} 
-                color="rgba(255,184,31,1)" 
-                style={styles.iconPlus}
-                onPress={() => + 1}
-              />
-            </View>
-          </Icon.Button>
-        ))
-        }
-
         <View style={styles.viewAjouterEtape}>
           <AntDesign 
             name="pluscircle" 

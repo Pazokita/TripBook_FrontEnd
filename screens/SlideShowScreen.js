@@ -1,10 +1,11 @@
-import React from "react";
-import { StyleSheet, View, Text, ScrollView } from "react-native";
+import React, {useState} from "react";
+import { StyleSheet, View, Text, ScrollView} from "react-native";
 
 import { Image, Button } from "react-native-elements";
 
 import {useFonts, PlayfairDisplay_900Black } from '@expo-google-fonts/playfair-display';
 import {Poppins_700Bold, Poppins_300Light} from '@expo-google-fonts/poppins';
+// import { useWindowDimensions } from "react-native";
 
 
 function SlideShowScreen(props) {
@@ -14,6 +15,24 @@ function SlideShowScreen(props) {
     Poppins_300Light
 
   });
+
+
+  const [active, setActive] = useState(0);
+
+  const images = [
+    "https://images.unsplash.com/photo-1549937917-03ccda498729?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format",
+    "https://images.unsplash.com/photo-1606385199623-1e72da6e60ba?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8dm95YWdlfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60",
+    'https://images.unsplash.com/photo-1567009694991-c26bee6f79ae?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=928&q=80'
+  ]
+
+  const change = ({nativeEvent}) => {
+    const slide = Math.ceil(
+      nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width,
+    );
+    if (slide !== active) {
+      setActive(slide);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -26,23 +45,35 @@ function SlideShowScreen(props) {
       <Text style={styles.text}>Comment ça marche ?</Text>
       <Text style={styles.textPetit} >Envie de partir en voyage entre ami.e.s ? TripBook est la solution pour s'organiser !</Text>
 
+      
+      <ScrollView
+        pagingEnabled
+        horizontal
+        onScroll={change}
+        showHorizontalScrollIndicator={false}
+        style={{width: 200, height: "90%", marginTop: 30}}>
+        {images.map((image, index) => (
+          <Image
+            key={index}
+            source={{uri: image}}
+            style={{width: 200, height: "90%", borderRadius: 30}}
+          />
+        ))}
+      </ScrollView>
+      <View style={styles.pagination}>
+        {images.map((i, k) => (
+          <Text key={k} style={k == active ? styles.activeDot : styles.dot}>
+            •
+          </Text>
+        ))}
+      </View>
+
       <Button
         title="J'organise mon premier voyage"
         titleStyle={styles.textbutton}
         buttonStyle={styles.sendbutton}
         onPress={() => props.navigation.navigate('SignUpScreen')}
       />
-      <ScrollView horizontal={true}
-        indicatorStyle={"white"}
-        style={{flexDirection: 'row'}}
-        contentContainerStyle = {{width : "230%"}}
-      >
-        
-        <Image style={styles.slideshow1} source={{ url:'https://images.unsplash.com/photo-1549937917-03ccda498729?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format'}} />
-        <Image style={styles.slideshow} source={{ url:'https://images.unsplash.com/photo-1606385199623-1e72da6e60ba?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8dm95YWdlfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60' }} />
-        <Image style={styles.slideshow} source={{ url:'https://images.unsplash.com/photo-1567009694991-c26bee6f79ae?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=928&q=80' }} />
-      
-      </ScrollView>
 
 
     
@@ -88,9 +119,9 @@ const styles = StyleSheet.create({
   }, 
   sendbutton: {
     backgroundColor: "#FFB81F",
-    width: 346,
+    width: 347,
     marginTop: 10,
-    marginBottom: 0,
+    marginBottom: 20,
   },
   slideshow1: {
     marginTop : 20,
@@ -106,6 +137,23 @@ const styles = StyleSheet.create({
     height: "90%",
     marginRight: 60,
     borderRadius: 30,
+    flexDirection: 'row',
+    position: 'absolute',
+  },
+
+  pagination: {
+    flexDirection: 'row',
+    position: 'absolute',
+    bottom: 70,
+    alignSelf: 'center',
+  },
+  dot: {
+    color: '#979797',
+    fontSize: 50,
+  },
+  activeDot: {
+    color: '#FFB81F',
+    fontSize: 50,
   }
 });
 

@@ -145,7 +145,7 @@ visible={modalPlusVisible}
                       source={require("../assets/Logo_Bleu_Trip_Book_No_Planet.png")}
                       onPress={() => props.navigation.navigate('HomeScreen')} />
                   <View>
-                  <Text style={styles.topText}>Carte</Text>
+                  <Text style={styles.topText}>Planning</Text>
                   </View>
                   <View style={styles.iconView}>
           <Button 
@@ -237,7 +237,7 @@ height: 50,
 
 topText: {
 marginTop:20,
-marginLeft: 70,
+marginLeft: 50,
 fontFamily: "PlayfairDisplay_900Black",
 fontSize: 24,
 color: '#131256',
@@ -252,7 +252,7 @@ color:"#131256",
 
 iconView: {
 flexDirection: "row",
-marginLeft: 70,
+marginLeft: 50,
 marginTop:20,
 },
 

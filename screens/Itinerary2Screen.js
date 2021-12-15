@@ -8,7 +8,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import {faTimesCircle, faUser, faBell, faCheckCircle} from "@fortawesome/free-solid-svg-icons"
+import {faTimesCircle, faUser, faBell} from "@fortawesome/free-solid-svg-icons"
 
 
 import { Image } from "react-native-elements";
@@ -47,6 +47,7 @@ const [check2, setCheck2] = useState(false)
       console.log('reponse back itinerary :', response)
       setTripName(response.trip.tripName)
       setEtapesList(response.trip.etapes)
+      //props.voyagesListReducer(response.trip)
       props.villeDepartReducer(response.trip.villeDepart)
       setVilleDepart(props.villeDepart)
       }
@@ -129,6 +130,7 @@ const addEtape = async() => {
     body: `voyageId=${props.voyageID}&villeEtapeFromFront=${etapeVille}&dureeFromFront=${jour}`
    })
    var response = await rawresponse.json();
+   console.log(response)
    setEtapesList(response.tripEtapes)
    setEtapeVille('')
    setJour(0)
@@ -288,38 +290,6 @@ const handleDeleteEtape = async(etapeID) => {
   </View>
   </View>
 
-
-
-        <Text style={styles.text}>Etapes</Text>
-
-        {etapesList.map((etape, i) => (
-          <Icon.Button backgroundColor="rgba(255,184,31,0.09)" style={{justifyContent: 'space-between', marginBottom:10}} key={i}>
-            <TextInput 
-              style={styles.paragraphe} 
-              placeholder="Ville d'étape" 
-              value={etapeVille} 
-              onChangeText={(value) => setEtapeVille(value)}/>
-            <View style={{flexDirection: 'row'}}>
-              <AntDesign 
-                name="minuscircle" 
-                size={30} 
-                color="rgba(255,184,31,1)" 
-                style={styles.iconPlus}
-                onPress={() =>  {etape.jours -1}}
-              />
-              <Text style={styles.paragraphe}>{etape.jours} jour(s)</Text>
-              <AntDesign 
-                name="pluscircle" 
-                size={30} 
-                color="rgba(255,184,31,1)" 
-                style={styles.iconPlus}
-                onPress={() => + 1}
-              />
-            </View>
-          </Icon.Button>
-        ))
-        }
-
         <View style={styles.viewAjouterEtape}>
           <AntDesign 
             name="pluscircle" 
@@ -334,7 +304,7 @@ const handleDeleteEtape = async(etapeID) => {
           title="Confirmer les étapes"
           titleStyle={styles.textbutton}
           buttonStyle={styles.sendbutton}
-          onPress={() => handleSubmitVilles()}
+          onPress={() => props.navigation.navigate("InvitationScreen")}
         />
       </ScrollView>
     </View>
@@ -524,6 +494,9 @@ function mapDispatchToProps(dispatch){
   return {
     villeDepartReducer : function(villeDepart){
       dispatch({type: 'villeDepart', villeDepart: villeDepart})
+    },
+    voyagesListReducer: function(voyagesList) {
+      dispatch({type: 'voyagesList', voyagesList: voyagesList})
     }
 }
 }

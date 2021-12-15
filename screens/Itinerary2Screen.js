@@ -8,7 +8,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import {faTimesCircle, faUser, faBell, faCheckCircle} from "@fortawesome/free-solid-svg-icons"
+import {faTimesCircle, faUser, faBell} from "@fortawesome/free-solid-svg-icons"
 
 
 import { Image } from "react-native-elements";
@@ -129,6 +129,7 @@ const addEtape = async() => {
     body: `voyageId=${props.voyageID}&villeEtapeFromFront=${etapeVille}&dureeFromFront=${jour}`
    })
    var response = await rawresponse.json();
+   console.log(response)
    setEtapesList(response.tripEtapes)
    setEtapeVille('')
    setJour(0)

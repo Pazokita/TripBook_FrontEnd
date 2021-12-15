@@ -1,19 +1,21 @@
 import React, {useState} from "react";
+import {connect} from 'react-redux';
 import { StyleSheet, View, Text, Modal, Pressable, TouchableOpacity, TextInput} from "react-native";
 
-import { Image, Button, Input} from "react-native-elements";
+import { Image, Button, Overlay } from "react-native-elements";
 
 import {useFonts, PlayfairDisplay_900Black } from '@expo-google-fonts/playfair-display';
 import {Poppins_700Bold, Poppins_300Light} from '@expo-google-fonts/poppins';
 
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faUser, faBell, faPlus} from "@fortawesome/free-solid-svg-icons";
+import { faUser, faBell, faPlus, faTimesCircle} from "@fortawesome/free-solid-svg-icons";
 
-import {Agenda} from 'react-native-calendars';
-import {LocaleConfig} from 'react-native-calendars';
-
+import {Agenda, LocaleConfig} from 'react-native-calendars';
 import DateTimePicker from "@react-native-community/datetimepicker";
+
+import Calendar from "react-native-calendar-range-picker";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 
 LocaleConfig.locales['fr'] = {
@@ -26,7 +28,7 @@ LocaleConfig.locales['fr'] = {
 LocaleConfig.defaultLocale = 'fr';
 
 
-function PlanningScreen() {
+function PlanningScreen(props) {
   useFonts({
     PlayfairDisplay_900Black,
     Poppins_700Bold,
@@ -38,9 +40,65 @@ function PlanningScreen() {
   const [modalBellVisible, setModalBellVisible] = useState(false);
   const [modalPlusVisible, setModalPlusVisible] = useState(false);
 
+  // ACTIVITY NAME //
 
+  const [activityName, setActivityName] = useState('')
 
+  // DATE PICKER //
 
+  //Ajd
+  var today = new Date();
+  var jour = today.getDate()
+  var mois = 0
+  if (today.getMonth() === 11) {
+    mois = 12
+  } else {
+    mois = today.getMonth() + 1;
+  }
+  var annee = today.getFullYear();
+  const fullDay = `${annee}-${mois}-${jour}`
+
+  //Save Date Limite
+  const [date, setDate] = useState(fullDay);
+
+  const [limitDate, setLimitDate] = useState('');
+  const [visible, setVisible] = useState(false);
+
+  const savingDate = (date) => {
+    console.log(date)
+    setLimitDate(date)
+  }
+ 
+
+  const toggleOverlay = () => {
+    setVisible(!visible);
+};
+  
+// TIME PICKER //
+  const [time, setTime] = useState(today)
+  const [heureCalendrier, setHeureCalendrier] = useState('')
+
+  const savingTime = (event, selectedTime) => {
+    const currentTime = selectedTime || time;
+    setTime(currentTime);
+    var timeHour = selectedTime.getHours()
+    var timeMinute = selectedTime.getMinutes()
+    setHeureCalendrier(`${timeHour}:${timeMinute}`)
+  };
+
+ 
+// ADD ACTIVITE BACK END //
+const newActivity = async() => {
+  setModalPlusVisible(false)
+  const rawreponse = await fetch('https://tripbook-lacapsule.herokuapp.com/addactivity', {
+    method: 'POST',
+    headers: {'Content-Type':'application/x-www-form-urlencoded'},
+    body: `voyageID=${props.voyageID}&activityName=${activityName}&token=${props.token}&date=${limitDate}&heure=${heureCalendrier}`
+  })
+  const response = rawreponse.json();
+  console.log(response)
+
+}
 
   return (
 
@@ -54,8 +112,8 @@ function PlanningScreen() {
       backgroundColor:"rgba(255,184,31,0.09)", 
       calendarBackground:"white",
       monthTextColor:"#131256",
-      textDayFontFamily: '"Poppins_300Light"',
-      textMonthFontFamily: '"Poppins_300Light"',
+      textDayFontFamily: 'Poppins_300Light',
+      textMonthFontFamily: 'Poppins_300Light',
       selectedDayBackgroundColor: '#131256',
       dotColor:'#FFB81F',
       selectedDotColor:'#FFB81F',
@@ -68,21 +126,30 @@ function PlanningScreen() {
       }}
     markedDates={{
     '2021-12-10': {marked: true},
-    '2021-12-22': {marked: true},
-    '2012-05-18': {disabled: true}
+    '2021-12-23': {marked: true},
+    '2021-12-24': {marked: true},
+    '2021-12-25': {marked: true},
+    // '2021-12-18': {disabled: true}
     }}
     items={{
     '2021-12-10': [{name: 'item 1 - any js object'}],
-    '2012-05-23': [{name: 'item 2 - any js object', height: 80}],
-    '2012-05-24': [],
-    '2012-05-25': [{name: 'item 3 - any js object'}, {name: 'any js object'}]
+    '2021-12-23': [{name: 'item 2 - any js object', height: 80, time: '14h00'}],
+    '2021-12-24': [{}],
+    '2021-12-25': [{name: 'item 3 - any js object'}, {name: 'any js object'}],
+    '2021-11-30': [{}]
     }}
     renderItem={(item)=> (<View style={[styles.item]}>
       <TouchableOpacity style={{ marginTop: 30}}>
-          <Text style={{color: 'orange'}}>10:00</Text>
+          <Text style={{color: 'orange'}}>{item.time}</Text>
           <Text style={{paddingLeft: 15, marginTop: 10}}>{item.name}</Text>
       </TouchableOpacity>
-  </View>)}
+  </View>)} 
+  /* renderDay={(day, item) => {return (<View style={[styles.item]}>
+    <TouchableOpacity style={{ marginTop: 30}}>
+        <Text style={{color: 'orange'}}>{item.time}</Text>
+        <Text style={{paddingLeft: 15, marginTop: 10}}>{item.name}</Text>
+    </TouchableOpacity>
+</View>);}} */
   />
 
 <TouchableOpacity
@@ -110,26 +177,74 @@ transparent={true}
 visible={modalPlusVisible}
 >
   <View style={{backgroundColor:"#131256aa", flex:1}}>
-    <View style={{backgroundColor:"#FFB81Faa", margin:50, padding:40, borderRadius:10}}>
-    <Text style={styles.textTitre}>Titre :</Text>
+    <View style={{backgroundColor:"white", margin:50, padding:40, borderRadius:10}}>
+      <View style={{alignItems: 'flex-end'}}>
+      <Button type={"clear"} icon={<FontAwesomeIcon icon={faTimesCircle} style={{color:"#131256",}} size={25}/>} onPress={() => setModalPlusVisible(false)}/> 
+      </View>
+    
+    <Text style={styles.textTitre}>Activité :</Text>
           <TextInput
             style={styles.input}
-          ></TextInput>
+            placeholder="Nom de l'activité"
+            onChangeText={(value) => setActivityName(value)}
+          />
           <Text style={styles.textTitre}>Date :</Text>
-          <TextInput
-            multiline={true}
-            style={styles.input}
-          ></TextInput>
-          <Text style={styles.textTitre}>Heure :</Text>
-          <TextInput
-            style={styles.input}
-          ></TextInput>
-      <Pressable
-      style={styles.smallPressable}
-      onPress={() => setModalPlusVisible(false)}
+          <Icon.Button
+        name="calendar"
+        backgroundColor="rgba(255,184,31,0.09)"
+        iconStyle={styles.icon}
+        onPress={toggleOverlay}
       >
-        <Text style={styles.textbutton}>Fermer</Text>
-      </Pressable>
+        <Overlay isVisible={visible} onBackdropPress={toggleOverlay} overlayStyle = {{width : "90%", height : "70%"}}>
+            <Calendar
+                disabledBeforeToday	= "true"
+                startDate={date}
+                singleSelectMode
+                onChange={(date) => savingDate(date)}                
+                style={{ 
+                    container: {backgroundColor:'rgba(255,184,31,1)'},
+                    monthContainer: {},
+                    weekContainer:{},
+                    monthNameText: {},
+                    dayNameText: {},
+                    dayText: {},
+                    dayTextColor: '#131256',
+                    holidayColor: 'rgba(100,100,254,0.30)',
+                    todayColor: 'rgba(255,184,31,1)',
+                    disabledTextColor: 'black',
+                    selectedDayTextColor: 'rgba(255,184,31,1)',
+                    selectedDayBackgroundColor: '#131256',
+                    selectedBetweenDayTextColor: 'rgba(255,184,31,1)',
+                    selectedBetweenDayBackgroundTextColor: '#131256',
+                }}
+            />
+            <Button title ="Valider"
+                buttonStyle={{backgroundColor: '#FFB81F',height:"40%", width: "100%", borderRadius:10, marginTop:"10%"}}
+                onPress={toggleOverlay}   
+            />
+        </Overlay>
+      <Text style={styles.textCalendar}> {limitDate}</Text>
+
+      </Icon.Button>
+          <Text style={styles.textTitre}>Heure :</Text>
+         <View style={{paddingRight: 82}}> 
+        <DateTimePicker
+          testID="dateTimePicker"
+          value={time}
+          mode={'time'}
+          is24Hour={true}
+          display="default"
+          onChange={savingTime}
+        />
+        </View>
+      
+      <Button
+      buttonStyle={styles.smallPressable}
+      titleStyle={{fontFamily: 'Poppins_700Bold'}}
+      onPress={() => newActivity()}
+      title='Valider'
+      />
+      
       </View>
       </View>
       </Modal>
@@ -248,6 +363,7 @@ icon: {
 width: 30,
 height: 30,
 color:"#131256",
+alignSelf: 'center',
 },
 
 iconView: {
@@ -268,11 +384,13 @@ justifyContent: 'center',
 
 smallPressable: {
 alignSelf: 'center',
-width: 80,
+width: 100,
 height:40,
 backgroundColor: "#FFB81F",
 marginTop: 10,
 justifyContent: 'center',
+borderRadius: 8,
+color: "rgba(255,184,31,0.15)",
 },
 
 textBell : {
@@ -292,13 +410,22 @@ alignSelf:"center",
 }, 
 
 input: {
+  justifyContent: "space-between",
+  backgroundColor: "rgba(255,184,31,0.15)",
+  height: 60,
+  paddingLeft: 10,
+  paddingRight: 10,
+  borderBottomColor: "#FFB81F",
+  borderBottomWidth: 2,
+  marginBottom: 10,
+  marginTop: 5,
+  flexDirection: 'row',
+  alignItems: 'center',
   fontFamily: "Poppins_300Light",
-  fontSize: 14,
+  fontSize: 16,
   color: "#131256",
-  backgroundColor: "#979797aa",
-  borderWidth: 1,
-  borderRadius: 0.5,
-  padding: 5,
+  borderTopLeftRadius: 8,
+  borderTopRightRadius: 8,
 },
 
 textTask: {
@@ -311,7 +438,20 @@ textTitre: {
   fontFamily: "Poppins_700Bold",
   fontSize: 18,
   color: "#131256",
+  marginTop: 10,
+},
+textCalendar: {
+  fontFamily: "Poppins_300Light",
+  fontSize: 16,
+  color: "#131256",
+  textAlign: 'center'
 },
 })
 
-export default PlanningScreen;
+function mapStateToProps(state){
+  return { voyageID: state.voyageID,
+    token : state.token
+  }
+}
+
+export default connect (mapStateToProps, null)(PlanningScreen);

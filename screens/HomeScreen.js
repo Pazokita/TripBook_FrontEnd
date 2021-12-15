@@ -34,8 +34,7 @@ function HomeScreen(props) {
 
 // CHARGEMENT DES VOYAGES ET DU USERNAME //
       const [userName, setUserName] = useState('');
-      const [tripList, setTripList] = useState([]);
-
+console.log(props.token)
       const voyageData = async() => {
         const voyageDataRawResponse = await fetch(`https://tripbook-lacapsule.herokuapp.com/home?token=${props.token}`)
         const voyageDataResponse = await voyageDataRawResponse.json();
@@ -48,8 +47,8 @@ function HomeScreen(props) {
        useEffect(() => {
         
          voyageData();
-         return () => { console.log("App is destroyed")} ;
-      }, [])
+      }, [props.token])
+
 
 // SUPPRESSION D'UN VOYAGE //
   const handleDeleteTrip = async(voyageID) => {
@@ -74,8 +73,8 @@ const handleTripDetails = (voyageID) => {
   return (
     <View style={styles.container}>
         <View style={styles.iconView}>
-          <Button
-          icon={<FontAwesomeIcon icon={faSync} style={styles.icon} size={25}  />}
+        <Button 
+          icon={<FontAwesomeIcon icon={faSync} style={styles.icon} size={25} />}
           type={"clear"}
           onPress={() => voyageData()}
           />

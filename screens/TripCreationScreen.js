@@ -91,6 +91,7 @@ const deleteDates = () => {
 const [tripName, setTripName] = useState('')
 
 var handleNewTrip = async () => {
+  console.log('click détecté', props.token)
   const response = await fetch('https://tripbook-lacapsule.herokuapp.com/newtrip', {
   method: 'POST',
   headers: {'Content-Type':'application/x-www-form-urlencoded'},
@@ -98,8 +99,8 @@ var handleNewTrip = async () => {
  })
 
   const body = await response.json();
-  console.log(body)
-  // REDUCER DE L'ID DU VOYAGE //
+  console.log('///body new trip', body)
+  // REDUCER DE L'ID DU VOYAGE + UPDATE DE LA LISTE DES VOYAGES //
   props.voyageIdReducer(body.tripID);
   props.navigation.navigate("Itinerary2Screen")
 

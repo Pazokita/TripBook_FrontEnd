@@ -101,7 +101,7 @@ var handleNewTrip = async () => {
   const body = await response.json();
   console.log('///body new trip', body)
   // REDUCER DE L'ID DU VOYAGE + UPDATE DE LA LISTE DES VOYAGES //
-  props.voyageIdReducer(body.tripID);
+  props.voyageIdReducer(body.tripId);
   props.navigation.navigate("Itinerary2Screen")
 
 }

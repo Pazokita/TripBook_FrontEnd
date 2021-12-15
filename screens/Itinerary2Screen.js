@@ -47,6 +47,7 @@ const [check2, setCheck2] = useState(false)
       console.log('reponse back itinerary :', response)
       setTripName(response.trip.tripName)
       setEtapesList(response.trip.etapes)
+      //props.voyagesListReducer(response.trip)
       props.villeDepartReducer(response.trip.villeDepart)
       setVilleDepart(props.villeDepart)
       }
@@ -303,7 +304,7 @@ const handleDeleteEtape = async(etapeID) => {
           title="Confirmer les étapes"
           titleStyle={styles.textbutton}
           buttonStyle={styles.sendbutton}
-          onPress={() => handleSubmitVilles()}
+          onPress={() => props.navigation.navigate("InvitationScreen")}
         />
       </ScrollView>
     </View>
@@ -493,6 +494,9 @@ function mapDispatchToProps(dispatch){
   return {
     villeDepartReducer : function(villeDepart){
       dispatch({type: 'villeDepart', villeDepart: villeDepart})
+    },
+    voyagesListReducer: function(voyagesList) {
+      dispatch({type: 'voyagesList', voyagesList: voyagesList})
     }
 }
 }

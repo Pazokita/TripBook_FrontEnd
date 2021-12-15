@@ -122,7 +122,18 @@ function Addtask({ task, setTask, setShowFormTask }) {
 };
   
 
- 
+ //enregistrer task dans BDD//
+const addTask = async() => {
+  console.log('click detecté')
+  var rawresponse = await fetch('https://192.168.0.23:3000/checklist', {
+    method: 'POST',
+    headers: {'Content-Type':'application/x-www-form-urlencoded'},
+    body: `voyageId=${props.voyageID}&nameFromFront=${titre}&descFromFront=${description}&deadlineFromFront=${limitDate}&statutFromFront=${etat}&assignationFromFront=${assignation}`
+   })
+   var response = await rawresponse.json();
+   console.log(response)
+  
+   } 
 
 
   return (

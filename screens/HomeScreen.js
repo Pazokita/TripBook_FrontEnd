@@ -8,19 +8,11 @@ import {useFonts, PlayfairDisplay_900Black } from '@expo-google-fonts/playfair-d
 import {Poppins_700Bold, Poppins_300Light} from '@expo-google-fonts/poppins';
 
 
-<<<<<<< HEAD
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faUser, faBell} from "@fortawesome/free-solid-svg-icons";
- 
-  
- 
-=======
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faUser, faBell, faTimesCircle, faSync} from "@fortawesome/free-solid-svg-icons";
 
 
 
->>>>>>> ec1f13f458045f68c12d9d0ccf40a5edd1d72a3f
 function HomeScreen(props) {
     useFonts({
         PlayfairDisplay_900Black,
@@ -138,30 +130,18 @@ const handleTripDetails = (voyageID) => {
       <Image 
       style={styles.mediumLogo}
       source={require('../assets/Logo_Bleu_Trip_Book.png')}/>
-<<<<<<< HEAD
-      
-    <ScrollView>
-
-      <Text style={styles.subTitle}>Bienvenue {userName}</Text>
-  
-=======
     {userName != '' ? 
       <Text style={styles.subTitle}>Bienvenue {userName}</Text>
       : null}
->>>>>>> ec1f13f458045f68c12d9d0ccf40a5edd1d72a3f
       <Button
         title="Nouveau Voyage"
         titleStyle={styles.textbutton}
         buttonStyle={styles.sendbutton}
         onPress={() => props.navigation.navigate('TripCreationScreen')}
       />
-<<<<<<< HEAD
-      {tripList.map((voyage,i) => (
-=======
 
 
       {props.voyagesList.map((voyage,i) => (
->>>>>>> ec1f13f458045f68c12d9d0ccf40a5edd1d72a3f
         <View style={styles.ville} key={i}>
           <FontAwesomeIcon icon={faTimesCircle} style={styles.icon} size={25} onPress={() => handleDeleteTrip(voyage._id)}/>
         <Text style= {styles.text2}>{voyage.tripName}</Text>
@@ -173,7 +153,7 @@ const handleTripDetails = (voyageID) => {
         />
         </View>
       ))}
-      </ScrollView> 
+      
     </View>
 )
 }

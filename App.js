@@ -22,7 +22,6 @@ import InvitationScreen from "./screens/InvitationScreen";
 import HomeScreen from "./screens/HomeScreen";
 import Itinerary2Screen from "./screens/Itinerary2Screen";
 import AddEtape from "./components/AddEtape";
-
 import PlanningScreen from "./screens/PlanningScreen";
 
 

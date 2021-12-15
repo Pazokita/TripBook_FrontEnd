@@ -406,11 +406,11 @@ const styles = StyleSheet.create({
   },
    text: {
     fontFamily: 'PlayfairDisplay_900Black',
-    fontSize: 30,
+    fontSize: 25,
     justifyContent: "center",
     color: '#131256',
-    marginTop : 15,
-    marginBottom : 10,
+    marginTop : 25,
+    marginBottom : 20,
     textAlign: 'center',
   },
   textPetit: {

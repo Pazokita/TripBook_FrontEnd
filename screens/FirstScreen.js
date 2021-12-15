@@ -29,7 +29,7 @@ function FirstScreen(props) {
         buttonStyle={styles.sendbutton}
         onPress={() => props.navigation.navigate('SlideShowScreen')}
       />
-      <Text style={{color: 'white', fontFamily: 'Poppins_300Light', fontSize: 14}}>ou</Text>
+      <Text style={{color: 'white', fontFamily: 'Poppins_300Light', fontSize: 14, marginTop: 10, marginBottom: 10}}>ou</Text>
       <Button
         title="J'ai déjà un compte"
         titleStyle={styles.textbutton}

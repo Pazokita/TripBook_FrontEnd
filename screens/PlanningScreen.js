@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {connect} from 'react-redux';
 import { StyleSheet, View, Text, Modal, Pressable, TouchableOpacity, TextInput} from "react-native";
 
@@ -39,6 +39,33 @@ function PlanningScreen(props) {
   const [modalUserVisible, setModalUserVisible] = useState(false);
   const [modalBellVisible, setModalBellVisible] = useState(false);
   const [modalPlusVisible, setModalPlusVisible] = useState(false);
+
+  // GET ACTIVITIES //
+  const [activitiesList, setActivitiesList] = useState([])
+
+  useEffect(() => {
+    async function activitiesFromBack() {
+      var rawresponse = await fetch('https://tripbook-lacapsule.herokuapp.com/activities', {
+        method: 'POST',
+        headers: {'Content-Type':'application/x-www-form-urlencoded'},
+        body: `voyageId=${props.voyageID}`
+      })
+      var response = await rawresponse.json();
+      console.log('reponse back activities', response)
+      setActivitiesList(response.tripActivities)
+    }
+    activitiesFromBack();
+  }, [])
+
+  
+
+  var markedDates = activitiesList.map((activity, i) => (
+    `${activity.date}:{marked: true},`
+    )
+  )
+
+
+  console.log('marked Dates', markedDates)
 
   // ACTIVITY NAME //
 
@@ -83,9 +110,16 @@ function PlanningScreen(props) {
     setTime(currentTime);
     var timeHour = selectedTime.getHours()
     var timeMinute = selectedTime.getMinutes()
+
+    // Modification format minute //
+    if(timeMinute < 10){
+      timeMinute = '0'+selectedTime.getMinutes()
+    } else {
+      timeMinute = selectedTime.getMinutes()
+    }
+    //
     setHeureCalendrier(`${timeHour}:${timeMinute}`)
   };
-
  
 // ADD ACTIVITE BACK END //
 const newActivity = async() => {
@@ -96,7 +130,7 @@ const newActivity = async() => {
     body: `voyageID=${props.voyageID}&activityName=${activityName}&token=${props.token}&date=${limitDate}&heure=${heureCalendrier}`
   })
   const response = rawreponse.json();
-  console.log(response)
+  console.log('reponse add activity', response.tripActivities)
 
 }
 
@@ -124,13 +158,14 @@ const newActivity = async() => {
       todayTextColor: '#FFB81F',
       textSectionTitleColor: '#979797',
       }}
-    markedDates={{
+
+    /* markedDates={{
     '2021-12-10': {marked: true},
     '2021-12-23': {marked: true},
     '2021-12-24': {marked: true},
     '2021-12-25': {marked: true},
-    // '2021-12-18': {disabled: true}
-    }}
+    }} */
+
     items={{
     '2021-12-10': [{name: 'item 1 - any js object'}],
     '2021-12-23': [{name: 'item 2 - any js object', height: 80, time: '14h00'}],
@@ -138,12 +173,14 @@ const newActivity = async() => {
     '2021-12-25': [{name: 'item 3 - any js object'}, {name: 'any js object'}],
     '2021-11-30': [{}]
     }}
-    renderItem={(item)=> (<View style={[styles.item]}>
+    renderItem={(item)=> {return (
+      <View style={[styles.item]}>
       <TouchableOpacity style={{ marginTop: 30}}>
           <Text style={{color: 'orange'}}>{item.time}</Text>
           <Text style={{paddingLeft: 15, marginTop: 10}}>{item.name}</Text>
       </TouchableOpacity>
-  </View>)} 
+  </View>
+    )}} 
   /* renderDay={(day, item) => {return (<View style={[styles.item]}>
     <TouchableOpacity style={{ marginTop: 30}}>
         <Text style={{color: 'orange'}}>{item.time}</Text>
@@ -155,7 +192,7 @@ const newActivity = async() => {
 <TouchableOpacity
 style={{
   borderWidth: 2,
-  borderColor: '#FFB81F',
+  borderColor: 'white',
   alignItems: 'center',
   justifyContent: 'center',
   width: 60,
@@ -172,6 +209,8 @@ style={{
             type={"clear"}
             onPress={() => setModalPlusVisible(true)}
           />
+</TouchableOpacity>
+
 <Modal
 transparent={true}
 visible={modalPlusVisible}
@@ -219,6 +258,7 @@ visible={modalPlusVisible}
                 }}
             />
             <Button title ="Valider"
+                titleStyle={{fontFamily: 'Poppins_700Bold'}}
                 buttonStyle={{backgroundColor: '#FFB81F',height:"40%", width: "100%", borderRadius:10, marginTop:"10%"}}
                 onPress={toggleOverlay}   
             />
@@ -250,7 +290,7 @@ visible={modalPlusVisible}
       </Modal>
 
 
-</TouchableOpacity>
+
 
 </View>
 

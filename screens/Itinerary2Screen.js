@@ -24,13 +24,14 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 function Itinerary2Screen(props) {
 
 const [villeDepart, setVilleDepart] = useState(props.villeDepart);
-const [villeRetour, setVilleRetour] = useState('');
+const [villeRetour, setVilleRetour] = useState(null);
 const [tripName, setTripName] = useState(props.voyagesList.tripName);
 const [etapesList, setEtapesList] = useState([]);
 const [modalUserVisible, setModalUserVisible] = useState(false);
 const [modalBellVisible, setModalBellVisible] = useState(false);
 const [check, setCheck] = useState(false)
 const [check2, setCheck2] = useState(false)
+const [isEnabled, setIsEnabled] = useState(false);
 
 
 
@@ -44,15 +45,18 @@ const [check2, setCheck2] = useState(false)
        body: `voyageId=${props.voyageID}`
       })
       var response = await rawresponse.json();
-      console.log('reponse back itinerary :', response)
       setTripName(response.trip.tripName)
       setEtapesList(response.trip.etapes)
-      //props.voyagesListReducer(response.trip)
-      props.villeDepartReducer(response.trip.villeDepart)
-      setVilleDepart(props.villeDepart)
+      setVilleDepart(response.trip.villeDepart)
+      setVilleRetour(response.trip.villeRetour)
       }
       voyageDataFromBack();
+      if(villeDepart != villeRetour){
+        toggleSwitch()
+        }
   }, [])
+
+  
   
 // ADD VILLE DEPART //
 
@@ -65,7 +69,6 @@ const addVilleDepart = async() => {
   })
   var response = await rawresponse.json();
   console.log('reponse route add ville depart : ', response)
-  props.villeDepartReducer(response.villeDepart)
   
 }
 
@@ -84,8 +87,7 @@ const addVilleRetour = async() => {
 
 
 // SWITCH //
-  const [isEnabled, setIsEnabled] = useState(false);
-
+ 
   var inputVilleRetour = (
     <View style={styles.input} >
     <TextInput 
@@ -177,7 +179,7 @@ const handleDeleteEtape = async(etapeID) => {
           >
             <View style={{backgroundColor:"#131256aa", flex:1}}>
               <View style={{backgroundColor:"#FFB81Faa", margin:50, padding:40, borderRadius:10}}>
-                <Text style={styles.textBell}>Blabla</Text>
+                <Text style={styles.textBell}>Ceci est une notification</Text>
                 <Pressable
                 style={styles.smallPressable}
                 onPress={() => setModalBellVisible(false)}
@@ -217,11 +219,6 @@ const handleDeleteEtape = async(etapeID) => {
     
       <View style={{flexDirection: 'row', justifyContent: 'center'}}>
         <TextInput style={styles.text} value={tripName}/>
-        <MaterialCommunityIcons 
-        name="pencil" 
-        size={24} 
-        style={styles.iconCrayon}
-        />
       </View>
     <ScrollView>
             <View style={styles.input}>
@@ -229,7 +226,7 @@ const handleDeleteEtape = async(etapeID) => {
                   style={styles.paragraphe}
                   placeholder="Ville de départ"
                   onChangeText={(value) => setVilleDepart(value)}
-                  defaultValue={villeDepart}
+                  value={villeDepart}
                   onFocus={() => setCheck(true)}
                 ></TextInput>
                 {check === true ? <Button title={'Valider'} buttonStyle={{backgroundColor: '#131256'}} titleStyle={{fontFamily: 'Poppins_300Light'}} onPress={() => addVilleDepart()}/> : null}
@@ -301,7 +298,7 @@ const handleDeleteEtape = async(etapeID) => {
         </View> 
             
         <Button
-          title="Confirmer les étapes"
+          title="Inviter mes covoyageurs"
           titleStyle={styles.textbutton}
           buttonStyle={styles.sendbutton}
           onPress={() => props.navigation.navigate("InvitationScreen")}
@@ -485,16 +482,12 @@ textbutton: {
 
 function mapStateToProps(state){
   return { voyageID: state.voyageID,
-    voyagesList : state.voyagesList,
-    villeDepart : state.villeDepart
+    voyagesList : state.voyagesList
   }
 }
 
 function mapDispatchToProps(dispatch){
   return {
-    villeDepartReducer : function(villeDepart){
-      dispatch({type: 'villeDepart', villeDepart: villeDepart})
-    },
     voyagesListReducer: function(voyagesList) {
       dispatch({type: 'voyagesList', voyagesList: voyagesList})
     }

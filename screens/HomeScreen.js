@@ -66,11 +66,11 @@ const handleTripDetails = (voyageID) => {
   return (
     <View style={styles.container}>
         <View style={styles.iconView}>
-        {/* <Button 
+         {/* <Button 
           icon={<FontAwesomeIcon icon={faSync} style={styles.icon} size={25} />}
           type={"clear"}
-          onPress={() => voyageData()}
-          /> */}
+          onPress={() => props.navigation.navigate('ItineraryScreen')}
+          />  */}
         
           <Button 
           icon={<FontAwesomeIcon icon={faUser} style={styles.icon} size={25} />}

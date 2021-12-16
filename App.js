@@ -9,7 +9,7 @@ import {createStore, combineReducers}  from 'redux';
 import token from './reducers/token';
 import voyageID from "./reducers/voyageID";
 import voyagesList from "./reducers/voyagesList";
-import villeDepart from "./reducers/villeDepart";
+
 
 
 import FirstScreen from './screens/FirstScreen';
@@ -26,7 +26,7 @@ import PlanningScreen from "./screens/PlanningScreen";
 
 
 const Stack = createStackNavigator();
-const store = createStore(combineReducers({token, voyageID, voyagesList, villeDepart}));
+const store = createStore(combineReducers({token, voyageID, voyagesList}));
 
 
 

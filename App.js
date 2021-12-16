@@ -44,7 +44,6 @@ function App() {
           <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false}}/>
           <Stack.Screen name="Itinerary2Screen" component={Itinerary2Screen} options={{ headerShown: false}}/>
 
-          <Stack.Screen name="ChatScreen" component={ChatScreen} options={{ headerShown: false}}/>
 
           
           <Stack.Screen name="Nav" component={TabNav} />

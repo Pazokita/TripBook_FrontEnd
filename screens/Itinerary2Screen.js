@@ -39,7 +39,7 @@ const [isEnabled, setIsEnabled] = useState(false);
 
   useEffect(() => {
     async function voyageDataFromBack() {
-      var rawresponse = await fetch('http://192.168.1.30:3000/itinerary', {
+      var rawresponse = await fetch('https://tripbook-lacapsule.herokuapp.com/itinerary', {
        method: 'POST',
        headers: {'Content-Type':'application/x-www-form-urlencoded'},
        body: `voyageId=${props.voyageID}`
@@ -62,7 +62,7 @@ const [isEnabled, setIsEnabled] = useState(false);
 
 const addVilleDepart = async() => {
   setCheck(false)
-  var rawresponse = await fetch('http://192.168.1.30:3000/addvilledepart', {
+  var rawresponse = await fetch('https://tripbook-lacapsule.herokuapp.com/addvilledepart', {
     method: 'POST',
     headers: {'Content-Type':'application/x-www-form-urlencoded'},
     body: `voyageId=${props.voyageID}&villeDepartFromFront=${villeDepart}`
@@ -75,7 +75,7 @@ const addVilleDepart = async() => {
 // ADD VILLE RETOUR //
 const addVilleRetour = async() => {
   setCheck2(false)
-  var rawresponse = await fetch('http://192.168.1.30:3000/addvilleretour', {
+  var rawresponse = await fetch('https://tripbook-lacapsule.herokuapp.com/addvilleretour', {
   method: 'POST',
   headers: {'Content-Type':'application/x-www-form-urlencoded'},
   body: `voyageId=${props.voyageID}&villeRetourFromFront=${villeRetour}`
@@ -126,7 +126,7 @@ const [etapeVille, setEtapeVille] = useState('');
 
 const addEtape = async() => {
   console.log('click detecté')
-  var rawresponse = await fetch('http://192.168.1.30:3000/addetape', {
+  var rawresponse = await fetch('https://tripbook-lacapsule.herokuapp.com/addetape', {
     method: 'POST',
     headers: {'Content-Type':'application/x-www-form-urlencoded'},
     body: `voyageId=${props.voyageID}&villeEtapeFromFront=${etapeVille}&dureeFromFront=${jour}`
@@ -141,7 +141,7 @@ const addEtape = async() => {
 // SUPPRIMER ETAPE //
 const handleDeleteEtape = async(etapeID) => {
   console.log('click détecté')
-  var rawresponse = await fetch('http://192.168.1.30:3000/deleteetape', {
+  var rawresponse = await fetch('https://tripbook-lacapsule.herokuapp.com/deleteetape', {
     method: 'POST',
     headers: {'Content-Type':'application/x-www-form-urlencoded'},
     body: `etapeIDFromFront=${etapeID}&voyageID=${props.voyageID}`
@@ -155,7 +155,7 @@ const [isValidated, setIsValidated] = useState(false)
 // const handleSubmitVilles = async () => {
 //   console.log("bouton en état de marche")
 
-//   const response = await fetch('http://192.168.1.30:3000/addVille', {
+//   const response = await fetch('https://tripbook-lacapsule.herokuapp.com/addVille', {
 //     method: 'POST',
 //     headers: {'Content-Type':'application/x-www-form-urlencoded'},
 //     body: `voyageID=${props.voyageID}&villeEtapeFromFront=${etapeVille}&dureeFromFront=${jour}`

@@ -159,12 +159,12 @@ const newActivity = async() => {
       textSectionTitleColor: '#979797',
       }}
 
-    /* markedDates={{
+     markedDates={{
     '2021-12-10': {marked: true},
     '2021-12-23': {marked: true},
     '2021-12-24': {marked: true},
     '2021-12-25': {marked: true},
-    }} */
+    }} 
 
     items={{
     '2021-12-10': [{name: 'item 1 - any js object'}],

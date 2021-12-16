@@ -16,7 +16,6 @@ import FirstScreen from './screens/FirstScreen';
 import SignInScreen from './screens/SignInScreen';
 import SlideShowScreen from "./screens/SlideShowScreen";
 import TripCreationScreen from "./screens/TripCreationScreen";
-import ItineraryScreen from "./screens/ItineraryScreen";
 import SignUpScreen from "./screens/SignUpScreen";
 import InvitationScreen from "./screens/InvitationScreen";
 import HomeScreen from "./screens/HomeScreen";
@@ -39,7 +38,6 @@ function App() {
           <Stack.Screen name="SignInScreen" component={SignInScreen} options={{ headerShown: false}}/>
           <Stack.Screen name="SlideShowScreen" component={SlideShowScreen} options={{ headerShown: false}}/>
           <Stack.Screen name="TripCreationScreen" component={TripCreationScreen} options={{ headerShown: false}}/>
-          <Stack.Screen name="ItineraryScreen" component={ItineraryScreen} options={{ headerShown: false}}/>
           <Stack.Screen name="SignUpScreen" component={SignUpScreen} options={{ headerShown: false}}/>
           <Stack.Screen name="InvitationScreen" component={InvitationScreen} options={{ headerShown: false}}/>
           <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false}}/>

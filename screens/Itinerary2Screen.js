@@ -23,8 +23,8 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 
 function Itinerary2Screen(props) {
 
-const [villeDepart, setVilleDepart] = useState(props.villeDepart);
-const [villeRetour, setVilleRetour] = useState(null);
+const [villeDepart, setVilleDepart] = useState('');
+const [villeRetour, setVilleRetour] = useState('');
 const [tripName, setTripName] = useState(props.voyagesList.tripName);
 const [etapesList, setEtapesList] = useState([]);
 const [modalUserVisible, setModalUserVisible] = useState(false);
@@ -51,9 +51,9 @@ const [isEnabled, setIsEnabled] = useState(false);
       setVilleRetour(response.trip.villeRetour)
       }
       voyageDataFromBack();
-      if(villeDepart != villeRetour){
+      if (villeRetour != ''){
         toggleSwitch()
-        }
+      }
   }, [])
 
   
@@ -248,13 +248,7 @@ const handleDeleteEtape = async(etapeID) => {
     <FontAwesomeIcon icon={faTimesCircle} style={styles.icon} size={25} onPress={() => handleDeleteEtape(etape._id)}/>
   <TextInput style={styles.paragraphe} placeholder="Ville d'étape" defaultValue={etape.ville} onChangeText={(value) => setEtapeVille(value)}/>
   <View style={{flexDirection: 'row'}}>
-  <AntDesign 
-                    name="minuscircle" 
-                    size={30} 
-                    color="rgba(255,184,31,1)" 
-                    style={styles.iconPlus}
-                    onPress={() =>  {etape.duree -1}}
-                  />
+  
   <Text style={styles.paragraphe}>{etape.duree} jour(s)</Text>
   <AntDesign 
                     name="pluscircle" 

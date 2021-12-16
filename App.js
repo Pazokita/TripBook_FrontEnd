@@ -46,6 +46,8 @@ function App() {
           <Stack.Screen name="Itinerary2Screen" component={Itinerary2Screen} options={{ headerShown: false}}/>
           <Stack.Screen name="PlanningScreen" component={PlanningScreen} options={{ headerShown: false}}/>
           <Stack.Screen name="Nav" component={TabNav} />
+          <Stack.Screen name="CheckListScreen" component={CheckListScreen} options={{ headerShown: false}}/>
+
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

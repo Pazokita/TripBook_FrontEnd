@@ -29,34 +29,13 @@ function Addtask({ task, setTask, setShowFormTask, voyageID}) {
   const [description, setDescription] = useState("");
 
   const [assignation, setassignation] = useState("");
-  //const [deadline, setDeadline] = useState("");
   const [etat, setEtat] = useState("");
+  const [limitDate, setLimitDate] = useState();
 
-  //const [mode, setMode] = useState("date");
-  //const [show, setShow] = useState(false);
+  //Save Date Limite
+  const [date, setDate] = useState(fullDay);
+  const [visible, setVisible] = useState(false);
 
-  //const onChange = (event, selectedDate) => {
-  //  const currentDate = selectedDate || date;
-  //  setShow(Platform.OS === "ios");
-  //  setDate(currentDate);
-  //};
-
-  //const showMode = (currentMode) => {
-  //  setShow(true);
-  //  setMode(currentMode);
-  //};
-
-  //const showDatepicker = () => {
-  //  showMode("date");
-  //};
-  //const hideDatePicker = () => {
-  //  setShow(false);
-  //};
-  //const confirmerDate = (date) => {
-  //   const opcions = { year: "numeric", month: "long", day: "2-digit" };
-  //  setDeadline(date.toLocaleDateString("es-ES", opcions));
-  //  hideDatePicker();
-  //};
   //Ajouter une tâche
   const addNewTask = () => {
     //validation ds champs
@@ -108,11 +87,6 @@ function Addtask({ task, setTask, setShowFormTask, voyageID}) {
   var annee = today.getFullYear();
   var fullDay = `${annee}-${mois}-${jour}`
 
-  //Save Date Limite
-  const [date, setDate] = useState(fullDay);
-
-  const [limitDate, setLimitDate] = useState();
-  const [visible, setVisible] = useState(false);
 
   const savingDate = (date) => {
     console.log(date)
@@ -124,17 +98,16 @@ function Addtask({ task, setTask, setShowFormTask, voyageID}) {
 };
   
 
- //enregistrer task dans BDD//
+//enregistrer task dans BDD//
 const addTask = async() => {
   console.log('click detecté')
-  var rawresponse = await fetch('http://192.168.0.23:3000/checklist', {
+  var rawresponse = await fetch('https://192.168.0.36:3000/checklist', {
     method: 'POST',
     headers: {'Content-Type':'application/x-www-form-urlencoded'},
     body: `voyageId=${props.voyageID}&nameFromFront=${titre}&descFromFront=${description}&deadlineFromFront=${limitDate}&statutFromFront=${etat}&assignationFromFront=${assignation}`
    })
    var response = await rawresponse.json();
-   console.log('réponse du back', response)
-   setTask(response.tripchecklist)
+   console.log(response)
   
    } 
 
@@ -148,17 +121,20 @@ const addTask = async() => {
           <TextInput
             style={styles.input}
             onChangeText={(texte) => setTitre(texte)}
+            value={titre}
           ></TextInput>
           <Text style={styles.textTitre}>Description :</Text>
           <TextInput
             multiline={true}
             style={styles.input}
             onChangeText={(texte) => setDescription(texte)}
+            value={description}
           ></TextInput>
           <Text style={styles.textTitre}>Personne en charge :</Text>
           <TextInput
             style={styles.input}
             onChangeText={(texte) => setassignation(texte)}
+            value={assignation}
           ></TextInput>
 
       <Icon.Button
@@ -175,7 +151,8 @@ const addTask = async() => {
                 disabledBeforeToday	= "true"
                 startDate={date}
                 singleSelectMode
-                onChange={(date) => savingDate(date)}                
+                onChange={(date) => savingDate(date)}  
+                value={limitDate}              
                 style={{ 
                     container: {backgroundColor:'rgba(255,184,31,1)'},
                     monthContainer: {},
@@ -203,6 +180,7 @@ const addTask = async() => {
           <TextInput
             style={styles.input}
             onChangeText={(texte) => setEtat(texte)}
+            value={etat}
           ></TextInput>
           <TouchableHighlight style={styles.btn} onPress={() => addTask()}>
             <Text style={styles.textbtn}>Ajoute une tâche</Text>
@@ -212,6 +190,7 @@ const addTask = async() => {
   
   );
 }
+
 
 const styles = StyleSheet.create({
   task: {

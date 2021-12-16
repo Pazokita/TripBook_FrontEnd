@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { StyleSheet, View, Text, ScrollView } from "react-native";
+import { StyleSheet, View, Text, ScrollView, Share} from "react-native";
 import { Image, Button } from "react-native-elements";
 
 import {useFonts, PlayfairDisplay_900Black } from '@expo-google-fonts/playfair-display';
@@ -39,6 +39,28 @@ export default function InvitationScreen(props) {
        }
      //
 
+
+    //  test share
+
+      const onShare = async () => {
+        try {
+          const result = await Share.share({
+            message:
+              'Rejoins tes amis pour organiser vos voyages !',
+          });
+          if (result.action === Share.sharedAction) {
+            if (result.activityType) {
+              // shared with activity type of result.activityType
+            } else {
+              // shared
+            }
+          } else if (result.action === Share.dismissedAction) {
+            // dismissed
+          }
+        } catch (error) {
+          alert(error.message);
+        }
+      };
     
     
   return (
@@ -48,13 +70,18 @@ export default function InvitationScreen(props) {
         style={styles.bigLogo}
         source={require('../assets/Logo_Bleu_Trip_Book.png')}
       />
+
+      <View style={{justifyContent: "center"}}>
       <Text style={styles.text}>J'invite mes co-voyageurs</Text>
 
-      
-      <Button buttonStyle={styles.sendbutton2} titleStyle={styles.textbutton} title="Copier le lien d'invitation" onPress={copyToClipboardFinal} />
+     
+      <Button buttonStyle={styles.sendbutton} titleStyle={styles.textbutton} onPress={onShare} title="Envoyer le lien d'invitation" />
+    
+
+      {/* <Button buttonStyle={styles.sendbutton2} titleStyle={styles.textbutton} title="Copier le lien d'invitation" onPress={copyToClipboardFinal} /> */}
       <Text style={styles.textPetit3}>{copiedText}</Text>
 
-      <View>
+      {/* <View>
         <TouchableOpacity>
         <Text style={styles.textPetit2} onPress={ ()=>{ Linking.openURL('mailto')}} ><FontAwesome5 name="envelope" size={20} color="#131256" />  Envoyer le lien par mail</Text>
         </TouchableOpacity>
@@ -67,13 +94,14 @@ export default function InvitationScreen(props) {
         <TouchableOpacity>
         <Text style={styles.textPetit2}><FontAwesome5 name="facebook-messenger" size={20} color="#131256"/>  Envoyer le lien sur Messenger</Text>
         </TouchableOpacity>
-    </View>
+    </View> */}
     <Button
         title="Je retourne à mes voyages"
         titleStyle={styles.textbutton}
-        buttonStyle={styles.sendbutton}
+        buttonStyle={styles.sendbutton2}
         onPress={() => props.navigation.navigate('HomeScreen')}
       />
+      </View>
       </ScrollView>
     </View>
   );
@@ -90,7 +118,9 @@ const styles = StyleSheet.create({
     width: 100,
     height: 92,
     justifyContent: 'center',
-    marginBottom: 30
+    marginBottom: 30,
+    marginLeft:120,
+    marginTop: 120
   },
    text: {
     fontFamily: 'PlayfairDisplay_900Black',
@@ -133,12 +163,12 @@ const styles = StyleSheet.create({
   sendbutton: {
     backgroundColor: "#FFB81F",
     width: 347,
-    marginTop: 30,
+    marginTop: 40,
   },
   sendbutton2: {
     backgroundColor: "#979797",
     width: 347,
-    marginTop: 30,
+    marginTop: 0,
   },
   icon: {
     color: '#131256',

@@ -62,7 +62,7 @@ function Addtask({ task, setTask, setShowFormTask, voyageID}) {
     //    }
 
     //creer une tâche
-    const tasks = { titre, description, assignation, etat };
+    const tasks = { titre, description, assignation, limitDate, etat };
     // console.log(tasks)
     //ajouter le state
     const newTask = [...task, tasks];
@@ -99,7 +99,7 @@ function Addtask({ task, setTask, setShowFormTask, voyageID}) {
   
 
 //enregistrer task dans BDD//
-const addTask = async() => {
+/* const addTask = async() => {
   console.log('click detecté')
   var rawresponse = await fetch('https://192.168.0.36:3000/checklist', {
     method: 'POST',
@@ -109,7 +109,7 @@ const addTask = async() => {
    var response = await rawresponse.json();
    console.log(response)
   
-   } 
+   }  */
 
 
   return (
@@ -182,7 +182,7 @@ const addTask = async() => {
             onChangeText={(texte) => setEtat(texte)}
             value={etat}
           ></TextInput>
-          <TouchableHighlight style={styles.btn} onPress={() => addTask()}>
+          <TouchableHighlight style={styles.btn} onPress={() => addNewTask()}>
             <Text style={styles.textbtn}>Ajoute une tâche</Text>
           </TouchableHighlight>
         </View>

@@ -44,7 +44,7 @@ const voyageDataFromBack = async() => {
    body: `voyageId=${props.voyageID}`
   })
   var response = await rawresponse.json();
-  //console.log('response.tableauCoord', response.tableauCoord)
+  console.log('response route itinerary', response)
   setTripName(response.trip.tripName)
   setEtapesList(response.trip.etapes)
   setVilleDepart(response.trip.villeDepart)
@@ -57,9 +57,11 @@ const voyageDataFromBack = async() => {
   useEffect(() => {
     
       voyageDataFromBack();
-      if (villeRetour != ''){
+       if (villeRetour != ''){
         toggleSwitch()
-      }
+        setVilleRetour(villeDepart)
+      } 
+      console.log(props.voyageID)
       
   }, [])
 

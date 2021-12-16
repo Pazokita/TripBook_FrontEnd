@@ -35,7 +35,7 @@ function Task({ task, DeleteTask }) {
         </Text>
         <Text style={styles.textTitre}>Deadline :</Text>
         <Text multiline={true} style={styles.textTask}>
-          {item.deadLine}
+          {item.limitDate}
         </Text>
         <Text style={styles.textTitre}>Etat :</Text>
         <Text multiline={true} style={styles.textTask}>

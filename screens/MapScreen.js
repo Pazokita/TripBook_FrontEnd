@@ -25,11 +25,11 @@ function MapScreen(props) {
   const [listMarks, setListMarks] = useState([]);
   const [departETArrivee, setDepartETArrivee]= useState([]);
   const [dureeEtape, setDureeEtape] = useState([]);
+ 
   
 
-
-
   useEffect(async () => {
+
     const response = await fetch('https://tripbook-lacapsule.herokuapp.com/marqueurs', {
       method: 'POST',
       headers: {'Content-Type':'application/x-www-form-urlencoded'},
@@ -38,7 +38,7 @@ function MapScreen(props) {
     console.log('chargement 2')
     const rawresponse = await response.json()
     console.log(rawresponse)
-
+ 
     setListMarks(rawresponse.villesMarked)
     console.log('verification 1')
     console.log(listMarks)

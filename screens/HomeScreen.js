@@ -28,7 +28,7 @@ function HomeScreen(props) {
       const [userName, setUserName] = useState('');
 
       const voyageData = async() => {
-        const voyageDataRawResponse = await fetch(`https://tripbook-lacapsule.herokuapp.com/home?token=${props.token}`)
+        const voyageDataRawResponse = await fetch(`http://192.168.1.30:3000/home?token=${props.token}`)
         const voyageDataResponse = await voyageDataRawResponse.json();
         console.log('fetch homescreen fait', voyageDataResponse)
         setUserName(voyageDataResponse.username);
@@ -45,7 +45,7 @@ function HomeScreen(props) {
 
 // SUPPRESSION D'UN VOYAGE //
   const handleDeleteTrip = async(voyageID) => {
-    var rawresponse = await fetch('https://tripbook-lacapsule.herokuapp.com/deletetrip', {
+    var rawresponse = await fetch('http://192.168.1.30:3000/deletetrip', {
       method: 'POST',
       headers: {'Content-Type':'application/x-www-form-urlencoded'},
       body: `idTripFromFront=${voyageID}&token=${props.token}`
@@ -130,6 +130,10 @@ const handleTripDetails = (voyageID) => {
       <Image 
       style={styles.mediumLogo}
       source={require('../assets/Logo_Bleu_Trip_Book.png')}/>
+      
+    
+
+  
     {userName != '' ? 
       <Text style={styles.subTitle}>Bienvenue {userName}</Text>
       : null}

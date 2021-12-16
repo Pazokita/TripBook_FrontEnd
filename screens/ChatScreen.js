@@ -66,6 +66,7 @@ function ChatScreen() {
           value={currentMessage}
         />
         <Button
+          buttonStyle= {styles.sendbutton}
           title="Send Message"
           onPress={() => {
             socket.emit("sendMessage", { message: currentMessage });
@@ -88,6 +89,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: "white",
     alignSelf: "center",
+  },
+
+  sendbutton: {
+    backgroundColor: "#FFB81F",
+    width: 347,
+    marginTop: 40,
   },
   
 });

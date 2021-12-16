@@ -21,7 +21,8 @@ import SignUpScreen from "./screens/SignUpScreen";
 import InvitationScreen from "./screens/InvitationScreen";
 import HomeScreen from "./screens/HomeScreen";
 import Itinerary2Screen from "./screens/Itinerary2Screen";
-import AddEtape from "./components/AddEtape";
+
+import CheckListScreen from "./screens/CheckListScreen";
 
 
 
@@ -45,6 +46,8 @@ function App() {
           <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false}}/>
           <Stack.Screen name="Itinerary2Screen" component={Itinerary2Screen} options={{ headerShown: false}}/>
           <Stack.Screen name="Nav" component={TabNav} />
+          <Stack.Screen name="CheckListScreen" component={CheckListScreen} options={{ headerShown: false}}/>
+
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

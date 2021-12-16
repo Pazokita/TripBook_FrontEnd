@@ -22,33 +22,38 @@ function MapScreen(props) {
 
   const [modalUserVisible, setModalUserVisible] = useState(false);
   const [modalBellVisible, setModalBellVisible] = useState(false);
-  const [listMarks, setListMarks] = useState([]);
-  const [departETArrivee, setDepartETArrivee]= useState([]);
+  const [listMarks, setListMarks] = useState(props.marqueursList);
+  const [departETArrivee, setDepartETArrivee]= useState(props.villesDetA);
   const [dureeEtape, setDureeEtape] = useState([]);
   
+console.log('props.villesDetA', props.villesDetA)
 
 
-
-  useEffect(async () => {
-    const response = await fetch('https://tripbook-lacapsule.herokuapp.com/marqueurs', {
-      method: 'POST',
-      headers: {'Content-Type':'application/x-www-form-urlencoded'},
-      body: `voyageIDFromFront=${props.voyageID}`
-    });
-    console.log('chargement 2')
-    const rawresponse = await response.json()
-    console.log(rawresponse)
-
-    setListMarks(rawresponse.villesMarked)
-    console.log('verification 1')
-    console.log(listMarks)
-
-    setDepartETArrivee(rawresponse.tableauVilleDetA)
-    console.log('verification 2')
-    console.log(departETArrivee)
-
-    setDureeEtape(rawresponse.tableauDureeEtapes)
-  }, []);
+  useEffect(() => {
+    async function mapLoad() {
+      const response = await fetch('https://tripbook-lacapsule.herokuapp.com/marqueurs', {
+        method: 'POST',
+        headers: {'Content-Type':'application/x-www-form-urlencoded'},
+        body: `voyageIDFromFront=${props.voyageID}`
+      }); 
+      console.log('chargement 2')
+      const rawresponse = await response.json()
+      console.log(rawresponse)
+  
+      //setListMarks(rawresponse.villesMarked)
+      console.log('verification 1')
+      setListMarks(props.marqueursList)
+      //console.log(listMarks)
+  
+      //setDepartETArrivee(rawresponse.tableauVilleDetA)
+      console.log('verification 2')
+      setDepartETArrivee(props.villesDetA)
+      //console.log(departETArrivee)
+  
+      setDureeEtape(rawresponse.tableauDureeEtapes)
+    } 
+    mapLoad()
+  }, [props.marqueursList, props.villesDetA]);
 
   const intitiateMarks = listMarks.map((ville, i)=> {
 
@@ -256,8 +261,8 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state){
   return { voyageID: state.voyageID,
-    voyagesList : state.voyagesList,
-    villeDepart : state.villeDepart
+    marqueursList : state.marqueursList,
+    villesDetA : state.villesDetA
   }
 }
 

@@ -9,6 +9,8 @@ import {createStore, combineReducers}  from 'redux';
 import token from './reducers/token';
 import voyageID from "./reducers/voyageID";
 import voyagesList from "./reducers/voyagesList";
+import marqueursList from "./reducers/marqueursList";
+import villesDetA from "./reducers/villesDetA";
 
 
 
@@ -25,7 +27,7 @@ import PlanningScreen from "./screens/PlanningScreen";
 
 
 const Stack = createStackNavigator();
-const store = createStore(combineReducers({token, voyageID, voyagesList}));
+const store = createStore(combineReducers({token, voyageID, voyagesList, marqueursList, villesDetA}));
 
 
 
@@ -44,7 +46,6 @@ function App() {
           <Stack.Screen name="Itinerary2Screen" component={Itinerary2Screen} options={{ headerShown: false}}/>
           <Stack.Screen name="PlanningScreen" component={PlanningScreen} options={{ headerShown: false}}/>
           <Stack.Screen name="Nav" component={TabNav} />
-          <Stack.Screen name="CheckListScreen" component={CheckListScreen} options={{ headerShown: false}}/>
 
         </Stack.Navigator>
       </NavigationContainer>

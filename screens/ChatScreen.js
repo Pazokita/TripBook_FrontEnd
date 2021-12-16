@@ -20,7 +20,7 @@ import { Poppins_700Bold, Poppins_300Light } from "@expo-google-fonts/poppins";
 
 import socketIOClient from "socket.io-client";
 
-var socket = socketIOClient("http://192.168.0.36:3000");
+var socket = socketIOClient("https://tripbook-lacapsule.herokuapp.com:3000");
 
 function ChatScreen() {
   

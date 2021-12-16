@@ -18,11 +18,13 @@ import {
 import { Poppins_700Bold, Poppins_300Light } from "@expo-google-fonts/poppins";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Calendar from "react-native-calendar-range-picker";
+import { connect } from "react-redux";
+import voyageID from "../reducers/voyageID";
 
 
 
 
-function Addtask({ task, setTask, setShowFormTask }) {
+function Addtask({ task, setTask, setShowFormTask, voyageID}) {
   const [titre, setTitre] = useState("");
   const [description, setDescription] = useState("");
 
@@ -82,7 +84,7 @@ function Addtask({ task, setTask, setShowFormTask }) {
 
     //creer une tâche
     const tasks = { titre, description, assignation, etat };
-    console.log(tasks)
+    // console.log(tasks)
     //ajouter le state
     const newTask = [...task, tasks];
     setTask(newTask);
@@ -125,13 +127,14 @@ function Addtask({ task, setTask, setShowFormTask }) {
  //enregistrer task dans BDD//
 const addTask = async() => {
   console.log('click detecté')
-  var rawresponse = await fetch('https://192.168.0.23:3000/checklist', {
+  var rawresponse = await fetch('http://192.168.0.23:3000/checklist', {
     method: 'POST',
     headers: {'Content-Type':'application/x-www-form-urlencoded'},
     body: `voyageId=${props.voyageID}&nameFromFront=${titre}&descFromFront=${description}&deadlineFromFront=${limitDate}&statutFromFront=${etat}&assignationFromFront=${assignation}`
    })
    var response = await rawresponse.json();
-   console.log(response)
+   console.log('réponse du back', response)
+   setTask(response.tripchecklist)
   
    } 
 
@@ -201,7 +204,7 @@ const addTask = async() => {
             style={styles.input}
             onChangeText={(texte) => setEtat(texte)}
           ></TextInput>
-          <TouchableHighlight style={styles.btn} onPress={() => addNewTask()}>
+          <TouchableHighlight style={styles.btn} onPress={() => addTask()}>
             <Text style={styles.textbtn}>Ajoute une tâche</Text>
           </TouchableHighlight>
         </View>
@@ -257,4 +260,10 @@ const styles = StyleSheet.create({
     color: "#131256",
   },
 });
-export default Addtask;
+
+function mapStateToProps(voyageID) {
+  return { voyageID:voyageID }
+ }
+ export default connect(mapStateToProps, null)(Addtask);
+
+

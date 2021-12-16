@@ -218,7 +218,7 @@ function ItineraryScreen(props) {
 
 const styles = StyleSheet.create({
   container: {
-    width: 347,
+    flex: 1,
     alignItems: "center",
     backgroundColor: "white",
   },

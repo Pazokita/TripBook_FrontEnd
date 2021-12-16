@@ -30,10 +30,10 @@ function HomeScreen(props) {
       const voyageData = async() => {
         const voyageDataRawResponse = await fetch(`https://tripbook-lacapsule.herokuapp.com/home?token=${props.token}`)
         const voyageDataResponse = await voyageDataRawResponse.json();
-        console.log('fetch homescreen fait', voyageDataResponse)
+        // console.log('fetch homescreen fait', voyageDataResponse)
         setUserName(voyageDataResponse.username);
         props.voyagesListReducer(voyageDataResponse.voyages)
-        console.log('/// props.voyagesList ///', props.voyagesList)
+        // console.log('/// props.voyagesList ///', props.voyagesList)
         //setTripList(voyageDataResponse.voyages)
       }
 
@@ -51,7 +51,7 @@ function HomeScreen(props) {
       body: `idTripFromFront=${voyageID}&token=${props.token}`
     })
     var response = await rawresponse.json();
-    console.log('route delete fait')
+    // console.log('route delete fait')
     //setTripList(response.voyages)
     props.voyagesListReducer(response.voyages)
 

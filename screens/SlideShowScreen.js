@@ -20,9 +20,9 @@ function SlideShowScreen(props) {
   const [active, setActive] = useState(0);
 
   const images = [
-    "https://images.unsplash.com/photo-1549937917-03ccda498729?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format",
-    "https://images.unsplash.com/photo-1606385199623-1e72da6e60ba?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8dm95YWdlfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60",
-    'https://images.unsplash.com/photo-1567009694991-c26bee6f79ae?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=928&q=80'
+    require("../assets/Screenshot1.jpg"),
+    require("../assets/Screenshot2.png"),
+    require("../assets/Screenshot3.jpg"),
   ]
 
   const change = ({nativeEvent}) => {
@@ -51,12 +51,12 @@ function SlideShowScreen(props) {
         horizontal
         onScroll={change}
         showHorizontalScrollIndicator={false}
-        style={{width: 200, height: "90%", marginTop: 30}}>
+        style={{width: 200, height: "90%", marginTop: 30,}}>
         {images.map((image, index) => (
           <Image
             key={index}
-            source={{uri: image}}
-            style={{width: 200, height: "90%", borderRadius: 30}}
+            source={image}
+            style={{width: 200, height: "88%", borderRadius: 30}}
           />
         ))}
       </ScrollView>

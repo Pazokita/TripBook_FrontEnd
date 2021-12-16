@@ -39,7 +39,7 @@ const [isEnabled, setIsEnabled] = useState(false);
 
   useEffect(() => {
     async function voyageDataFromBack() {
-      var rawresponse = await fetch('https://tripbook-lacapsule.herokuapp.com/itinerary', {
+      var rawresponse = await fetch('http://192.168.1.30:3000/itinerary', {
        method: 'POST',
        headers: {'Content-Type':'application/x-www-form-urlencoded'},
        body: `voyageId=${props.voyageID}`
@@ -62,7 +62,7 @@ const [isEnabled, setIsEnabled] = useState(false);
 
 const addVilleDepart = async() => {
   setCheck(false)
-  var rawresponse = await fetch('https://tripbook-lacapsule.herokuapp.com/addvilledepart', {
+  var rawresponse = await fetch('http://192.168.1.30:3000/addvilledepart', {
     method: 'POST',
     headers: {'Content-Type':'application/x-www-form-urlencoded'},
     body: `voyageId=${props.voyageID}&villeDepartFromFront=${villeDepart}`
@@ -75,7 +75,7 @@ const addVilleDepart = async() => {
 // ADD VILLE RETOUR //
 const addVilleRetour = async() => {
   setCheck2(false)
-  var rawresponse = await fetch('https://tripbook-lacapsule.herokuapp.com/addvilleretour', {
+  var rawresponse = await fetch('http://192.168.1.30:3000/addvilleretour', {
   method: 'POST',
   headers: {'Content-Type':'application/x-www-form-urlencoded'},
   body: `voyageId=${props.voyageID}&villeRetourFromFront=${villeRetour}`
@@ -93,7 +93,7 @@ const addVilleRetour = async() => {
     <TextInput 
       style={styles.paragraphe} 
       placeholder="Ville de retour"
-      onChangeText={(value) => setVilleRetour(value)}
+      onChangeText={(value) => {setVilleRetour(value), setIsValidated(false)}}
       value={villeRetour}
       onFocus={() => setCheck2(true)}
       />
@@ -126,7 +126,7 @@ const [etapeVille, setEtapeVille] = useState('');
 
 const addEtape = async() => {
   console.log('click detecté')
-  var rawresponse = await fetch('https://tripbook-lacapsule.herokuapp.com/addetape', {
+  var rawresponse = await fetch('http://192.168.1.30:3000/addetape', {
     method: 'POST',
     headers: {'Content-Type':'application/x-www-form-urlencoded'},
     body: `voyageId=${props.voyageID}&villeEtapeFromFront=${etapeVille}&dureeFromFront=${jour}`
@@ -141,7 +141,7 @@ const addEtape = async() => {
 // SUPPRIMER ETAPE //
 const handleDeleteEtape = async(etapeID) => {
   console.log('click détecté')
-  var rawresponse = await fetch('https://tripbook-lacapsule.herokuapp.com/deleteetape', {
+  var rawresponse = await fetch('http://192.168.1.30:3000/deleteetape', {
     method: 'POST',
     headers: {'Content-Type':'application/x-www-form-urlencoded'},
     body: `etapeIDFromFront=${etapeID}&voyageID=${props.voyageID}`
@@ -149,31 +149,48 @@ const handleDeleteEtape = async(etapeID) => {
   setEtapesList(etapesList)
 }
 
+// AJOUTER une ville en base de donnée avec ses coordonnées //
+const [isValidated, setIsValidated] = useState(false)
+
+// const handleSubmitVilles = async () => {
+//   console.log("bouton en état de marche")
+
+//   const response = await fetch('http://192.168.1.30:3000/addVille', {
+//     method: 'POST',
+//     headers: {'Content-Type':'application/x-www-form-urlencoded'},
+//     body: `voyageID=${props.voyageID}&villeEtapeFromFront=${etapeVille}&dureeFromFront=${jour}`
+//    })
+//   setIsValidated(true)
+//   const rawresponse = await response.json()
+//   console.log(rawresponse)
+// }
+
+
+
   return (
     <View style={styles.container}>
        
       <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '95%'}}>
         <Image
-        style={styles.bigLogo}
-        source={require("../assets/Logo_Bleu_Trip_Book_No_Planet.png")}
-        onPress={() => props.navigation.navigate('HomeScreen')}
-    />
-    <View style={{flexDirection: 'row'}}>
+          style={styles.bigLogo}
+          source={require("../assets/Logo_Bleu_Trip_Book_No_Planet.png")}
+          onPress={() => props.navigation.navigate('HomeScreen')}
+        />
+        <View style={{flexDirection: 'row'}}>
           <Button 
-          icon={<FontAwesomeIcon icon={faUser} style={styles.icon} size={25} />}
-          type={"clear"}
-          onPress={() => setModalUserVisible(true) }
+            icon={<FontAwesomeIcon icon={faUser} style={styles.icon} size={25} />}
+            type={"clear"}
+            onPress={() => setModalUserVisible(true) }
           />
-          
-            <Button
+            
+          <Button
             icon={<FontAwesomeIcon icon={faBell} style={styles.icon} size={25} />}
             type={"clear"}
             onPress={() => setModalBellVisible(true)}
           />
         </View>
-          
-        </View>
-       <Modal
+      </View>
+        <Modal
           transparent={true}
           visible={modalBellVisible}
           >
@@ -183,88 +200,91 @@ const handleDeleteEtape = async(etapeID) => {
                 <Pressable
                 style={styles.smallPressable}
                 onPress={() => setModalBellVisible(false)}
-                >
-                  <Text style={styles.textbutton}>Fermer</Text>
-                </Pressable>
-                </View>
-                </View>
-                </Modal>       
+              >
+                <Text style={styles.textbutton}>Fermer</Text>
+              </Pressable>
+            </View>
+          </View>
+        </Modal>       
        <Modal
           transparent={true}
           visible={modalUserVisible}
-          >
-            <View style={{backgroundColor:"#131256aa", flex:1}}>
-              <View style={{backgroundColor:"#FFB81Faa", margin:50, padding:40, borderRadius:10}}>
-                <Pressable
+        >
+          <View style={{backgroundColor:"#131256aa", flex:1}}>
+            <View style={{backgroundColor:"#FFB81Faa", margin:50, padding:40, borderRadius:10}}>
+              <Pressable
                 style={styles.pressable}
                 onPress={() => props.navigation.navigate('FirstScreen')}
-                >
+              >
                 <Text style={styles.textbutton}>Deconnexion</Text>
-                </Pressable>
-                <Pressable 
+              </Pressable>
+              <Pressable 
                 style={styles.pressable}
                 onPress={() => props.navigation.navigate('FirstScreen')}
-                >
+              >
                 <Text style={styles.textbutton}>Paramètres</Text>
-                </Pressable>
-                <Pressable
+              </Pressable>
+              <Pressable
                 style={styles.smallPressable}
                 onPress={() => setModalUserVisible(false)}
-                >
-                  <Text style={styles.textbutton}>Fermer</Text>
-                </Pressable>
-                </View>
-                </View>
-                </Modal> 
-    
+              >
+                <Text style={styles.textbutton}>Fermer</Text>
+              </Pressable>
+            </View>
+          </View>
+        </Modal> 
       <View style={{flexDirection: 'row', justifyContent: 'center'}}>
         <TextInput style={styles.text} value={tripName}/>
+        <MaterialCommunityIcons 
+          name="pencil" 
+          size={24} 
+          style={styles.iconCrayon}
+        />
       </View>
-    <ScrollView>
-            <View style={styles.input}>
-                <TextInput 
-                  style={styles.paragraphe}
-                  placeholder="Ville de départ"
-                  onChangeText={(value) => setVilleDepart(value)}
-                  value={villeDepart}
-                  onFocus={() => setCheck(true)}
-                ></TextInput>
-                {check === true ? <Button title={'Valider'} buttonStyle={{backgroundColor: '#131256'}} titleStyle={{fontFamily: 'Poppins_300Light'}} onPress={() => addVilleDepart()}/> : null}
+      <ScrollView>
+        <View style={styles.input}>
+          <TextInput 
+            style={styles.paragraphe}
+            placeholder="Ville de départ"
+            onChangeText={(value) => {setVilleDepart(value), setIsValidated(false)}}
+            defaultValue={villeDepart}
+            onFocus={() => setCheck(true)}
+          ></TextInput>
+      {check === true ? <Button title={'Valider'} buttonStyle={{backgroundColor: '#131256'}} titleStyle={{fontFamily: 'Poppins_300Light'}} onPress={() => addVilleDepart()}/> : null}
             </View>
-                <View style={styles.viewSwitch}>
-                  <Switch 
-                    value={isEnabled} 
-                    color='#131256'
-                    onValueChange={toggleSwitch}
-                  /> 
-                  <Text style={styles.paragraphe}>Ville de départ différente de la ville de retour</Text>
-                </View>
+              <View style={styles.viewSwitch}>
+                <Switch 
+                  value={isEnabled} 
+                  color='#131256'
+                  onValueChange={toggleSwitch}
+                /> 
+                <Text style={styles.paragraphe}>Ville de départ différente de la ville de retour</Text>
+              </View>
 
-                {isEnabled === true ? inputVilleRetour : null}
-
-<Text style={styles.text}>Etapes</Text>
-{etapesList.map((etape, i) => (
-  <View backgroundColor="rgba(255,184,31,0.09)" style={styles.ville} key={i}>
-    <FontAwesomeIcon icon={faTimesCircle} style={styles.icon} size={25} onPress={() => handleDeleteEtape(etape._id)}/>
-  <TextInput style={styles.paragraphe} placeholder="Ville d'étape" defaultValue={etape.ville} onChangeText={(value) => setEtapeVille(value)}/>
-  <View style={{flexDirection: 'row'}}>
-  <AntDesign 
-                    name="minuscircle" 
-                    size={30} 
-                    color="rgba(255,184,31,1)" 
-                    style={styles.iconPlus}
-                    onPress={() =>  {etape.duree -1}}
-                  />
-  <Text style={styles.paragraphe}>{etape.duree} jour(s)</Text>
-  <AntDesign 
-                    name="pluscircle" 
-                    size={30} 
-                    color="rgba(255,184,31,1)" 
-                    style={styles.iconPlus}
-                    onPress={() => {etape.duree +1}}
-                  />
-  </View>
-  </View>
+      {isEnabled === true ? inputVilleRetour : null}
+            <Text style={styles.text}>Etapes</Text>
+      {etapesList.map((etape, i) => (
+            <View backgroundColor="rgba(255,184,31,0.09)" style={styles.ville} key={i}>
+              <FontAwesomeIcon icon={faTimesCircle} style={styles.icon} size={25} onPress={() => handleDeleteEtape(etape._id)}/>
+              <TextInput style={styles.paragraphe} placeholder="Ville d'étape" defaultValue={etape.ville} onChangeText={(value) => {setEtapeVille(value), setIsValidated(false)}}/>
+              <View style={{flexDirection: 'row'}}>
+                <AntDesign 
+                  name="minuscircle" 
+                  size={30} 
+                  color="rgba(255,184,31,1)" 
+                  style={styles.iconPlus}
+                  onPress={() =>  {etape.duree -1}}
+                />
+                <Text style={styles.paragraphe}>{etape.duree} jour(s)</Text>
+                <AntDesign 
+                  name="pluscircle" 
+                  size={30} 
+                  color="rgba(255,184,31,1)" 
+                  style={styles.iconPlus}
+                  onPress={() => {etape.duree +1}}
+                />
+              </View>
+            </View>
 ))}
 <View backgroundColor="rgba(255,184,31,0.09)" style={styles.ville} >
   <TextInput style={styles.paragraphe} placeholder="Ville d'étape" value={etapeVille} onChangeText={(value) => setEtapeVille(value)}/>

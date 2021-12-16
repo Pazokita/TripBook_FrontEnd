@@ -30,7 +30,7 @@ function SignUpScreen(props) {
 
 
   var handleSubmitSignUp = async () => {
-    const response = await fetch('http://192.168.1.30:3000/sign-up', {
+    const response = await fetch('https://tripbook-lacapsule.herokuapp.com/sign-up', {
     method: 'POST',
     headers: {'Content-Type':'application/x-www-form-urlencoded'},
     body: `usernameFromFront=${signUpUsername}&emailFromFront=${signUpEmail}&passwordFromFront=${signUpPassword}`

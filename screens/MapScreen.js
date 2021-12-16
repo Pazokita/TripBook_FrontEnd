@@ -30,7 +30,7 @@ function MapScreen(props) {
 
 
   useEffect(async () => {
-    const response = await fetch('http://192.168.1.30:3000/marqueurs', {
+    const response = await fetch('https://tripbook-lacapsule.herokuapp.com/marqueurs', {
       method: 'POST',
       headers: {'Content-Type':'application/x-www-form-urlencoded'},
       body: `voyageIDFromFront=${props.voyageID}`

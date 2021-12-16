@@ -46,7 +46,7 @@ export default function InvitationScreen(props) {
       <ScrollView>
       <Image
         style={styles.bigLogo}
-        source={require('../assets/Logo_Blanc_Trip_Book.png')}
+        source={require('../assets/Logo_Bleu_Trip_Book.png')}
       />
       <Text style={styles.text}>J'invite mes co-voyageurs</Text>
 
@@ -56,16 +56,16 @@ export default function InvitationScreen(props) {
 
       <View>
         <TouchableOpacity>
-        <Text style={styles.textPetit2} onPress={ ()=>{ Linking.openURL('mailto')}} ><FontAwesome5 name="envelope" size={20} color="white" />  Envoyer le lien par mail</Text>
+        <Text style={styles.textPetit2} onPress={ ()=>{ Linking.openURL('mailto')}} ><FontAwesome5 name="envelope" size={20} color="#131256" />  Envoyer le lien par mail</Text>
         </TouchableOpacity>
         <TouchableOpacity>
-        <Text style={styles.textPetit2}><FontAwesome5 name="sms" size={20} color="white"/>  Envoyer le lien par sms</Text>
+        <Text style={styles.textPetit2}><FontAwesome5 name="sms" size={20} color="#131256"/>  Envoyer le lien par sms</Text>
         </TouchableOpacity>
         <TouchableOpacity>
-            <Text style={styles.textPetit2}><FontAwesome5 name="whatsapp" size={20} color="white"/>  Envoyer le lien sur Whatsapp</Text>
+            <Text style={styles.textPetit2}><FontAwesome5 name="whatsapp" size={20} color="#131256"/>  Envoyer le lien sur Whatsapp</Text>
         </TouchableOpacity>
         <TouchableOpacity>
-        <Text style={styles.textPetit2}><FontAwesome5 name="facebook-messenger" size={20} color="white"/>  Envoyer le lien sur Messenger</Text>
+        <Text style={styles.textPetit2}><FontAwesome5 name="facebook-messenger" size={20} color="#131256"/>  Envoyer le lien sur Messenger</Text>
         </TouchableOpacity>
     </View>
     <Button
@@ -84,12 +84,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     paddingTop: 50,
-    backgroundColor: '#131256',
+    backgroundColor: 'white',
   },
   bigLogo: {
     width: 100,
     height: 92,
-
     justifyContent: 'center',
     marginBottom: 30
   },
@@ -97,14 +96,14 @@ const styles = StyleSheet.create({
     fontFamily: 'PlayfairDisplay_900Black',
     fontSize: 24,
     justifyContent: "center",
-    color: 'white',
+    color: '#131256',
     textAlign: 'center'
   },
   textPetit: {
     fontFamily: 'Poppins_300Light',
     fontSize: 18,
     textAlign: 'center',
-    color: 'white',
+    color: '#131256',
     marginTop: 30,
     marginBottom: 30,
     textDecorationLine: 'underline'
@@ -113,7 +112,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins_300Light',
     fontSize: 18,
     textAlign: 'left',
-    color: 'white',
+    color: '#131256',
     marginTop: 30,
     marginBottom: 30,
     textDecorationLine: 'underline'
@@ -133,16 +132,16 @@ const styles = StyleSheet.create({
   }, 
   sendbutton: {
     backgroundColor: "#FFB81F",
-    width: 346,
+    width: 347,
     marginTop: 30,
   },
   sendbutton2: {
     backgroundColor: "#979797",
-    width: 346,
+    width: 347,
     marginTop: 30,
   },
   icon: {
-    color: 'white',
+    color: '#131256',
     paddingRight: 20,
   },
   ligne :{

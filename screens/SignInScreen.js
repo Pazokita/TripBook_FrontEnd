@@ -65,11 +65,11 @@ function SignInScreen(props) {
       source={require('../assets/Logo_Bleu_Trip_Book.png')}/>
       <Text style={styles.subTitle}>Se connecter</Text>
       
-      <View style={styles.inputView}>
+      <View>
        
-          <TextInput onChangeText={(val)=> setSignInEmail(val)} placeholder="Email" style={styles.text} autoCapitalize="none"/>
+          <TextInput onChangeText={(val)=> setSignInEmail(val)} placeholder="Email" style={styles.input} autoCapitalize="none"/>
         
-          <TextInput onChangeText={(val)=> setSignInPassword(val)} placeholder="Mot de passe"style={styles.text} secureTextEntry={true} autoCapitalize="none"/>
+          <TextInput onChangeText={(val)=> setSignInPassword(val)} placeholder="Mot de passe"style={styles.input} secureTextEntry={true} autoCapitalize="none"/>
       </View>
       
       {tabErrorsSignIn}
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
   mediumLogo: {
     width:107,
     height:92,
-    marginBottom: 50
+    marginBottom: 20
   },
 
   subTitle: {
@@ -165,6 +165,19 @@ const styles = StyleSheet.create({
     height:56,
     backgroundColor: "#FFB81F",
     marginTop: 40,
+  },
+
+  input: {
+    fontFamily: "Poppins_300Light",
+    fontSize: 18,
+    justifyContent: "center",
+    color: "#131256",
+    backgroundColor: "rgba(255,184,31,0.15)",
+    padding: 10,
+    borderBottomColor: "#FFB81F",
+    borderBottomWidth: 2,
+    marginBottom: 10,
+    width: 347
   },
 });
 

@@ -218,7 +218,7 @@ function ItineraryScreen(props) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    width: 347,
     alignItems: "center",
     backgroundColor: "white",
   },
@@ -270,7 +270,7 @@ const styles = StyleSheet.create({
   },
   sendbutton: {
     backgroundColor: "#FFB81F",
-    width: 346,
+    width: 347,
     alignSelf: "center",
     padding: 10,
     justifyContent: "center",

@@ -67,11 +67,11 @@ function SignUpScreen(props) {
       source={require('../assets/Logo_Bleu_Trip_Book.png')}/>
       <ScrollView style={styles.scrolling}>
         <Text style={styles.subTitle}>Inscription</Text>
-        <Text style={styles.text}>Je m’inscris pour inviter mes co-voyageurs</Text>
-        <View style={styles.inputView}>
-            <TextInput onChangeText={(val)=> setSignUpUsername(val)} placeholder="Nom d'utilisateur" style= {styles.text}/>
-            <TextInput onChangeText={(val)=> setSignUpEmail(val)} placeholder="Email" style= {styles.text} autoCapitalize="none"/>
-            <TextInput onChangeText={(val)=> setSignUpPassword (val)} placeholder="Mot de passe" style= {styles.text} secureTextEntry={true} autoCapitalize="none"/>
+        <Text style={styles.textPetit}>Je m’inscris pour inviter mes co-voyageurs</Text>
+        <View>
+            <TextInput onChangeText={(val)=> setSignUpUsername(val)} placeholder="Nom d'utilisateur" style= {styles.input}/>
+            <TextInput onChangeText={(val)=> setSignUpEmail(val)} placeholder="Email" style= {styles.input} autoCapitalize="none"/>
+            <TextInput onChangeText={(val)=> setSignUpPassword (val)} placeholder="Mot de passe" style= {styles.input} secureTextEntry={true} autoCapitalize="none"/>
         </View>
         {tabErrorsSignup}
         <Button
@@ -95,56 +95,37 @@ function SignUpScreen(props) {
 
 
 const styles = StyleSheet.create({
+
   container: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
     padding: 50,
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
-//   bigLogo: {
-//     width: 257,
-//     height: 236,
-//   },
   
   mediumLogo: {
     width:107,
     height:92,
     marginBottom: 30,
-    marginTop:0
+    marginTop: 60
   },
 
   subTitle: {
-    fontFamily: "PlayfairDisplay_900Black",
+    fontFamily: 'PlayfairDisplay_900Black',
     fontSize: 24,
     justifyContent: "center",
     color: '#131256',
     textAlign: 'center'
   },
 
-  desc: {
-    fontFamily: "PlayfairDisplay_900Black",
-    fontSize: 48,
-    marginBottom: 10,
-    justifyContent: "center",
-    textAlign: "center",
-    color: 'white'
-  },
-
-   text: {
-    fontFamily: "PlayfairDisplay_900Black",
-    fontSize: 48,
-    marginBottom: 10,
-    justifyContent: "center",
-    color: 'white'
-  },
-  textWarning : {
-    fontFamily: "PlayfairDisplay_900Black",
-    fontSize: 20,
-    marginBottom: 10,
-    justifyContent: "center",
-    color: 'red',
-    marginTop : 15
+  textPetit: {
+    fontFamily: 'Poppins_300Light',
+    fontSize: 18,
+    textAlign: 'center',
+    color: '#131256',
+    marginTop: 30,
+    marginBottom: 20
   },
 
   textbutton: {
@@ -153,36 +134,12 @@ const styles = StyleSheet.create({
     color: "white",
   }, 
 
-  text: {
-    fontFamily: "Poppins_300Light",
-    fontSize: 15,
-    marginTop: 20,
-    marginBottom: 20,
-    marginLeft: 20,
-    color: "#131256"
-  },
-
-  smallText: {
-    fontFamily: "Poppins_300Light",
-    fontSize: 12,
-    color: "#131256",
-    marginTop: 30
-  },
-
-  inputView: {
-   borderRadius: 20,
-   backgroundColor: "rgba(255,184,31,0.15)",
-   opacity: 50,
-   width: 348,
-   marginTop: 20
-  },
-
   sendbutton: {
     width: 347,
     height:56,
     backgroundColor: "#FFB81F",
     marginTop: 20,
-    marginBottom : 30
+    marginBottom : 0
   },
 
   scrolling: {
@@ -192,6 +149,19 @@ const styles = StyleSheet.create({
     marginRight:0,
     marginBottom : 0,
     width : 350,
+  },
+
+  input: {
+    fontFamily: "Poppins_300Light",
+    fontSize: 18,
+    justifyContent: "center",
+    color: "#131256",
+    backgroundColor: "rgba(255,184,31,0.15)",
+    padding: 10,
+    borderBottomColor: "#FFB81F",
+    borderBottomWidth: 2,
+    marginBottom: 10,
+    width: 347
   },
 });
 

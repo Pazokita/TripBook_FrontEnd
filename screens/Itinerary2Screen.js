@@ -8,7 +8,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import {faTimesCircle, faUser, faBell, faCheckCircle} from "@fortawesome/free-solid-svg-icons"
+import {faTimesCircle, faUser, faBell} from "@fortawesome/free-solid-svg-icons"
 
 
 import { Image } from "react-native-elements";
@@ -24,13 +24,14 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 function Itinerary2Screen(props) {
 
 const [villeDepart, setVilleDepart] = useState(props.villeDepart);
-const [villeRetour, setVilleRetour] = useState('');
+const [villeRetour, setVilleRetour] = useState(null);
 const [tripName, setTripName] = useState(props.voyagesList.tripName);
 const [etapesList, setEtapesList] = useState([]);
 const [modalUserVisible, setModalUserVisible] = useState(false);
 const [modalBellVisible, setModalBellVisible] = useState(false);
 const [check, setCheck] = useState(false)
 const [check2, setCheck2] = useState(false)
+const [isEnabled, setIsEnabled] = useState(false);
 
 
 
@@ -44,14 +45,18 @@ const [check2, setCheck2] = useState(false)
        body: `voyageId=${props.voyageID}`
       })
       var response = await rawresponse.json();
-      console.log('reponse back itinerary :', response)
       setTripName(response.trip.tripName)
       setEtapesList(response.trip.etapes)
-      props.villeDepartReducer(response.trip.villeDepart)
-      setVilleDepart(props.villeDepart)
+      setVilleDepart(response.trip.villeDepart)
+      setVilleRetour(response.trip.villeRetour)
       }
       voyageDataFromBack();
+      if(villeDepart != villeRetour){
+        toggleSwitch()
+        }
   }, [])
+
+  
   
 // ADD VILLE DEPART //
 
@@ -82,8 +87,7 @@ const addVilleRetour = async() => {
 
 
 // SWITCH //
-  const [isEnabled, setIsEnabled] = useState(false);
-
+ 
   var inputVilleRetour = (
     <View style={styles.input} >
     <TextInput 
@@ -112,10 +116,10 @@ const addVilleRetour = async() => {
 // NOMBRE JOURS //
 const [jour, setJour] = useState(0)
 
-if (jour < 0) {
-  setJour(0)
-}
-//
+  if (jour < 0) {
+    setJour(0)
+  }
+  //
 
 // AJOUTER NOUVELLE ETAPE //
 const [etapeVille, setEtapeVille] = useState('');
@@ -128,6 +132,7 @@ const addEtape = async() => {
     body: `voyageId=${props.voyageID}&villeEtapeFromFront=${etapeVille}&dureeFromFront=${jour}`
    })
    var response = await rawresponse.json();
+   console.log(response)
    setEtapesList(response.tripEtapes)
    setEtapeVille('')
    setJour(0)
@@ -174,7 +179,7 @@ const handleDeleteEtape = async(etapeID) => {
           >
             <View style={{backgroundColor:"#131256aa", flex:1}}>
               <View style={{backgroundColor:"#FFB81Faa", margin:50, padding:40, borderRadius:10}}>
-                <Text style={styles.textBell}>Blabla</Text>
+                <Text style={styles.textBell}>Ceci est une notification</Text>
                 <Pressable
                 style={styles.smallPressable}
                 onPress={() => setModalBellVisible(false)}
@@ -214,11 +219,6 @@ const handleDeleteEtape = async(etapeID) => {
     
       <View style={{flexDirection: 'row', justifyContent: 'center'}}>
         <TextInput style={styles.text} value={tripName}/>
-        <MaterialCommunityIcons 
-        name="pencil" 
-        size={24} 
-        style={styles.iconCrayon}
-        />
       </View>
     <ScrollView>
             <View style={styles.input}>
@@ -227,9 +227,8 @@ const handleDeleteEtape = async(etapeID) => {
                   placeholder="Ville de départ"
                   onChangeText={(value) => setVilleDepart(value)}
                   value={villeDepart}
-                  defaultValue={props.villeDepart}
                   onFocus={() => setCheck(true)}
-                ><Button title='valider'/></TextInput>
+                ></TextInput>
                 {check === true ? <Button title={'Valider'} buttonStyle={{backgroundColor: '#131256'}} titleStyle={{fontFamily: 'Poppins_300Light'}} onPress={() => addVilleDepart()}/> : null}
             </View>
                 <View style={styles.viewSwitch}>
@@ -241,7 +240,7 @@ const handleDeleteEtape = async(etapeID) => {
                   <Text style={styles.paragraphe}>Ville de départ différente de la ville de retour</Text>
                 </View>
 
-                {isEnabled === true ? inputVilleRetour : null} 
+                {isEnabled === true ? inputVilleRetour : null}
 
 <Text style={styles.text}>Etapes</Text>
 {etapesList.map((etape, i) => (
@@ -288,10 +287,6 @@ const handleDeleteEtape = async(etapeID) => {
   </View>
   </View>
 
-
-
-
-
         <View style={styles.viewAjouterEtape}>
           <AntDesign 
             name="pluscircle" 
@@ -301,19 +296,15 @@ const handleDeleteEtape = async(etapeID) => {
           />
           <Text style={styles.textAjouterEtape}>Ajouter une étape au voyage</Text>
         </View> 
-        
-      
-      <Button
-    title="J'invite mes covoyageurs"
-    titleStyle={styles.textbutton}
-    buttonStyle={styles.sendbutton}
-    onPress={() => props.navigation.navigate("InvitationScreen")}
-  />
-
-</ScrollView>
-
- 
-</View>
+            
+        <Button
+          title="Inviter mes covoyageurs"
+          titleStyle={styles.textbutton}
+          buttonStyle={styles.sendbutton}
+          onPress={() => props.navigation.navigate("InvitationScreen")}
+        />
+      </ScrollView>
+    </View>
   );
 }
 
@@ -382,11 +373,11 @@ const styles = StyleSheet.create({
   },
    text: {
     fontFamily: 'PlayfairDisplay_900Black',
-    fontSize: 30,
+    fontSize: 25,
     justifyContent: "center",
     color: '#131256',
-    marginTop : 15,
-    marginBottom : 10,
+    marginTop : 25,
+    marginBottom : 20,
     textAlign: 'center',
   },
   textPetit: {
@@ -491,15 +482,14 @@ textbutton: {
 
 function mapStateToProps(state){
   return { voyageID: state.voyageID,
-    voyagesList : state.voyagesList,
-    villeDepart : state.villeDepart
+    voyagesList : state.voyagesList
   }
 }
 
 function mapDispatchToProps(dispatch){
   return {
-    villeDepartReducer : function(villeDepart){
-      dispatch({type: 'villeDepart', villeDepart: villeDepart})
+    voyagesListReducer: function(voyagesList) {
+      dispatch({type: 'voyagesList', voyagesList: voyagesList})
     }
 }
 }

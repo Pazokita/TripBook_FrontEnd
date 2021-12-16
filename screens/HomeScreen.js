@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import {connect} from 'react-redux';
-import { StyleSheet, View, Text, Modal, Pressable} from "react-native";
+import { StyleSheet, View, Text, Modal, Pressable, ScrollView,} from "react-native";
 
 import { Image, Button } from "react-native-elements";
 
@@ -26,22 +26,22 @@ function HomeScreen(props) {
 
 // CHARGEMENT DES VOYAGES ET DU USERNAME //
       const [userName, setUserName] = useState('');
-      const [tripList, setTripList] = useState([]);
 
       const voyageData = async() => {
         const voyageDataRawResponse = await fetch(`https://tripbook-lacapsule.herokuapp.com/home?token=${props.token}`)
         const voyageDataResponse = await voyageDataRawResponse.json();
-        console.log('fetch homescreen fait')
+        console.log('fetch homescreen fait', voyageDataResponse)
         setUserName(voyageDataResponse.username);
         props.voyagesListReducer(voyageDataResponse.voyages)
+        console.log('/// props.voyagesList ///', props.voyagesList)
         //setTripList(voyageDataResponse.voyages)
       }
 
        useEffect(() => {
         
          voyageData();
-         return () => { console.log("App is destroyed")} ;
-      }, [])
+      }, [props.token])
+
 
 // SUPPRESSION D'UN VOYAGE //
   const handleDeleteTrip = async(voyageID) => {
@@ -66,11 +66,11 @@ const handleTripDetails = (voyageID) => {
   return (
     <View style={styles.container}>
         <View style={styles.iconView}>
-          <Button
-          icon={<FontAwesomeIcon icon={faSync} style={styles.icon} size={25}  />}
+         {/* <Button 
+          icon={<FontAwesomeIcon icon={faSync} style={styles.icon} size={25} />}
           type={"clear"}
-          onPress={() => voyageData()}
-          />
+          onPress={() => props.navigation.navigate('ItineraryScreen')}
+          />  */}
         
           <Button 
           icon={<FontAwesomeIcon icon={faUser} style={styles.icon} size={25} />}
@@ -141,7 +141,7 @@ const handleTripDetails = (voyageID) => {
       />
 
 
-      {props.voyagesList.map((voyage,i) => (
+     {props.voyagesList.map((voyage,i) => (
         <View style={styles.ville} key={i}>
           <FontAwesomeIcon icon={faTimesCircle} style={styles.icon} size={25} onPress={() => handleDeleteTrip(voyage._id)}/>
         <Text style= {styles.text2}>{voyage.tripName}</Text>
@@ -152,7 +152,8 @@ const handleTripDetails = (voyageID) => {
           onPress={() => handleTripDetails(voyage._id)}
         />
         </View>
-      ))}
+      ))} 
+    
     </View>
 )
 }

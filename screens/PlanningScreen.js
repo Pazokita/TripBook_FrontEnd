@@ -162,16 +162,11 @@ const newActivity = async() => {
      markedDates={{
     '2021-12-10': {marked: true},
     '2021-12-23': {marked: true},
-    '2021-12-24': {marked: true},
-    '2021-12-25': {marked: true},
     }} 
 
     items={{
-    '2021-12-10': [{name: 'item 1 - any js object'}],
-    '2021-12-23': [{name: 'item 2 - any js object', height: 80, time: '14h00'}],
-    '2021-12-24': [{}],
-    '2021-12-25': [{name: 'item 3 - any js object'}, {name: 'any js object'}],
-    '2021-11-30': [{}]
+    '2021-12-10': [{name: 'Restaurant Le Chamoix - Bagnères', time: '12h00'}],
+    '2021-12-23': [{name: 'Visite du musée du Camembert', time: '14h00'}],
     }}
     renderItem={(item)=> {return (
       <View style={[styles.item]}>
@@ -346,7 +341,7 @@ visible={modalPlusVisible}
           >
             <View style={{backgroundColor:"#131256aa", flex:1}}>
               <View style={{backgroundColor:"#FFB81Faa", margin:50, padding:40, borderRadius:10}}>
-                <Text style={styles.textBell}>Blabla</Text>
+                <Text style={styles.textBell}>Pas de nouvelles notifications</Text>
                 <Pressable
                 style={styles.smallPressable}
                 onPress={() => setModalBellVisible(false)}

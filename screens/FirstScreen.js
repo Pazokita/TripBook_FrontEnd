@@ -36,12 +36,6 @@ function FirstScreen(props) {
         buttonStyle={styles.sendbutton}
         onPress={() => props.navigation.navigate('SignInScreen')}
       />
-       <Button
-        title="Checklist"
-        titleStyle={styles.textbutton}
-        buttonStyle={styles.sendbutton}
-        onPress={() => props.navigation.navigate('CheckListScreen')}
-      />
     </View>
   );
 }

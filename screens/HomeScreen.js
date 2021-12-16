@@ -115,7 +115,7 @@ const handleTripDetails = (voyageID) => {
           >
             <View style={{backgroundColor:"#131256aa", flex:1}}>
               <View style={{backgroundColor:"#FFB81Faa", margin:50, padding:40, borderRadius:10}}>
-                <Text style={styles.textBell}>Blabla</Text>
+                <Text style={styles.textBell}>Pas de nouvelles notifications</Text>
                 <Pressable
                 style={styles.smallPressable}
                 onPress={() => setModalBellVisible(false)}

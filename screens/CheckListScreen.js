@@ -131,16 +131,7 @@ function CheckListScreen() {
   </View>
       
       {/* fin en-tête */}
-        <View style={styles.containerTitle}>
-          <Text style={styles.textTitle}>Trip Japon / 10 jours</Text>
-        </View>
         <View style={styles.containerChecklist}>
-          <Icon
-            name="list"
-            iconStyle={styles.icon}
-            color={"#131256"}
-            size={30}
-          ></Icon>
           <Text style={styles.textChecklist}>CheckList</Text>
         </View>
 
@@ -189,7 +180,7 @@ const styles = StyleSheet.create({
     padding: 15,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: "center",
     marginLeft: 20,
   },
   Logo: {
@@ -212,7 +203,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     justifyContent: "center",
     color: "#131256",
-    marginRight: 70,
+    textAlign: 'center'
   },
   icon: {
     color: "#131256",

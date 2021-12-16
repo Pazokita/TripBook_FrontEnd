@@ -22,43 +22,48 @@ function MapScreen(props) {
 
   const [modalUserVisible, setModalUserVisible] = useState(false);
   const [modalBellVisible, setModalBellVisible] = useState(false);
-  const [listMarks, setListMarks] = useState([]);
-  const [departETArrivee, setDepartETArrivee]= useState([]);
+  const [listMarks, setListMarks] = useState(props.marqueursList);
+  const [departETArrivee, setDepartETArrivee]= useState(props.villesDetA);
   const [dureeEtape, setDureeEtape] = useState([]);
  
   
+console.log('props.villesDetA', props.villesDetA)
 
-  useEffect(async () => {
 
-    const response = await fetch('https://tripbook-lacapsule.herokuapp.com/marqueurs', {
-      method: 'POST',
-      headers: {'Content-Type':'application/x-www-form-urlencoded'},
-      body: `voyageIDFromFront=${props.voyageID}`
-    });
-    console.log('chargement 2')
-    const rawresponse = await response.json()
-    console.log(rawresponse)
+  useEffect(() => {
+    async function mapLoad() {
+      const response = await fetch('https://tripbook-lacapsule.herokuapp.com/marqueurs', {
+        method: 'POST',
+        headers: {'Content-Type':'application/x-www-form-urlencoded'},
+        body: `voyageIDFromFront=${props.voyageID}`
+      }); 
+      console.log('chargement 2')
+      const rawresponse = await response.json()
+      console.log("rawresponse route MARQUEUR", rawresponse)
+  
+      //setListMarks(rawresponse.villesMarked)
+      setListMarks(rawresponse.villesToMarked)
+      console.log("LISTE VILLES ETAPES ????", listMarks)
+  
+      //setDepartETArrivee(rawresponse.tableauVilleDetA)
+      setDepartETArrivee(rawresponse.tableauVilleDetA)
+      //console.log(departETArrivee)
+  
+      setDureeEtape(rawresponse.tableauDureeEtapes)
+      console.log("DUREES ETAPES ????", dureeEtape)
+    } 
+    mapLoad()
+  }, [props.villesDetA]);
+
+  const intitiateMarks = listMarks.map((ville, i)=> { 
+
+    var dureeFront = "Durée : " + ville.dureeVille + " jours"
  
-    setListMarks(rawresponse.villesMarked)
-    console.log('verification 1')
-    console.log(listMarks)
-
-    setDepartETArrivee(rawresponse.tableauVilleDetA)
-    console.log('verification 2')
-    console.log(departETArrivee)
-
-    setDureeEtape(rawresponse.tableauDureeEtapes)
-  }, []);
-
-  const intitiateMarks = listMarks.map((ville, i)=> {
-
-    var dureeFront = "Durée : " + dureeEtape[i] + " jours"
-
     return (
       <Marker
         key = {i}
-        coordinate={{ latitude : ville.lat , longitude : ville.longi }}
-        title = {ville.name}
+        coordinate={{ latitude : ville.latitudeAPI , longitude : ville.longitudeAPI }}
+        title = {ville.nomVille}
         description = {dureeFront}
         pinColor="blue"
       />
@@ -157,7 +162,7 @@ function MapScreen(props) {
           >
             <View style={{backgroundColor:"#131256aa", flex:1}}>
               <View style={{backgroundColor:"#FFB81Faa", margin:50, padding:40, borderRadius:10}}>
-                <Text style={styles.textBell}>Blabla</Text>
+                <Text style={styles.textBell}>Pas de nouvelles notifications</Text>
                 <Pressable
                 style={styles.smallPressable}
                 onPress={() => setModalBellVisible(false)}
@@ -256,8 +261,8 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state){
   return { voyageID: state.voyageID,
-    voyagesList : state.voyagesList,
-    villeDepart : state.villeDepart
+    marqueursList : state.marqueursList,
+    villesDetA : state.villesDetA
   }
 }
 

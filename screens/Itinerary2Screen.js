@@ -23,8 +23,8 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 
 function Itinerary2Screen(props) {
 
-const [villeDepart, setVilleDepart] = useState(props.villeDepart);
-const [villeRetour, setVilleRetour] = useState(null);
+const [villeDepart, setVilleDepart] = useState('');
+const [villeRetour, setVilleRetour] = useState('');
 const [tripName, setTripName] = useState(props.voyagesList.tripName);
 const [etapesList, setEtapesList] = useState([]);
 const [modalUserVisible, setModalUserVisible] = useState(false);
@@ -36,27 +36,34 @@ const [isEnabled, setIsEnabled] = useState(false);
 
 
 // AFFICHAGE INFOS VOYAGE //
+const voyageDataFromBack = async() => {
+  console.log('voyageDataFromBack déclenchée')
+  var rawresponse = await fetch('https://tripbook-lacapsule.herokuapp.com/itinerary', {
+   method: 'POST',
+   headers: {'Content-Type':'application/x-www-form-urlencoded'},
+   body: `voyageId=${props.voyageID}`
+  })
+  var response = await rawresponse.json();
+  //console.log('response.tableauCoord', response.tableauCoord)
+  setTripName(response.trip.tripName)
+  setEtapesList(response.trip.etapes)
+  setVilleDepart(response.trip.villeDepart)
+  setVilleRetour(response.trip.villeRetour)
+  props.marqueursListReducer(response.villesMarked)
+  props.villesDetAReducer(response.tableauCoord)
+  
+  }
 
   useEffect(() => {
-    async function voyageDataFromBack() {
-      var rawresponse = await fetch('https://tripbook-lacapsule.herokuapp.com/itinerary', {
-       method: 'POST',
-       headers: {'Content-Type':'application/x-www-form-urlencoded'},
-       body: `voyageId=${props.voyageID}`
-      })
-      var response = await rawresponse.json();
-      setTripName(response.trip.tripName)
-      setEtapesList(response.trip.etapes)
-      setVilleDepart(response.trip.villeDepart)
-      setVilleRetour(response.trip.villeRetour)
-      }
+    
       voyageDataFromBack();
-      if(villeDepart != villeRetour){
+      if (villeRetour != ''){
         toggleSwitch()
-        }
+      }
+      
   }, [])
 
-  
+  //console.log('itinerary props ville a et d', props.villesDetA)
   
 // ADD VILLE DEPART //
 
@@ -69,6 +76,7 @@ const addVilleDepart = async() => {
   })
   var response = await rawresponse.json();
   console.log('reponse route add ville depart : ', response)
+  voyageDataFromBack()
   
 }
 
@@ -82,6 +90,7 @@ const addVilleRetour = async() => {
   })
   var response = await rawresponse.json();
   console.log('reponse route add ville retour :', response)
+  voyageDataFromBack()
   
 }
 
@@ -134,19 +143,24 @@ const addEtape = async() => {
    var response = await rawresponse.json();
    console.log(response)
    setEtapesList(response.tripEtapes)
+   voyageDataFromBack()
    setEtapeVille('')
    setJour(0)
    }
   
 // SUPPRIMER ETAPE //
 const handleDeleteEtape = async(etapeID) => {
-  console.log('click détecté')
+  //console.log('click détecté', etapeID, props.voyageID)
   var rawresponse = await fetch('https://tripbook-lacapsule.herokuapp.com/deleteetape', {
     method: 'POST',
     headers: {'Content-Type':'application/x-www-form-urlencoded'},
     body: `etapeIDFromFront=${etapeID}&voyageID=${props.voyageID}`
-  })
-  setEtapesList(etapesList)
+  }) 
+  var response = await rawresponse.json();
+  console.log('response', response)
+  //console.log('response delete etape ////', response.allTrips.etapes)
+  setEtapesList(response.allEtapes)
+  voyageDataFromBack()
 }
 
 // AJOUTER une ville en base de donnée avec ses coordonnées //
@@ -196,7 +210,7 @@ const [isValidated, setIsValidated] = useState(false)
           >
             <View style={{backgroundColor:"#131256aa", flex:1}}>
               <View style={{backgroundColor:"#FFB81Faa", margin:50, padding:40, borderRadius:10}}>
-                <Text style={styles.textBell}>Ceci est une notification</Text>
+                <Text style={styles.textBell}>Pas de nouvelles notifications</Text>
                 <Pressable
                 style={styles.smallPressable}
                 onPress={() => setModalBellVisible(false)}
@@ -235,11 +249,7 @@ const [isValidated, setIsValidated] = useState(false)
         </Modal> 
       <View style={{flexDirection: 'row', justifyContent: 'center'}}>
         <TextInput style={styles.text} value={tripName}/>
-        <MaterialCommunityIcons 
-          name="pencil" 
-          size={24} 
-          style={styles.iconCrayon}
-        />
+        
       </View>
       <ScrollView>
         <View style={styles.input}>
@@ -266,12 +276,12 @@ const [isValidated, setIsValidated] = useState(false)
       {etapesList.map((etape, i) => (
             <View backgroundColor="rgba(255,184,31,0.09)" style={styles.ville} key={i}>
               <FontAwesomeIcon icon={faTimesCircle} style={styles.icon} size={25} onPress={() => handleDeleteEtape(etape._id)}/>
-              <TextInput style={styles.paragraphe} placeholder="Ville d'étape" defaultValue={etape.ville} onChangeText={(value) => {setEtapeVille(value), setIsValidated(false)}}/>
+              <Text style={styles.paragraphe} placeholder="Ville d'étape" >{etape.ville}</Text>
               <View style={{flexDirection: 'row'}}>
                 <AntDesign 
                   name="minuscircle" 
                   size={30} 
-                  color="rgba(255,184,31,1)" 
+                  color="rgba(255,184,31,0)" 
                   style={styles.iconPlus}
                   onPress={() =>  {etape.duree -1}}
                 />
@@ -279,7 +289,7 @@ const [isValidated, setIsValidated] = useState(false)
                 <AntDesign 
                   name="pluscircle" 
                   size={30} 
-                  color="rgba(255,184,31,1)" 
+                  color="rgba(255,184,31,0)" 
                   style={styles.iconPlus}
                   onPress={() => {etape.duree +1}}
                 />
@@ -502,7 +512,8 @@ textbutton: {
 
 function mapStateToProps(state){
   return { voyageID: state.voyageID,
-    voyagesList : state.voyagesList
+    voyagesList : state.voyagesList,
+    villesDetA: state.villesDetA
   }
 }
 
@@ -510,6 +521,12 @@ function mapDispatchToProps(dispatch){
   return {
     voyagesListReducer: function(voyagesList) {
       dispatch({type: 'voyagesList', voyagesList: voyagesList})
+    },
+    marqueursListReducer: function(marqueursList){
+      dispatch({type: 'marqueursList', marqueursList: marqueursList})
+    },
+    villesDetAReducer: function(villesDetA){
+      dispatch({type: 'villesDetA', villesDetA: villesDetA})
     }
 }
 }

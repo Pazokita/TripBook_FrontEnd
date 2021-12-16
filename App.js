@@ -9,6 +9,8 @@ import {createStore, combineReducers}  from 'redux';
 import token from './reducers/token';
 import voyageID from "./reducers/voyageID";
 import voyagesList from "./reducers/voyagesList";
+import marqueursList from "./reducers/marqueursList";
+import villesDetA from "./reducers/villesDetA";
 
 
 
@@ -16,7 +18,6 @@ import FirstScreen from './screens/FirstScreen';
 import SignInScreen from './screens/SignInScreen';
 import SlideShowScreen from "./screens/SlideShowScreen";
 import TripCreationScreen from "./screens/TripCreationScreen";
-import ItineraryScreen from "./screens/ItineraryScreen";
 import SignUpScreen from "./screens/SignUpScreen";
 import InvitationScreen from "./screens/InvitationScreen";
 import HomeScreen from "./screens/HomeScreen";
@@ -26,7 +27,7 @@ import PlanningScreen from "./screens/PlanningScreen";
 
 
 const Stack = createStackNavigator();
-const store = createStore(combineReducers({token, voyageID, voyagesList}));
+const store = createStore(combineReducers({token, voyageID, voyagesList, marqueursList, villesDetA}));
 
 
 
@@ -39,13 +40,13 @@ function App() {
           <Stack.Screen name="SignInScreen" component={SignInScreen} options={{ headerShown: false}}/>
           <Stack.Screen name="SlideShowScreen" component={SlideShowScreen} options={{ headerShown: false}}/>
           <Stack.Screen name="TripCreationScreen" component={TripCreationScreen} options={{ headerShown: false}}/>
-          <Stack.Screen name="ItineraryScreen" component={ItineraryScreen} options={{ headerShown: false}}/>
           <Stack.Screen name="SignUpScreen" component={SignUpScreen} options={{ headerShown: false}}/>
           <Stack.Screen name="InvitationScreen" component={InvitationScreen} options={{ headerShown: false}}/>
           <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false}}/>
           <Stack.Screen name="Itinerary2Screen" component={Itinerary2Screen} options={{ headerShown: false}}/>
           <Stack.Screen name="PlanningScreen" component={PlanningScreen} options={{ headerShown: false}}/>
           <Stack.Screen name="Nav" component={TabNav} />
+
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

@@ -34,30 +34,6 @@ function CheckListScreen() {
 
   const [showFormTask, setShowFormTask] = useState(false);
   const [task, setTask] = useState([
-    // {
-    //   id: "1",
-    //   titre: "visa",
-    //   description: "recherche visa",
-    //   personneEnCharge: "Anna",
-    //   deadLine: "3 juin 2022",
-    //   état: "fait",
-    // },
-    // {
-    //   id: "2",
-    //   titre: "visite",
-    //   description: "recherche visite",
-    //   personneEnCharge: "Juliette",
-    //   deadLine: "3 juin 2022",
-    //   état: "en cours",
-    // },
-    // {
-    //   id: "3",
-    //   titre: "diner",
-    //   description: "recherche diner",
-    //   personneEnCharge: "Gabriel",
-    //   deadLine: "3 juin 2022",
-    //   état: "à faire",
-    // },
   ]);
 
 
@@ -187,7 +163,8 @@ function CheckListScreen() {
                 {task.length > 0 ? "" : "Pas de tâches en cours"}
               </Text>
           
-              <Task task={task} DeleteTask={DeleteTask} />
+              <Task 
+              task={task} DeleteTask={DeleteTask} />
             </>
            )} 
          

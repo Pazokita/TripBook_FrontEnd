@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { StyleSheet, View, Text, Modal, Pressable} from "react-native";
 
 import { Image, Button, Input} from "react-native-elements";
@@ -13,12 +13,81 @@ import { Marker } from 'react-native-maps';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faUser, faBell} from "@fortawesome/free-solid-svg-icons";
 
+import { connect } from "react-redux";
+
+
 
  
 function MapScreen(props) {
 
   const [modalUserVisible, setModalUserVisible] = useState(false);
   const [modalBellVisible, setModalBellVisible] = useState(false);
+  const [listMarks, setListMarks] = useState([]);
+  const [departETArrivee, setDepartETArrivee]= useState([]);
+  const [dureeEtape, setDureeEtape] = useState([]);
+  
+
+
+
+  useEffect(async () => {
+    const response = await fetch('https://tripbook-lacapsule.herokuapp.com/marqueurs', {
+      method: 'POST',
+      headers: {'Content-Type':'application/x-www-form-urlencoded'},
+      body: `voyageIDFromFront=${props.voyageID}`
+    });
+    console.log('chargement 2')
+    const rawresponse = await response.json()
+    console.log(rawresponse)
+
+    setListMarks(rawresponse.villesMarked)
+    console.log('verification 1')
+    console.log(listMarks)
+
+    setDepartETArrivee(rawresponse.tableauVilleDetA)
+    console.log('verification 2')
+    console.log(departETArrivee)
+
+    setDureeEtape(rawresponse.tableauDureeEtapes)
+  }, []);
+
+  const intitiateMarks = listMarks.map((ville, i)=> {
+
+    var dureeFront = "Durée : " + dureeEtape[i] + " jours"
+
+    return (
+      <Marker
+        key = {i}
+        coordinate={{ latitude : ville.lat , longitude : ville.longi }}
+        title = {ville.name}
+        description = {dureeFront}
+        pinColor="blue"
+      />
+    )
+  })
+
+  const initiateDetA = departETArrivee.map((ville, i) => {
+
+    var desc = ""
+    if (i==0) {
+      desc = "Départ"
+    } else {
+      desc = "Arrivée"
+    }
+
+    var dateFront = desc + " : " +  ville.cityDate
+
+    return (
+      <Marker
+        key = {i}
+        coordinate={{ latitude : ville.latitudeAPI , longitude : ville.longitudeAPI }}
+        title = {ville.nom}
+        description = {dateFront}
+        pinColor="red"
+      />
+    )
+  })
+
+
 
     return(
 
@@ -32,18 +101,8 @@ function MapScreen(props) {
              longitudeDelta: 20,
             }}
           >
-            <Marker
-              coordinate={{ latitude : 48.856614 , longitude : 2.3522219 }}
-              title = "Départ"
-              description = "2022-03-12"
-              pinColor="red"
-            />
-            <Marker
-              coordinate={{ latitude : 35.689487 , longitude : 139.691706 }}
-              title = "1ère Étape : "
-              description = "X jours"
-              pinColor="blue"
-            />
+            {intitiateMarks}
+            {initiateDetA}
           </MapView>
 
             <View style={styles.top}>
@@ -194,4 +253,13 @@ const styles = StyleSheet.create({
     
   }, 
 })
-export default MapScreen;
+
+function mapStateToProps(state){
+  return { voyageID: state.voyageID,
+    voyagesList : state.voyagesList,
+    villeDepart : state.villeDepart
+  }
+}
+
+export default connect(mapStateToProps, null)(MapScreen);
+

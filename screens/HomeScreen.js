@@ -130,6 +130,10 @@ const handleTripDetails = (voyageID) => {
       <Image 
       style={styles.mediumLogo}
       source={require('../assets/Logo_Bleu_Trip_Book.png')}/>
+      
+    
+
+  
     {userName != '' ? 
       <Text style={styles.subTitle}>Bienvenue {userName}</Text>
       : null}

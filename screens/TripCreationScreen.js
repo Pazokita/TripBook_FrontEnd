@@ -91,7 +91,7 @@ const deleteDates = () => {
 const [tripName, setTripName] = useState('')
 
 var handleNewTrip = async () => {
-  const response = await fetch('https://tripbook-lacapsule.herokuapp.com/newtrip', {
+  const response = await fetch('http://192.168.1.30:3000/newtrip', {
   method: 'POST',
   headers: {'Content-Type':'application/x-www-form-urlencoded'},
   body: `tripNamefromFront=${tripName}&dateDepartFromFront=${startingDate}&dateRetourFromFront=${endingDate}&token=${props.token}&adultesFromFront=${adulte}&enfantsFromFront=${enfant}`
@@ -101,7 +101,7 @@ var handleNewTrip = async () => {
   console.log(body)
   // REDUCER DE L'ID DU VOYAGE //
   props.voyageIdReducer(body.tripID);
-  props.navigation.navigate("Itinerary2Screen")
+  props.navigation.navigate("ItineraryScreen")
 
 }
   

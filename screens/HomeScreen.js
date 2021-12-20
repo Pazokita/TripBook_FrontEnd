@@ -144,7 +144,7 @@ const handleTripDetails = (voyageID) => {
         onPress={() => props.navigation.navigate('TripCreationScreen')}
       />
 
-
+    <ScrollView >
      {props.voyagesList.map((voyage,i) => (
         <View style={styles.ville} key={i}>
           <FontAwesomeIcon icon={faTimesCircle} style={styles.icon} size={25} onPress={() => handleDeleteTrip(voyage._id)}/>
@@ -157,6 +157,7 @@ const handleTripDetails = (voyageID) => {
         />
         </View>
       ))} 
+      </ScrollView>
     
     </View>
 )
@@ -167,7 +168,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    padding: 50,
+    paddingVertical: 50,
     backgroundColor: 'white'
   },
 

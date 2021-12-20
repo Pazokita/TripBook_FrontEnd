@@ -44,7 +44,7 @@ const voyageDataFromBack = async() => {
    body: `voyageId=${props.voyageID}`
   })
   var response = await rawresponse.json();
-  //console.log('response.tableauCoord', response.tableauCoord)
+  console.log('response route itinerary', response)
   setTripName(response.trip.tripName)
   setEtapesList(response.trip.etapes)
   setVilleDepart(response.trip.villeDepart)
@@ -57,9 +57,11 @@ const voyageDataFromBack = async() => {
   useEffect(() => {
     
       voyageDataFromBack();
-      if (villeRetour != ''){
+       if (villeRetour != ''){
         toggleSwitch()
-      }
+        setVilleRetour(villeDepart)
+      } 
+      console.log(props.voyageID)
       
   }, [])
 
@@ -165,9 +167,9 @@ const handleDeleteEtape = async(etapeID) => {
 
 // AJOUTER une ville en base de donnée avec ses coordonnées //
 const [isValidated, setIsValidated] = useState(false)
-
+    
 // const handleSubmitVilles = async () => {
-//   console.log("bouton en état de marche")
+//   console.log("bouton en état de marche") 
 
 //   const response = await fetch('https://tripbook-lacapsule.herokuapp.com/addVille', {
 //     method: 'POST',
@@ -178,7 +180,7 @@ const [isValidated, setIsValidated] = useState(false)
 //   const rawresponse = await response.json()
 //   console.log(rawresponse)
 // }
-
+ 
 
 
   return (

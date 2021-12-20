@@ -25,6 +25,7 @@ function MapScreen(props) {
   const [listMarks, setListMarks] = useState(props.marqueursList);
   const [departETArrivee, setDepartETArrivee]= useState(props.villesDetA);
   const [dureeEtape, setDureeEtape] = useState([]);
+ 
   
 console.log('props.villesDetA', props.villesDetA)
 
@@ -38,32 +39,31 @@ console.log('props.villesDetA', props.villesDetA)
       }); 
       console.log('chargement 2')
       const rawresponse = await response.json()
-      console.log(rawresponse)
+      console.log("rawresponse route MARQUEUR", rawresponse)
   
       //setListMarks(rawresponse.villesMarked)
-      console.log('verification 1')
-      setListMarks(props.marqueursList)
-      //console.log(listMarks)
+      setListMarks(rawresponse.villesToMarked)
+      console.log("LISTE VILLES ETAPES ????", listMarks)
   
       //setDepartETArrivee(rawresponse.tableauVilleDetA)
-      console.log('verification 2')
-      setDepartETArrivee(props.villesDetA)
+      setDepartETArrivee(rawresponse.tableauVilleDetA)
       //console.log(departETArrivee)
   
       setDureeEtape(rawresponse.tableauDureeEtapes)
+      console.log("DUREES ETAPES ????", dureeEtape)
     } 
     mapLoad()
-  }, [props.marqueursList, props.villesDetA]);
+  }, [props.villesDetA]);
 
-  const intitiateMarks = listMarks.map((ville, i)=> {
+  const intitiateMarks = listMarks.map((ville, i)=> { 
 
-    var dureeFront = "Durée : " + dureeEtape[i] + " jours"
-
+    var dureeFront = "Durée : " + ville.dureeVille + " jours"
+ 
     return (
       <Marker
         key = {i}
-        coordinate={{ latitude : ville.lat , longitude : ville.longi }}
-        title = {ville.name}
+        coordinate={{ latitude : ville.latitudeAPI , longitude : ville.longitudeAPI }}
+        title = {ville.nomVille}
         description = {dureeFront}
         pinColor="blue"
       />

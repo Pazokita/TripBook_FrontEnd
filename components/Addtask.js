@@ -19,7 +19,7 @@ import { Poppins_700Bold, Poppins_300Light } from "@expo-google-fonts/poppins";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Calendar from "react-native-calendar-range-picker";
 import { connect } from "react-redux";
-import voyageID from "../reducers/voyageID";
+
 
 
 
@@ -99,17 +99,17 @@ function Addtask({ task, setTask, setShowFormTask, voyageID}) {
   
 
 //enregistrer task dans BDD//
-/* const addTask = async() => {
+const addTask = async() => {
   console.log('click detecté')
-  var rawresponse = await fetch('https://192.168.0.36:3000/checklist', {
+  var rawresponse = await fetch('http://192.168.0.36:3000/checklist', {
     method: 'POST',
     headers: {'Content-Type':'application/x-www-form-urlencoded'},
-    body: `voyageId=${props.voyageID}&nameFromFront=${titre}&descFromFront=${description}&deadlineFromFront=${limitDate}&statutFromFront=${etat}&assignationFromFront=${assignation}`
+    body: `voyageId=${voyageID}&nameFromFront=${titre}&descFromFront=${description}&deadlineFromFront=${limitDate}&statutFromFront=${etat}&assignationFromFront=${assignation}`
    })
    var response = await rawresponse.json();
    console.log(response)
-  
-   }  */
+
+   } 
 
 
   return (
@@ -182,7 +182,7 @@ function Addtask({ task, setTask, setShowFormTask, voyageID}) {
             onChangeText={(texte) => setEtat(texte)}
             value={etat}
           ></TextInput>
-          <TouchableHighlight style={styles.btn} onPress={() => addNewTask()}>
+          <TouchableHighlight style={styles.btn} onPress={() => addTask()}>
             <Text style={styles.textbtn}>Ajoute une tâche</Text>
           </TouchableHighlight>
         </View>
@@ -240,8 +240,8 @@ const styles = StyleSheet.create({
   },
 });
 
-function mapStateToProps(voyageID) {
-  return { voyageID:voyageID }
+function mapStateToProps(state) {
+  return { voyageID:state.voyageID }
  }
  export default connect(mapStateToProps, null)(Addtask);
 

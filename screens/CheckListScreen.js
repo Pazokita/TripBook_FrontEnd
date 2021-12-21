@@ -13,7 +13,7 @@ import {
 } from "react-native";
 
 import { Image, Button } from "react-native-elements";
-import Icon from "react-native-vector-icons/FontAwesome";
+
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faUser, faBell} from "@fortawesome/free-solid-svg-icons";
@@ -64,10 +64,10 @@ function CheckListScreen() {
     
     <TouchableWithoutFeedback onPress={() => fermerClavier()}>
       
-      {/* en-tête */}
+      
       <View style={styles.container}>
       
-        
+        {/* en-tête */}
         <View style={styles.topView}>
         <Image
           style={styles.Logo}

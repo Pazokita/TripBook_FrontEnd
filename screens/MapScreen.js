@@ -53,7 +53,7 @@ console.log('props.villesDetA', props.villesDetA)
       console.log("DUREES ETAPES ????", dureeEtape)
     } 
     mapLoad()
-  }, [props.villesDetA]);
+  }, [props.marqueursList]);
 
   const intitiateMarks = listMarks.map((ville, i)=> { 
 

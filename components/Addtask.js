@@ -16,7 +16,6 @@ import {
   PlayfairDisplay_900Black,
 } from "@expo-google-fonts/playfair-display";
 import { Poppins_700Bold, Poppins_300Light } from "@expo-google-fonts/poppins";
-import DateTimePicker from "@react-native-community/datetimepicker";
 import Calendar from "react-native-calendar-range-picker";
 import { connect } from "react-redux";
 
@@ -31,6 +30,15 @@ function Addtask({ task, setTask, setShowFormTask, voyageID}) {
   const [assignation, setassignation] = useState("");
   const [etat, setEtat] = useState("");
   const [limitDate, setLimitDate] = useState();
+
+
+  //font
+  useFonts({
+    PlayfairDisplay_900Black,
+    Poppins_700Bold,
+    Poppins_300Light,
+  });
+
 
   //Save Date Limite
   const [date, setDate] = useState(fullDay);

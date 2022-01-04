@@ -36,7 +36,7 @@ function SignInScreen(props) {
     });
     
     const rawresponse = await response.json()
-    console.log(rawresponse)
+  //  console.log(rawresponse)
     
     if(rawresponse.result === true){
       setUserExists(true)

@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import {connect} from 'react-redux';
 import { StyleSheet, View, TextInput, Text, ScrollView } from "react-native";
 import Checkbox from 'expo-checkbox';
-
-
 import { Image, Button, Overlay } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { AntDesign } from '@expo/vector-icons';

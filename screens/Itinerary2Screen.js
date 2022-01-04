@@ -4,7 +4,7 @@ import { StyleSheet, View, Text, TextInput, KeyboardAvoidingView, ScrollView , M
 import { Input, Button, CheckBox, Card, Switch, Divider, Badge } from 'react-native-elements'
 
 
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+
 import { AntDesign } from '@expo/vector-icons';
 
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -12,12 +12,12 @@ import {faTimesCircle, faUser, faBell} from "@fortawesome/free-solid-svg-icons"
 
 
 import { Image } from "react-native-elements";
-import Icon from "react-native-vector-icons/FontAwesome";
+
 
 import {useFonts, PlayfairDisplay_900Black } from '@expo-google-fonts/playfair-display';
 import {Poppins_700Bold, Poppins_300Light} from '@expo-google-fonts/poppins';
 import { connect } from "react-redux";
-import { TouchableOpacity } from "react-native-gesture-handler";
+
 
 
 
@@ -37,14 +37,14 @@ const [isEnabled, setIsEnabled] = useState(false);
 
 // AFFICHAGE INFOS VOYAGE //
 const voyageDataFromBack = async() => {
-  console.log('voyageDataFromBack déclenchée')
+ // console.log('voyageDataFromBack déclenchée')
   var rawresponse = await fetch('https://tripbook-lacapsule.herokuapp.com/itinerary', {
    method: 'POST',
    headers: {'Content-Type':'application/x-www-form-urlencoded'},
    body: `voyageId=${props.voyageID}`
   })
   var response = await rawresponse.json();
-  console.log('response route itinerary', response)
+ // console.log('response route itinerary', response)
   setTripName(response.trip.tripName)
   setEtapesList(response.trip.etapes)
   setVilleDepart(response.trip.villeDepart)
@@ -61,7 +61,7 @@ const voyageDataFromBack = async() => {
         toggleSwitch()
         setVilleRetour(villeDepart)
       } 
-      console.log(props.voyageID)
+    //  console.log(props.voyageID)
       
   }, [])
 
@@ -77,7 +77,7 @@ const addVilleDepart = async() => {
     body: `voyageId=${props.voyageID}&villeDepartFromFront=${villeDepart}`
   })
   var response = await rawresponse.json();
-  console.log('reponse route add ville depart : ', response)
+//  console.log('reponse route add ville depart : ', response)
   voyageDataFromBack()
   
 }
@@ -91,7 +91,7 @@ const addVilleRetour = async() => {
   body: `voyageId=${props.voyageID}&villeRetourFromFront=${villeRetour}`
   })
   var response = await rawresponse.json();
-  console.log('reponse route add ville retour :', response)
+ // console.log('reponse route add ville retour :', response)
   voyageDataFromBack()
   
 }
@@ -143,7 +143,7 @@ const addEtape = async() => {
     body: `voyageId=${props.voyageID}&villeEtapeFromFront=${etapeVille}&dureeFromFront=${jour}`
    })
    var response = await rawresponse.json();
-   console.log(response)
+ //  console.log(response)
    setEtapesList(response.tripEtapes)
    voyageDataFromBack()
    setEtapeVille('')
@@ -159,7 +159,7 @@ const handleDeleteEtape = async(etapeID) => {
     body: `etapeIDFromFront=${etapeID}&voyageID=${props.voyageID}`
   }) 
   var response = await rawresponse.json();
-  console.log('response', response)
+ // console.log('response', response)
   //console.log('response delete etape ////', response.allTrips.etapes)
   setEtapesList(response.allEtapes)
   voyageDataFromBack()
@@ -167,21 +167,6 @@ const handleDeleteEtape = async(etapeID) => {
 
 // AJOUTER une ville en base de donnée avec ses coordonnées //
 const [isValidated, setIsValidated] = useState(false)
-    
-// const handleSubmitVilles = async () => {
-//   console.log("bouton en état de marche") 
-
-//   const response = await fetch('https://tripbook-lacapsule.herokuapp.com/addVille', {
-//     method: 'POST',
-//     headers: {'Content-Type':'application/x-www-form-urlencoded'},
-//     body: `voyageID=${props.voyageID}&villeEtapeFromFront=${etapeVille}&dureeFromFront=${jour}`
-//    })
-//   setIsValidated(true)
-//   const rawresponse = await response.json()
-//   console.log(rawresponse)
-// }
- 
-
 
   return (
     <View style={styles.container}>

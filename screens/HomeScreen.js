@@ -66,12 +66,8 @@ const handleTripDetails = (voyageID) => {
   return (
     <View style={styles.container}>
         <View style={styles.iconView}>
-         {/* <Button 
-          icon={<FontAwesomeIcon icon={faSync} style={styles.icon} size={25} />}
-          type={"clear"}
-          onPress={() => props.navigation.navigate('ItineraryScreen')}
-          />  */}
         
+
           <Button 
           icon={<FontAwesomeIcon icon={faUser} style={styles.icon} size={25} />}
           type={"clear"}
@@ -131,8 +127,7 @@ const handleTripDetails = (voyageID) => {
       style={styles.mediumLogo}
       source={require('../assets/Logo_Bleu_Trip_Book.png')}/>
       
-    
-
+  
   
     {userName != '' ? 
       <Text style={styles.subTitle}>Bienvenue {userName}</Text>

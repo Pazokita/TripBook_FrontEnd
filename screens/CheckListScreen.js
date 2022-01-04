@@ -2,21 +2,19 @@ import React, { useState } from "react";
 import {
   StyleSheet,
   View,
-  Text, 
+  Text,
   Keyboard,
   ScrollView,
   TouchableHighlight,
   TouchableWithoutFeedback,
   Modal,
-  Pressable
-
+  Pressable,
 } from "react-native";
 
 import { Image, Button } from "react-native-elements";
 
-
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faUser, faBell} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faUser, faBell } from "@fortawesome/free-solid-svg-icons";
 
 import Task from "../components/Task";
 import Addtask from "../components/Addtask";
@@ -27,21 +25,37 @@ import {
 } from "@expo-google-fonts/playfair-display";
 import { Poppins_700Bold, Poppins_300Light } from "@expo-google-fonts/poppins";
 
-function CheckListScreen() {
-
+function CheckListScreen(voyageID) {
   const [modalUserVisible, setModalUserVisible] = useState(false);
   const [modalBellVisible, setModalBellVisible] = useState(false);
 
   const [showFormTask, setShowFormTask] = useState(false);
-  const [task, setTask] = useState([
-  ]);
+  const [task, setTask] = useState([]);
 
+  //font
+  useFonts({
+    PlayfairDisplay_900Black,
+    Poppins_700Bold,
+    Poppins_300Light,
+  });
 
-//eliminer les tâches
+  //eliminer les tâches
   const DeleteTask = (titre) => {
     setTask((taskactuelles) => {
       return taskactuelles.filter((task) => task.titre !== titre);
     });
+  };
+
+  const handleDeleteTask = async (taskID) => {
+    //console.log('click détecté', voyageID,taskID )
+    var rawresponse = await fetch("http://192.168.0.36:3000/deleteTask", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: `etapeIDFromFront=${taskID}&voyageID=${voyageID}`,
+    });
+    var response = await rawresponse.json();
+    console.log("response", response);
+    //console.log('response delete task ////', response.allTrips.checklist)
   };
 
   //Montrer form Add Task
@@ -49,120 +63,123 @@ function CheckListScreen() {
     setShowFormTask(!showFormTask);
   };
 
-  useFonts({
-    PlayfairDisplay_900Black,
-    Poppins_700Bold,
-    Poppins_300Light,
-  });
-
   //fermer clavier
   const fermerClavier = () => {
     Keyboard.dismiss();
   };
   return (
-
-    
     <TouchableWithoutFeedback onPress={() => fermerClavier()}>
-      
-      
       <View style={styles.container}>
-      
         {/* en-tête */}
         <View style={styles.topView}>
-        <Image
-          style={styles.Logo}
-          source={require("../assets/Logo_Bleu_Trip_Book_No_Planet.png")}
-        />
-    <View style={styles.iconView}>
-    <Button 
-    icon={<FontAwesomeIcon icon={faUser} style={styles.icon} size={25} />}
-    type={"clear"}
-    onPress={() => setModalUserVisible(true) }
-    />
-    <Modal
-    transparent={true}
-    visible={modalUserVisible}
-    >
-      <View style={{backgroundColor:"#131256aa", flex:1}}>
-        <View style={{backgroundColor:"#FFB81Faa", margin:50, padding:40, borderRadius:10}}>
-          <Pressable
-          style={styles.pressable}
-          onPress={() => props.navigation.navigate('FirstScreen')}
-          >
-          <Text style={styles.textbutton}>Deconnexion</Text>
-          </Pressable>
-          <Pressable 
-          style={styles.pressable}
-          // onPress={() => props.navigation.navigate('FirstScreen')}
-          >
-          <Text style={styles.textbutton}>Paramètres</Text>
-          </Pressable>
-          <Pressable
-          style={styles.smallPressable}
-          onPress={() => setModalUserVisible(false)}
-          >
-            <Text style={styles.textbutton}>Fermer</Text>
-          </Pressable>
+          <Image
+            style={styles.Logo}
+            source={require("../assets/Logo_Bleu_Trip_Book_No_Planet.png")}
+          />
+          <View style={styles.iconView}>
+            <Button
+              icon={
+                <FontAwesomeIcon icon={faUser} style={styles.icon} size={25} />
+              }
+              type={"clear"}
+              onPress={() => setModalUserVisible(true)}
+            />
+            <Modal transparent={true} visible={modalUserVisible}>
+              <View style={{ backgroundColor: "#131256aa", flex: 1 }}>
+                <View
+                  style={{
+                    backgroundColor: "#FFB81Faa",
+                    margin: 50,
+                    padding: 40,
+                    borderRadius: 10,
+                  }}
+                >
+                  <Pressable
+                    style={styles.pressable}
+                    onPress={() => props.navigation.navigate("FirstScreen")}
+                  >
+                    <Text style={styles.textbutton}>Deconnexion</Text>
+                  </Pressable>
+                  <Pressable
+                    style={styles.pressable}
+                    // onPress={() => props.navigation.navigate('FirstScreen')}
+                  >
+                    <Text style={styles.textbutton}>Paramètres</Text>
+                  </Pressable>
+                  <Pressable
+                    style={styles.smallPressable}
+                    onPress={() => setModalUserVisible(false)}
+                  >
+                    <Text style={styles.textbutton}>Fermer</Text>
+                  </Pressable>
+                </View>
+              </View>
+            </Modal>
+            <Button
+              icon={
+                <FontAwesomeIcon icon={faBell} style={styles.icon} size={25} />
+              }
+              type={"clear"}
+              onPress={() => setModalBellVisible(true)}
+            />
+            <Modal transparent={true} visible={modalBellVisible}>
+              <View style={{ backgroundColor: "#131256aa", flex: 1 }}>
+                <View
+                  style={{
+                    backgroundColor: "#FFB81Faa",
+                    margin: 50,
+                    padding: 40,
+                    borderRadius: 10,
+                  }}
+                >
+                  <Text style={styles.textBell}>
+                    Pas de nouvelles notifications
+                  </Text>
+                  <Pressable
+                    style={styles.smallPressable}
+                    onPress={() => setModalBellVisible(false)}
+                  >
+                    <Text style={styles.textbutton}>Fermer</Text>
+                  </Pressable>
+                </View>
+              </View>
+            </Modal>
           </View>
-          </View>
-          </Modal>
-      <Button
-      icon={<FontAwesomeIcon icon={faBell} style={styles.icon} size={25} />}
-      type={"clear"}
-      onPress={() => setModalBellVisible(true)}
-    />
-    <Modal
-    transparent={true}
-    visible={modalBellVisible}
-    >
-      <View style={{backgroundColor:"#131256aa", flex:1}}>
-        <View style={{backgroundColor:"#FFB81Faa", margin:50, padding:40, borderRadius:10}}>
-          <Text style={styles.textBell}>Pas de nouvelles notifications</Text>
-          <Pressable
-          style={styles.smallPressable}
-          onPress={() => setModalBellVisible(false)}
-          >
-            <Text style={styles.textbutton}>Fermer</Text>
-          </Pressable>
-          </View>
-          </View>
-          </Modal>
-    </View>
-  </View>
-      
-      {/* fin en-tête */}
+        </View>
+
+        {/* fin en-tête */}
         <View style={styles.containerChecklist}>
           <Text style={styles.textChecklist}>CheckList</Text>
         </View>
 
-
         <ScrollView>
-        <View style={styles.containerTask}>
-          <TouchableHighlight style={styles.btnAdd} onPress={() => ShowForm()}>
-            <Text style={styles.textbtn}>Ajoute une tâche</Text>
-          </TouchableHighlight>
-          {showFormTask ? (
-            <Addtask
-              task={task}
-              setTask={setTask}
-              setShowFormTask={setShowFormTask}
-            />
-           ) : ( 
-            <>
-              {/* Liste de taches */}
-              <Text style={styles.notask}>
-                {task.length > 0 ? "" : "Pas de tâches en cours"}
-              </Text>
-          
-              <Task 
-              task={task} DeleteTask={DeleteTask} />
-            </>
-           )} 
-         
-        </View>
+          <View style={styles.containerTask}>
+            <TouchableHighlight
+              style={styles.btnAdd}
+              onPress={() => ShowForm()}
+            >
+              <Text style={styles.textbtn}>Ajoute une tâche</Text>
+            </TouchableHighlight>
+            {showFormTask ? (
+              <Addtask
+                task={task}
+                setTask={setTask}
+                setShowFormTask={setShowFormTask}
+              />
+            ) : (
+              <>
+                {/* Liste de taches */}
+                <Text style={styles.notask}>
+                  {task.length > 0 ? "" : "Pas de tâches en cours"}
+                </Text>
+
+                <Task task={task} DeleteTask={DeleteTask} />
+              </>
+            )}
+          </View>
         </ScrollView>
       </View>
-      </TouchableWithoutFeedback>
+    </TouchableWithoutFeedback>
   );
 }
 
@@ -203,7 +220,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     justifyContent: "center",
     color: "#131256",
-    textAlign: 'center'
+    textAlign: "center",
   },
   icon: {
     color: "#131256",
@@ -253,59 +270,59 @@ const styles = StyleSheet.create({
   icon: {
     width: 30,
     height: 30,
-    color:"#131256",
-    },
-    
-    topView: {
+    color: "#131256",
+  },
+
+  topView: {
     width: 348,
     flexDirection: "row",
     alignSelf: "flex-end",
     marginTop: 50,
-    justifyContent: "space-between"
-    },
+    justifyContent: "space-between",
+  },
 
-    iconView: {
-      flexDirection: "row",
-      alignSelf: "flex-end",
-      justifyContent: "space-between"
-      // marginLeft: 70,
-    
-      },
-    
-    pressable:{
+  iconView: {
+    flexDirection: "row",
+    alignSelf: "flex-end",
+    justifyContent: "space-between",
+    // marginLeft: 70,
+  },
+
+  pressable: {
     width: 250,
-    height:56,
+    height: 56,
     backgroundColor: "#131256",
     alignSelf: "center",
     marginTop: 20,
-    justifyContent: 'center',
-    
-    },
-    
-    smallPressable: {
-    alignSelf: 'center',
+    justifyContent: "center",
+  },
+
+  smallPressable: {
+    alignSelf: "center",
     width: 80,
-    height:40,
+    height: 40,
     backgroundColor: "#FFB81F",
     marginTop: 10,
-    justifyContent: 'center',
-    },
-    
-    textBell : {
+    justifyContent: "center",
+  },
+
+  textBell: {
     fontFamily: "Poppins_300Light",
     fontSize: 15,
     color: "#131256",
     justifyContent: "flex-start",
-    alignSelf: 'center'
-    },
-    
-    textbutton: {
+    alignSelf: "center",
+  },
+
+  textbutton: {
     fontFamily: "Poppins_700Bold",
     fontSize: 18,
     color: "white",
-    alignSelf:"center",
-    
-    }, 
+    alignSelf: "center",
+  },
 });
 
-export default CheckListScreen;
+function mapStateToProps(state) {
+  return { voyageID: state.voyageID };
+}
+export default connect(mapStateToProps, null)(CheckListScreen);

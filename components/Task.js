@@ -5,53 +5,52 @@ import {
   PlayfairDisplay_900Black,
 } from "@expo-google-fonts/playfair-display";
 import { Poppins_700Bold, Poppins_300Light } from "@expo-google-fonts/poppins";
-import Icon from "react-native-vector-icons/FontAwesome";
-
 
 function Task({ task, DeleteTask }) {
+  const handleDelete = (titre) => {
+    // console.log('eliminando....', id);
+    DeleteTask(titre);
+  };
+  console.log(task);
 
-    const handleDelete = titre => {
-        // console.log('eliminando....', id);
-        DeleteTask(titre)
-    }
-    console.log (task)
+  useFonts({
+    PlayfairDisplay_900Black,
+    Poppins_700Bold,
+    Poppins_300Light,
+  });
   return (
     <View>
-      {task.map((item, i) =>(
-        
-     
-      <View style={styles.task}>
-        <Text style={styles.textTitre}>Titre :</Text>
-        <Text multiline={true} style={styles.textTask}>
-          {item.titre}
-        </Text>
-        <Text style={styles.textTitre}>Description :</Text>
-        <Text multiline={true} style={styles.textTask}>
-          {item.description}
-        </Text>
-        <Text style={styles.textTitre}>Personne en charge :</Text>
-        <Text multiline={true} style={styles.textTask}>
-          {item.assignation}
-        </Text>
-        <Text style={styles.textTitre}>Deadline :</Text>
-        <Text multiline={true} style={styles.textTask}>
-          {item.limitDate}
-        </Text>
-        <Text style={styles.textTitre}>Etat :</Text>
-        <Text multiline={true} style={styles.textTask}>
-          {item.etat}
-        </Text>
-        
-        <TouchableHighlight
-          style={styles.btn}
-          onPress={() => handleDelete(item.titre)}
-        >
+      {task.map((item, i) => (
+        <View style={styles.task} key={i}>
+          <Text style={styles.textTitre}>Titre :</Text>
+          <Text multiline={true} style={styles.textTask}>
+            {item.titre}
+          </Text>
+          <Text style={styles.textTitre}>Description :</Text>
+          <Text multiline={true} style={styles.textTask}>
+            {item.description}
+          </Text>
+          <Text style={styles.textTitre}>Personne en charge :</Text>
+          <Text multiline={true} style={styles.textTask}>
+            {item.assignation}
+          </Text>
+          <Text style={styles.textTitre}>Deadline :</Text>
+          <Text multiline={true} style={styles.textTask}>
+            {item.limitDate}
+          </Text>
+          <Text style={styles.textTitre}>Etat :</Text>
+          <Text multiline={true} style={styles.textTask}>
+            {item.etat}
+          </Text>
+
+          <TouchableHighlight
+            style={styles.btn}
+            onPress={() => handleDelete(item.titre)}
+          >
             <Text style={styles.textbtn}>Eliminer la tâche</Text>
-          
-        </TouchableHighlight>
-     
-      </View>
-       ))}
+          </TouchableHighlight>
+        </View>
+      ))}
     </View>
   );
 }
@@ -75,7 +74,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#131256",
   },
-  textbtn:{
+  textbtn: {
     fontFamily: "Poppins_700Bold",
     fontSize: 14,
     color: "white",

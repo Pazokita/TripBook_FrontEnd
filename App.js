@@ -12,8 +12,6 @@ import voyagesList from "./reducers/voyagesList";
 import marqueursList from "./reducers/marqueursList";
 import villesDetA from "./reducers/villesDetA";
 
-
-
 import FirstScreen from './screens/FirstScreen';
 import SignInScreen from './screens/SignInScreen';
 import SlideShowScreen from "./screens/SlideShowScreen";
@@ -22,7 +20,6 @@ import SignUpScreen from "./screens/SignUpScreen";
 import InvitationScreen from "./screens/InvitationScreen";
 import HomeScreen from "./screens/HomeScreen";
 import Itinerary2Screen from "./screens/Itinerary2Screen";
-import AddEtape from "./components/AddEtape";
 import PlanningScreen from "./screens/PlanningScreen";
 
 

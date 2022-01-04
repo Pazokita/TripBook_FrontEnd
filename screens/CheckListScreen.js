@@ -12,7 +12,6 @@ import {
 } from "react-native";
 
 import { Image, Button } from "react-native-elements";
-
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faUser, faBell } from "@fortawesome/free-solid-svg-icons";
 

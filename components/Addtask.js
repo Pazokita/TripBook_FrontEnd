@@ -4,11 +4,10 @@ import {
   View,
   Text,
   TextInput,
-  TouchableHighlight,
-  ScrollView,
+  TouchableHighlight
   
 } from "react-native";
-import { Image, Button, Overlay } from "react-native-elements";
+import { Button, Overlay } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 import {
@@ -115,7 +114,7 @@ const addTask = async() => {
     body: `voyageId=${voyageID}&nameFromFront=${titre}&descFromFront=${description}&deadlineFromFront=${limitDate}&statutFromFront=${etat}&assignationFromFront=${assignation}`
    })
    var response = await rawresponse.json();
-   console.log(response)
+  //console.log(response)
 
    } 
 

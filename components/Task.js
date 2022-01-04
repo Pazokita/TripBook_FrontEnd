@@ -11,7 +11,7 @@ function Task({ task, DeleteTask }) {
     // console.log('eliminando....', id);
     DeleteTask(titre);
   };
-  console.log(task);
+  //console.log(task);
 
   useFonts({
     PlayfairDisplay_900Black,
